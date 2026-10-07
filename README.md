@@ -55,7 +55,7 @@ graph TD
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/kirankirankumarr15-cmd/Movie-Review-Sentiment-Analyze.git
+git clone https://github.com/kirankirankumarr15-cmd/movie-review.git
 cd "Movie Review Sentiment Analyze"
 ```
 
