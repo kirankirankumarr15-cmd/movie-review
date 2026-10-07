@@ -5,12 +5,12 @@
 CineSense is a full-stack web application that allows users to enter movie reviews and automatically classifies them as 😊 Positive, 😐 Neutral, or 😞 Negative using real Natural Language Processing (NLP).
 
 ## Features
-- **Instant Analysis**: Analyze reviews within seconds using NLTK VADER.
+- **Instant Analysis**: Analyze reviews within seconds using the VADER sentiment algorithm.
 - **Three-Way Classification**: Reviews are classified based on standard VADER compound score thresholds.
 - **Detailed Insights**: View the compound score, confidence indicator, and sentiment-bearing words.
-- **Review History**: Logged-in users can save their reviews and manage their history.
+- **Review History**: Logged-in users can save their reviews and manage their history in the cloud.
 - **Analytics Dashboard**: Visualize sentiment trends, distributions, and averages using interactive charts.
-- **Responsive & Accessible**: Works across all devices with keyboard navigation and dark/light mode support.
+- **Responsive & Accessible**: Works across all devices with keyboard navigation and cinematic dark/light mode support.
 
 ## Target Audiences / Use Cases
 - **Movie Viewers & Audience**: Enter movie reviews, get positive/neutral/negative sentiment scores, and review previous analyses.
@@ -21,72 +21,84 @@ CineSense is a full-stack web application that allows users to enter movie revie
 
 ## Technology Stack
 **Frontend**: React, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React, Recharts
-**Backend**: Python, Flask, Flask-CORS, NLTK (VADER), SQLAlchemy, SQLite, Werkzeug (auth)
+**Backend**: Node.js, Express, Sequelize (ORM), `vader-sentiment` (NLP), JSON Web Tokens (JWT), bcrypt
+**Database**: Supabase PostgreSQL
 
 ## Architecture & NLP Methodology
-1. **Frontend**: Sends the review text to the Flask API.
-2. **Backend (Flask)**: Receives the text and passes it to the NLTK VADER sentiment analyzer.
+
+```mermaid
+graph TD
+    A[React Frontend] -->|REST API Request| B(Node.js Backend)
+    B --> C{vader-sentiment NLP}
+    C -->|Calculates compound score| D[Classification Logic]
+    D --> E[(Supabase PostgreSQL)]
+    E -->|Stores Review History| B
+    B -->|Returns JSON Response| A
+    A -->|Renders UI & Charts| F[User Dashboard]
+```
+
+1. **Frontend**: Sends the review text to the Express API.
+2. **Backend (Node.js)**: Receives the text and passes it to the `vader-sentiment` NLP analyzer.
 3. **NLP (VADER)**: Calculates the `pos`, `neu`, `neg`, and `compound` scores.
 4. **Classification**:
    - `compound >= 0.05` → **Positive**
    - `compound <= -0.05` → **Negative**
    - Otherwise → **Neutral**
-5. **Persistence**: If the user is logged in, the review and its scores are saved to the SQLite database.
+5. **Persistence**: If the user is logged in, the review and its scores are saved to the remote Supabase database.
 6. **Response**: The API returns the calculated scores and classification back to the React frontend for visualization.
 
 ## Prerequisites
 - Node.js (v18+)
-- Python (v3.10+)
+- Supabase Account (for database)
 
 ## Installation & Setup
 
 ### 1. Clone the repository
-\`\`\`bash
-git clone <your-repo-url>
-cd CineSense
-\`\`\`
+```bash
+git clone https://github.com/kirankirankumarr15-cmd/Movie-Review-Sentiment-Analyze.git
+cd "Movie Review Sentiment Analyze"
+```
 
 ### 2. Backend Setup
-\`\`\`bash
+```bash
 cd backend
-python -m venv venv
-# Windows: venv\Scripts\activate
-# Mac/Linux: source venv/bin/activate
-pip install -r requirements.txt
-\`\`\`
-*(Note: NLTK resources like the VADER lexicon will be downloaded automatically the first time the app starts).*
+npm install
+```
 
 ### 3. Frontend Setup
-\`\`\`bash
+```bash
 cd frontend
 npm install
-\`\`\`
+```
 
-### 4. Environment Configuration
-Create a `.env` file in the `backend` directory (you can copy `.env.example` if available) and add:
-\`\`\`env
-FLASK_ENV=development
-SECRET_KEY=your_super_secret_key_here
-DATABASE_URL=sqlite:///cinesense.db
-FRONTEND_URL=http://localhost:5173
-\`\`\`
+### 4. Database Setup (Supabase)
+Create a `.env` file in the `backend` directory and add your connection details:
+```env
+PORT=5000
+SECRET_KEY=your_super_secret_jwt_key
+FRONTEND_URL=http://localhost:5174
+DATABASE_URL="postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
+```
+*(Note: Sequelize will automatically create the `Users` and `Reviews` tables in your Supabase database the first time you start the backend).*
 
 ## Running the Application
 
-### Start the Backend
-\`\`\`bash
+You will need two separate terminal windows.
+
+### Terminal 1: Start the Backend
+```bash
 cd backend
-# Make sure your venv is active
-python app.py
-\`\`\`
+npm start
+# or: node server.js
+```
 *Runs on http://localhost:5000*
 
-### Start the Frontend
-\`\`\`bash
+### Terminal 2: Start the Frontend
+```bash
 cd frontend
 npm run dev
-\`\`\`
-*Runs on http://localhost:5173*
+```
+*Runs on http://localhost:5174 (or 5173)*
 
 ## API Documentation
 
@@ -97,23 +109,14 @@ npm run dev
 | POST | `/api/auth/login` | No | Authenticate user & get JWT |
 | POST | `/api/auth/logout` | Yes | Logout |
 | GET | `/api/auth/me` | Yes | Get current user profile |
-| POST | `/api/analyze` | Optional | Analyze sentiment (saves if logged in) |
+| POST | `/api/analyze` | Optional | Analyze sentiment (saves to Supabase if logged in) |
 | GET | `/api/reviews` | Yes | Get user's review history |
 | DELETE | `/api/reviews/:id`| Yes | Delete a specific review |
 | GET | `/api/stats` | Yes | Get analytics dashboard stats |
 
-## Testing
-
-**Backend Tests (pytest):**
-\`\`\`bash
-cd backend
-python -m pytest tests/ -v
-\`\`\`
-This runs unit tests for the VADER sentiment engine and integration tests for the API endpoints using an in-memory SQLite database.
-
 ## Limitations & Future Improvements
 - **Context/Sarcasm**: VADER is a lexicon and rule-based sentiment analysis tool. It struggles with deep context, irony, or heavy sarcasm.
-- **Future Improvement**: Upgrade the NLP engine from VADER to a transformer-based model like DistilBERT (via Hugging Face) for better contextual understanding.
+- **Future Improvement**: Upgrade the NLP engine from VADER to a transformer-based model via Hugging Face for better contextual understanding.
 - **Future Improvement**: Add pagination to the Review History endpoint.
 
 ## License
