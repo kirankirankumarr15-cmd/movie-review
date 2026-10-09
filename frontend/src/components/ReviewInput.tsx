@@ -1,12 +1,13 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Film, X, Sparkles, RotateCcw } from 'lucide-react';
+import { Film,  Sparkles, RotateCcw } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useTheme } from '../hooks/useTheme';
 
 interface ReviewInputProps {
   onAnalyze: (reviewText: string, movieName: string) => void;
   isLoading: boolean;
+  defaultMovie?: string;
 }
 
 const EXAMPLES = [
@@ -29,9 +30,9 @@ const EXAMPLES = [
 
 const MAX_CHARS = 1000;
 
-export default function ReviewInput({ onAnalyze, isLoading }: ReviewInputProps) {
+export default function ReviewInput({ onAnalyze, isLoading, defaultMovie = '' }: ReviewInputProps) {
   const [reviewText, setReviewText] = useState('');
-  const [movieName, setMovieName] = useState('');
+  const [movieName, setMovieName] = useState(defaultMovie);
   const [error, setError] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { theme } = useTheme();
@@ -57,6 +58,12 @@ export default function ReviewInput({ onAnalyze, isLoading }: ReviewInputProps) 
     setError('');
     textareaRef.current?.focus();
   };
+
+  useEffect(() => {
+    if (defaultMovie) {
+      setMovieName(defaultMovie);
+    }
+  }, [defaultMovie]);
 
   const loadExample = (text: string) => {
     setReviewText(text);

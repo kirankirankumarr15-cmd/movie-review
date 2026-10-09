@@ -43,11 +43,35 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'An internal server error occurred.' });
 });
 
+// Keep process alive — prevent silent exits
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+});
+
+// Heartbeat to prevent event loop from going empty
+const keepAlive = setInterval(() => {}, 1000 * 60 * 60);
+
 sequelize.sync().then(() => {
   console.log('Database synced');
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  const server = app.listen(PORT, () => {
+    console.log(`CineSense backend running on http://localhost:${PORT}`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Port ${PORT} is already in use. Please close the other process and retry.`);
+      clearInterval(keepAlive);
+      process.exit(1);
+    } else {
+      console.error('Server error:', err);
+    }
   });
 }).catch(err => {
   console.error('Failed to sync database:', err);
+  clearInterval(keepAlive);
+  process.exit(1);
 });

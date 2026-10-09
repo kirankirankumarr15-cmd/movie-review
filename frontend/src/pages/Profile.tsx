@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User as UserIcon, LogOut, LayoutDashboard, History as HistoryIcon, Activity } from 'lucide-react';
+import { User as UserIcon, LogOut, LayoutDashboard, History as HistoryIcon } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import { Link, useNavigate } from 'react-router-dom';

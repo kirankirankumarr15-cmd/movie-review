@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import type { AnalysisResult } from '../types';
@@ -14,6 +15,8 @@ export default function Analyzer() {
   const [isLoading, setIsLoading] = useState(false);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const location = useLocation();
+  const defaultMovie = location.state?.defaultMovie || '';
 
   const handleAnalyze = async (reviewText: string, movieName: string) => {
     setIsLoading(true);
@@ -66,7 +69,7 @@ export default function Analyzer() {
             <h2 className={cn('font-semibold text-base mb-5', isDark ? 'text-slate-200' : 'text-slate-800')}>
               Write Your Review
             </h2>
-            <ReviewInput onAnalyze={handleAnalyze} isLoading={isLoading} />
+            <ReviewInput onAnalyze={handleAnalyze} isLoading={isLoading} defaultMovie={defaultMovie} />
           </motion.div>
 
           {/* Results panel */}
@@ -79,24 +82,51 @@ export default function Analyzer() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className={cn(
-                    'rounded-2xl border p-12 flex flex-col items-center justify-center',
+                    'rounded-2xl border p-10 flex flex-col items-center justify-center',
                     isDark ? 'bg-[#1a1a25] border-[#2a2a3d]' : 'bg-white border-slate-200'
                   )}
                   aria-live="polite"
                   aria-busy="true"
                 >
                   <motion.div
-                    className="w-12 h-12 rounded-full border-2 border-purple-500/20 border-t-purple-500 mb-4"
+                    className="w-12 h-12 rounded-full border-2 border-purple-500/20 border-t-purple-500 mb-6"
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 0.9, ease: 'linear' }}
                     aria-hidden
                   />
-                  <p className={cn('text-sm font-medium', isDark ? 'text-slate-400' : 'text-slate-500')}>
-                    Analyzing sentiment…
-                  </p>
-                  <p className={cn('text-xs mt-1', isDark ? 'text-slate-600' : 'text-slate-400')}>
-                    Processing with NLTK VADER
-                  </p>
+                  <h3 className={cn('font-semibold mb-4 text-center', isDark ? 'text-slate-200' : 'text-slate-800')}>
+                    Analyzing your review...
+                  </h3>
+                  
+                  <div className="w-full max-w-sm space-y-2 text-sm">
+                    {[
+                      'Identifying movie',
+                      'Gathering movie information',
+                      'Researching audience reception',
+                      'Researching critic reception',
+                      'Analyzing your review',
+                      'Comparing opinions',
+                      'Generating movie intelligence'
+                    ].map((step, idx) => (
+                      <motion.div 
+                        key={step}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 1.5, duration: 0.5 }}
+                        className={cn('flex items-center gap-2', isDark ? 'text-slate-400' : 'text-slate-600')}
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: (idx * 1.5) + 0.5, type: 'spring' }}
+                          className="text-green-500"
+                        >
+                          ✓
+                        </motion.div>
+                        {step}
+                      </motion.div>
+                    ))}
+                  </div>
                 </motion.div>
               )}
 

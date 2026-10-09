@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { HelpCircle, Terminal, Layers, Heart } from 'lucide-react';
+import { HelpCircle,  Layers, Heart } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '../lib/utils';
 

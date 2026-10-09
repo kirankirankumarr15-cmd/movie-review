@@ -15,6 +15,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Explore from './pages/Explore';
 
 function AppContent() {
   const { theme } = useTheme();
@@ -27,6 +28,7 @@ function AppContent() {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/analyzer" element={<Analyzer />} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

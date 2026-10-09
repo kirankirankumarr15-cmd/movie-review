@@ -15,15 +15,42 @@ export interface SentimentWords {
 }
 
 export interface AnalysisResult {
-  sentiment: Sentiment;
-  compound: number;
-  positive: number;
-  neutral: number;
-  negative: number;
-  confidence: number;
-  words: SentimentWords;
-  review_id: number | null;
-  saved: boolean;
+  movie: {
+    title: string;
+    year: number;
+    director: string;
+    genres: string[];
+    runtime: string;
+    cast: string[];
+    poster: string;
+  };
+  ratings: {
+    imdb: string;
+    rottenTomatoes: string;
+    metacritic: string;
+  };
+  userAnalysis: {
+    sentiment: Sentiment | 'Positive' | 'Neutral' | 'Negative' | 'Mixed';
+    score: number;
+    confidence: number;
+    emotions: string[];
+    aspects: Record<string, { sentiment: string; score: number }>;
+  };
+  publicReception: {
+    criticSentiment: string;
+    audienceSentiment: string;
+    commonPraises: string[];
+    commonCriticisms: string[];
+  };
+  comparison: {
+    alignment: string;
+    explanation: string;
+  };
+  verdict: string;
+  sources: Array<{ name: string; url: string }>;
+  
+  review_id?: number | null;
+  saved?: boolean;
 }
 
 export interface Review {

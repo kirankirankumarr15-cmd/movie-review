@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
-import { cn } from '../lib/utils';
+
 
 interface SentimentMeterProps {
   compound: number; // -1.0 to +1.0

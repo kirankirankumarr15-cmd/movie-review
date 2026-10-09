@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BarChart3, Clock, Film, Star, TrendingUp, Sparkles, Shield, PenLine, BrainCircuit, PieChart } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
@@ -59,11 +60,11 @@ const HERO_EXAMPLE = {
 };
 
 // Container variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
 };

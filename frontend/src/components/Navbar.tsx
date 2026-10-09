@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Film, LayoutDashboard, History, Info, Menu, X, User, LogOut, LogIn } from 'lucide-react';
+import { Film, LayoutDashboard, Menu, X, User, LogOut, LogIn } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
@@ -9,6 +9,7 @@ import { cn } from '../lib/utils';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
+  { to: '/explore', label: 'Explore' },
   { to: '/analyzer', label: 'Analyzer' },
   { to: '/dashboard', label: 'Dashboard', protected: true },
   { to: '/history', label: 'History', protected: true },
