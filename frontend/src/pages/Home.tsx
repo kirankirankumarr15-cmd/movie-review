@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BarChart3, Clock, Film, Star, TrendingUp, Sparkles, Shield, PenLine, BrainCircuit, PieChart } from 'lucide-react';
+import { ArrowRight, BarChart3, Clock, Film, Star, TrendingUp, Sparkles, PenLine, BrainCircuit, PieChart } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '../lib/utils';
+import SearchMovie from '../components/SearchMovie';
 
 const FEATURES = [
   {
@@ -50,15 +51,6 @@ const FEATURES = [
   },
 ];
 
-const HERO_EXAMPLE = {
-  review: '"The visuals were incredible and the story kept me hooked till the very end — a masterpiece."',
-  sentiment: 'POSITIVE',
-  emoji: '😊',
-  score: '+0.87',
-  confidence: '87%',
-  color: '#22c55e',
-};
-
 // Container variants
 const containerVariants: Variants = {
   hidden: {},
@@ -77,170 +69,48 @@ export default function Home() {
     <main>
       {/* ── Hero ── */}
       <section className={cn(
-        'relative min-h-[90vh] flex items-center pt-16',
+        'relative min-h-[90vh] flex flex-col items-center justify-center pt-16 pb-20 px-4 overflow-hidden',
         isDark ? 'bg-[#0a0a0f]' : 'bg-slate-50'
       )}>
-        {/* Background grid pattern */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-          <div
-            className="absolute inset-0 opacity-[0.025]"
-            style={{
-              backgroundImage: `linear-gradient(${isDark ? '#fff' : '#000'} 1px, transparent 1px), linear-gradient(90deg, ${isDark ? '#fff' : '#000'} 1px, transparent 1px)`,
-              backgroundSize: '40px 40px',
-            }}
-          />
-          {/* Soft purple radial */}
-          <div
-            className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.06] blur-3xl"
-            style={{ background: 'radial-gradient(circle, #7c3aed 0%, transparent 70%)' }}
-          />
+        {/* Background gradients */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[120px]" />
+          <div className="absolute top-[20%] -right-[10%] w-[40%] h-[60%] rounded-full bg-indigo-900/20 blur-[120px]" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Copy */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={containerVariants}
-            >
-              <motion.div variants={itemVariants}>
-                <span className={cn(
-                  'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-6',
-                  isDark
-                    ? 'bg-purple-500/10 border border-purple-500/20 text-purple-300'
-                    : 'bg-purple-50 border border-purple-200 text-purple-700'
-                )}>
-                  <Sparkles size={11} aria-hidden /> NLP-Powered Sentiment Analysis
-                </span>
-              </motion.div>
+        <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-display font-bold text-white mb-6 leading-tight tracking-tight"
+          >
+            Understand what audiences <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">really feel.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl"
+          >
+            Instantly aggregate reviews from across the web. We analyze the sentiment of 
+            millions of opinions to give you the ultimate verdict on any movie.
+          </motion.p>
 
-              <motion.h1
-                variants={itemVariants}
-                className="font-display text-5xl sm:text-6xl font-bold leading-tight tracking-tight mb-6"
-              >
-                <span className={isDark ? 'text-white' : 'text-slate-900'}>Turn Movie Reviews</span>
-                <br />
-                <span className="text-gradient">Into Meaningful</span>
-                <br />
-                <span className={isDark ? 'text-white' : 'text-slate-900'}>Insights</span>
-              </motion.h1>
-
-              <motion.p
-                variants={itemVariants}
-                className={cn('text-lg leading-relaxed mb-8 max-w-lg', isDark ? 'text-slate-400' : 'text-slate-600')}
-              >
-                Analyze audience opinions with real NLP and instantly discover whether a review feels
-                positive, neutral, or negative — powered by NLTK VADER.
-              </motion.p>
-
-              <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
-                <Link to="/analyzer" className="btn-primary px-6 py-3 text-sm">
-                  Analyze a Review <ArrowRight size={16} aria-hidden />
-                </Link>
-                <Link to="/dashboard" className={cn(
-                  'btn-secondary px-6 py-3 text-sm',
-                  isDark ? 'border-[#2a2a3d] text-slate-300 hover:bg-white/5' : ''
-                )}>
-                  Explore Dashboard
-                </Link>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                className={cn('flex items-center gap-6 mt-10 text-xs', isDark ? 'text-slate-600' : 'text-slate-400')}
-              >
-                <span className="flex items-center gap-1.5">
-                  <Shield size={12} className="text-purple-400" /> Free to use
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Star size={12} className="text-purple-400" /> No signup required
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Sparkles size={12} className="text-purple-400" /> Real NLP
-                </span>
-              </motion.div>
-            </motion.div>
-
-            {/* Right: Demo Preview */}
-            <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex justify-center lg:justify-end"
-            >
-              <div className={cn(
-                'relative w-full max-w-md rounded-2xl border p-6 shadow-2xl',
-                isDark ? 'bg-[#1a1a25] border-[#2a2a3d]' : 'bg-white border-slate-200 shadow-xl'
-              )}>
-                {/* Label: visual demo */}
-                <div className={cn(
-                  'absolute -top-3 left-4 rounded-full px-3 py-0.5 text-xs font-semibold',
-                  isDark ? 'bg-[#2a2a3d] text-slate-400 border border-[#3d3d5c]' : 'bg-slate-100 text-slate-500 border border-slate-200'
-                )}>
-                  Visual Demo
-                </div>
-
-                {/* Review text */}
-                <div className={cn(
-                  'rounded-xl border p-4 mb-5 text-sm leading-relaxed italic',
-                  isDark ? 'bg-[#16161f] border-[#2a2a3d] text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-500'
-                )}>
-                  {HERO_EXAMPLE.review}
-                </div>
-
-                {/* Arrow */}
-                <div className="text-center text-xl mb-5" aria-hidden>↓</div>
-
-                {/* Result */}
-                <div className="text-center">
-                  <motion.div
-                    animate={{ scale: [1, 1.04, 1] }}
-                    transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                    className="text-5xl mb-3"
-                    aria-hidden
-                  >
-                    {HERO_EXAMPLE.emoji}
-                  </motion.div>
-                  <div className="text-2xl font-display font-bold mb-1" style={{ color: HERO_EXAMPLE.color }}>
-                    {HERO_EXAMPLE.sentiment}
-                  </div>
-                  <div className="text-4xl font-display font-bold mb-3 text-gradient-positive">
-                    {HERO_EXAMPLE.score}
-                  </div>
-                  <div className={cn(
-                    'inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-4',
-                    isDark ? 'bg-green-500/10 border border-green-500/20 text-green-400' : 'bg-green-50 border border-green-200 text-green-600'
-                  )}>
-                    {HERO_EXAMPLE.confidence} Confidence Indicator
-                  </div>
-
-                  {/* Mini breakdown */}
-                  <div className="space-y-2 text-left mt-4">
-                    {[
-                      { label: 'Positive', value: 72, color: '#22c55e' },
-                      { label: 'Neutral',  value: 20, color: '#f59e0b' },
-                      { label: 'Negative', value: 8,  color: '#ef4444' },
-                    ].map(row => (
-                      <div key={row.label}>
-                        <div className="flex justify-between text-xs mb-0.5">
-                          <span className={isDark ? 'text-slate-500' : 'text-slate-400'}>{row.label}</span>
-                          <span className="font-medium" style={{ color: row.color }}>{row.value}%</span>
-                        </div>
-                        <div className={cn('h-1.5 rounded-full', isDark ? 'bg-[#2a2a3d]' : 'bg-slate-100')}>
-                          <div className="h-full rounded-full" style={{ width: `${row.value}%`, backgroundColor: row.color }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <p className={cn('text-xs text-center mt-4', isDark ? 'text-slate-700' : 'text-slate-300')}>
-                  Example only — not a live result
-                </p>
-              </div>
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="w-full"
+          >
+            <SearchMovie />
+          </motion.div>
+        </div>
+        
+        {/* Footer text */}
+        <div className="absolute bottom-8 text-center text-slate-500 text-sm">
+          Powered by TMDB, OMDb, Reddit, and Claude AI
         </div>
       </section>
 

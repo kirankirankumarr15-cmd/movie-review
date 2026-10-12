@@ -16,6 +16,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Explore from './pages/Explore';
+import MovieDetails from './pages/MovieDetails';
 
 function AppContent() {
   const { theme } = useTheme();
@@ -27,6 +28,7 @@ function AppContent() {
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/analyzer" element={<Analyzer />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/about" element={<About />} />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, User, ArrowLeft, MessageSquare, ArrowRight } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -14,6 +14,17 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Ensure login fields start completely blank and override any browser autofill
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+    const t = setTimeout(() => {
+      setEmail('');
+      setPassword('');
+    }, 100);
+    return () => clearTimeout(t);
+  }, []);
 
   const from = location.state?.from?.pathname || '/dashboard';
 
@@ -116,7 +127,11 @@ export default function Login() {
               <p className="text-slate-400 text-sm">Sign in to continue to CineSense.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
+              {/* Decoy inputs to absorb browser autofill heuristics */}
+              <input type="text" name="fake_username_remember" className="sr-only" tabIndex={-1} aria-hidden="true" autoComplete="off" />
+              <input type="password" name="fake_password_remember" className="sr-only" tabIndex={-1} aria-hidden="true" autoComplete="new-password" />
+
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-200">Email address</label>
                 <div className="relative">
@@ -125,9 +140,12 @@ export default function Login() {
                   </div>
                   <input
                     type="email"
+                    name="cinesense_login_email"
+                    id="cinesense_login_email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
+                    autoComplete="off"
                     className="w-full bg-[#161622] border border-white/5 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all text-sm"
                     required
                   />
@@ -142,9 +160,12 @@ export default function Login() {
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
+                    name="cinesense_login_password"
+                    id="cinesense_login_password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
+                    autoComplete="new-password"
                     className="w-full bg-[#161622] border border-white/5 rounded-xl py-3 pl-10 pr-10 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all text-sm"
                     required
                   />

@@ -1,12 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { sequelize } = require('./database');
+const { sequelize, seedDefaultMovies } = require('./database');
 
 const authRouter = require('./routes/auth').router;
 const analyzeRouter = require('./routes/analyze');
 const reviewsRouter = require('./routes/reviews');
 const statsRouter = require('./routes/stats');
+const moviesRouter = require('./routes/movies');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use('/api/movies', moviesRouter);
 app.use('/api', analyzeRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api', statsRouter);
@@ -55,8 +57,9 @@ process.on('unhandledRejection', (reason) => {
 // Heartbeat to prevent event loop from going empty
 const keepAlive = setInterval(() => {}, 1000 * 60 * 60);
 
-sequelize.sync().then(() => {
+sequelize.sync().then(async () => {
   console.log('Database synced');
+  await seedDefaultMovies();
   const server = app.listen(PORT, () => {
     console.log(`CineSense backend running on http://localhost:${PORT}`);
   });
