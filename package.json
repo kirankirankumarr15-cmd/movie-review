@@ -1,0 +1,11 @@
+{
+  "name": "cinesense-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix cinesense-app run dev",
+    "build": "npm --prefix cinesense-app run build",
+    "start": "npm --prefix cinesense-app run start",
+    "lint": "npm --prefix cinesense-app run lint"
+  }
+}
