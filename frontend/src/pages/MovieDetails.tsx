@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { analyzeApi } from "../services/api";
 import { toast } from "sonner";
 import { cn } from "../lib/utils";
-import TrailerModal from "../components/TrailerModal";
+import HeroPlayer, { type HeroVideo } from "../components/HeroPlayer";
 
 const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
 
@@ -82,9 +82,9 @@ export default function MovieDetails() {
   const [credits, setCredits] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // Trailer state & trigger ref
-  const [trailerVideoId, setTrailerVideoId] = useState<string | null>(null);
-  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  // Hero player state
+  const [heroVideos, setHeroVideos] = useState<HeroVideo[]>([]);
+  const [heroPlayerOpen, setHeroPlayerOpen] = useState(false);
   const playButtonRef = useRef<HTMLButtonElement>(null);
 
   // User Actions
@@ -144,48 +144,68 @@ export default function MovieDetails() {
           }
         }
 
-        // 1. Check database for trailer_youtube_id
-        let foundTrailerId: string | null = null;
+        // 1. Load structured video list from our DB (/api/movies/videos/:tmdbId)
+        let structuredVideos: HeroVideo[] = [];
         try {
-          const dbRes = await fetch(`http://localhost:5000/api/movies/trailer/${id}`);
-          if (dbRes.ok) {
-            const dbJson = await dbRes.json();
-            if (dbJson.found && dbJson.trailer_youtube_id) {
-              foundTrailerId = dbJson.trailer_youtube_id;
+          const vidsRes = await fetch(`http://localhost:5000/api/movies/videos/${id}`);
+          if (vidsRes.ok) {
+            const vidsJson = await vidsRes.json();
+            if (Array.isArray(vidsJson.videos) && vidsJson.videos.length > 0) {
+              structuredVideos = vidsJson.videos;
             }
           }
-        } catch {
-          // ignore if backend is loading
-        }
+        } catch { /* backend may still be booting */ }
 
-        // 2. Specific seed fallback for Toxic (2026, KN, dir. Geetu Mohandas)
-        if (!foundTrailerId && (id === "1213243" || movieData?.title?.toLowerCase().includes("toxic"))) {
-          foundTrailerId = "EfluEyQ5QIA";
-        }
-
-        // 3. Fallback to TMDB videos API (works for both movies and series)
-        if (!foundTrailerId) {
+        // 2. Check legacy DB trailer field as fallback single-video
+        if (structuredVideos.length === 0) {
           try {
-            const vidsRes = await fetch(
+            const dbRes = await fetch(`http://localhost:5000/api/movies/trailer/${id}`);
+            if (dbRes.ok) {
+              const dbJson = await dbRes.json();
+              if (dbJson.found && dbJson.trailer_youtube_id) {
+                structuredVideos = [{ youtube_id: dbJson.trailer_youtube_id, type: 'trailer', title: '', is_official: true }];
+              }
+            }
+          } catch { /* ignore */ }
+        }
+
+        // 3. Specific seed fallback for Toxic (2026, KN, dir. Geetu Mohandas)
+        if (structuredVideos.length === 0 && (id === "1213243" || movieData?.title?.toLowerCase().includes("toxic"))) {
+          structuredVideos = [
+            { youtube_id: 'EfluEyQ5QIA', type: 'teaser', title: 'Toxic — Official Teaser', language: 'KN', is_official: true },
+            { youtube_id: 'EfluEyQ5QIA', type: 'trailer', title: 'Toxic — Official Trailer', language: 'KN', is_official: true },
+          ];
+        }
+
+        // 4. Fallback to TMDB videos API — map to HeroVideo format
+        if (structuredVideos.length === 0) {
+          try {
+            const tmdbVidsRes = await fetch(
               `https://api.tmdb.org/3/${isRequestedTv ? "tv" : "movie"}/${id}/videos`,
               { headers }
             );
-            if (vidsRes.ok) {
-              const vidsData = await vidsRes.json();
-              const results: any[] = vidsData.results || [];
-              const ytTrailer = results.find((v) => v.site === "YouTube" && v.type === "Trailer")
-                || results.find((v) => v.site === "YouTube" && v.type === "Teaser")
-                || results.find((v) => v.site === "YouTube");
-              if (ytTrailer?.key) {
-                foundTrailerId = ytTrailer.key;
-              }
+            if (tmdbVidsRes.ok) {
+              const tmdbVidsData = await tmdbVidsRes.json();
+              const results: any[] = tmdbVidsData.results || [];
+              structuredVideos = results
+                .filter((v) => v.site === "YouTube")
+                .map((v) => ({
+                  youtube_id: v.key,
+                  type: (v.type?.toLowerCase() || 'trailer') as HeroVideo['type'],
+                  title: v.name || '',
+                  language: v.iso_639_1 || '',
+                  is_official: v.official ?? true,
+                }));
+              // Prefer teaser first, then trailer — sort by type order
+              const order: Record<string, number> = { teaser: 0, trailer: 1, clip: 2, song: 3 };
+              structuredVideos.sort((a, b) => (order[a.type] ?? 99) - (order[b.type] ?? 99));
             }
           } catch (err) {
             console.warn("Failed to fetch TMDB videos:", err);
           }
         }
 
-        setTrailerVideoId(foundTrailerId);
+        setHeroVideos(structuredVideos);
         setMovie(movieData);
         setCredits(creditsData);
       } catch (err) {
@@ -420,55 +440,91 @@ export default function MovieDetails() {
       className="min-h-screen bg-[#0a0a0f] text-white pb-20 font-sans"
     >
       
-      {/* Hero Backdrop Video/Image Area */}
-      <div className="relative w-full h-[40vh] md:h-[60vh]">
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
-        {movie.backdrop_path ? (
-          <img 
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            alt={movie.title}
-            className="w-full h-full object-cover opacity-70"
-          />
-        ) : (
-          <div className="w-full h-full bg-slate-900" />
-        )}
-        
-        {/* Play Button Overlay - hidden when no trailer exists */}
-        {trailerVideoId && (
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-            <button
-              ref={playButtonRef}
-              type="button"
-              onClick={() => setIsTrailerOpen(true)}
-              aria-label="Play trailer"
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md flex items-center justify-center pointer-events-auto cursor-pointer transition transform hover:scale-110 active:scale-95 shadow-2xl border border-white/20 group focus:outline-none focus:ring-4 focus:ring-purple-500/50"
+      {/* ══ Hero Backdrop / Inline Video Player Area ══ */}
+      <div className="relative w-full overflow-hidden bg-black">
+        <AnimatePresence mode="wait">
+          {heroPlayerOpen && heroVideos.length > 0 ? (
+            <motion.div
+              key="hero-player"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="w-full"
             >
-              <Play className="text-white ml-1 group-hover:scale-110 transition-transform" fill="white" size={28} />
-            </button>
-          </div>
-        )}
+              <HeroPlayer
+                videos={heroVideos}
+                movieTitle={movie?.title}
+                backdropUrl={movie?.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : undefined}
+                posterUrl={movie?.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : undefined}
+                onClose={() => {
+                  setHeroPlayerOpen(false);
+                  setTimeout(() => playButtonRef.current?.focus(), 80);
+                }}
+                enableBgAutoplay={false}
+              />
+            </motion.div>
+          ) : (
+            /* Default state: backdrop image */
+            <motion.div
+              key="hero-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="relative w-full h-[40vh] md:h-[60vh]"
+            >
+              <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-transparent" />
+              {movie.backdrop_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                  alt={movie.title}
+                  className="w-full h-full object-cover opacity-70"
+                />
+              ) : (
+                <div className="w-full h-full bg-slate-900" />
+              )}
 
-        {/* Top bar back button & Share */}
-        <div className="absolute top-6 left-4 right-4 z-30 flex justify-between items-center max-w-5xl mx-auto">
-          <button 
-            onClick={() => navigate(-1)} 
-            className="p-2.5 rounded-full bg-black/50 backdrop-blur-md hover:bg-black/70 transition border border-white/10"
-            aria-label="Go back"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <button 
-            onClick={handleShare} 
-            className="p-2.5 rounded-full bg-black/50 backdrop-blur-md hover:bg-black/70 transition border border-white/10"
-            aria-label="Share movie"
-          >
-            <Share2 size={18} />
-          </button>
-        </div>
+              {/* Play Button Overlay — only when videos exist */}
+              {heroVideos.length > 0 && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                  <button
+                    ref={playButtonRef}
+                    type="button"
+                    id="hero-play-btn"
+                    onClick={() => setHeroPlayerOpen(true)}
+                    aria-label={`Play ${movie.title} trailer`}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md flex items-center justify-center pointer-events-auto cursor-pointer transition transform hover:scale-110 active:scale-95 shadow-2xl border border-white/20 group focus:outline-none focus:ring-4 focus:ring-purple-500/50"
+                  >
+                    <Play className="text-white ml-1 group-hover:scale-110 transition-transform" fill="white" size={28} />
+                  </button>
+                </div>
+              )}
+
+              {/* Top bar back button & Share */}
+              <div className="absolute top-6 left-4 right-4 z-30 flex justify-between items-center max-w-5xl mx-auto">
+                <button
+                  onClick={() => navigate(-1)}
+                  className="p-2.5 rounded-full bg-black/50 backdrop-blur-md hover:bg-black/70 transition border border-white/10"
+                  aria-label="Go back"
+                >
+                  <ArrowLeft size={20} />
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="p-2.5 rounded-full bg-black/50 backdrop-blur-md hover:bg-black/70 transition border border-white/10"
+                  aria-label="Share movie"
+                >
+                  <Share2 size={18} />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Main Content Area */}
-      <div className="relative z-30 max-w-5xl mx-auto px-4 -mt-24 md:-mt-32">
+      <div className={`relative z-30 max-w-5xl mx-auto px-4 ${heroPlayerOpen ? 'mt-4' : '-mt-24 md:-mt-32'}`}>
         
         {/* Header Section */}
         <div className="flex gap-4 md:gap-8 items-end mb-8">
@@ -958,20 +1014,6 @@ export default function MovieDetails() {
 
       </div>
 
-      {/* Embedded YouTube Trailer Modal (unmounted on close so playback stops) */}
-      {isTrailerOpen && trailerVideoId && (
-        <TrailerModal
-          videoId={trailerVideoId}
-          title={movie?.title}
-          onClose={() => {
-            setIsTrailerOpen(false);
-            // Return focus to trigger Play button on close
-            setTimeout(() => {
-              playButtonRef.current?.focus();
-            }, 50);
-          }}
-        />
-      )}
     </motion.div>
   );
 }

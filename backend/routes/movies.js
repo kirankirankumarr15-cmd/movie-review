@@ -1,7 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const { Movie } = require('../database');
+const { Movie, MovieVideo } = require('../database');
 const { Op } = require('sequelize');
+
+// GET /api/movies/videos/:tmdbId — returns typed video list (teaser/trailer/clip/song)
+router.get('/videos/:tmdbId', async (req, res) => {
+  try {
+    const tmdbId = parseInt(req.params.tmdbId, 10);
+    if (isNaN(tmdbId)) return res.status(400).json({ error: 'Invalid tmdb_id' });
+
+    const videos = await MovieVideo.findAll({
+      where: { tmdb_id: tmdbId, is_official: true },
+      order: [['sort_order', 'ASC'], ['type', 'ASC']],
+    });
+
+    return res.json({
+      tmdb_id: tmdbId,
+      videos: videos.map(v => ({
+        youtube_id: v.youtube_id,
+        type: v.type,
+        title: v.title,
+        language: v.language,
+        is_official: v.is_official,
+      })),
+    });
+  } catch (err) {
+    console.error('Error fetching movie videos:', err.message);
+    res.status(500).json({ error: 'Server error retrieving videos' });
+  }
+});
 
 // GET /api/movies/trailer/:idOrTmdbId
 router.get('/trailer/:idOrTmdbId', async (req, res) => {
