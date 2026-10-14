@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Search, Loader2, Film } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../hooks/useTheme";
+import { cn } from "../lib/utils";
 
 const LANGUAGES = [
   { id: "all", label: "All" },
@@ -11,6 +13,8 @@ const LANGUAGES = [
 ];
 
 export default function SearchMovie() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
@@ -40,8 +44,6 @@ export default function SearchMovie() {
       setShowDropdown(true);
 
       try {
-        // Direct call to TMDB since we are porting this to Vite
-        // Using the same Bearer token user provided
         const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
         
         const res = await fetch(`https://api.tmdb.org/3/search/movie?query=${encodeURIComponent(debouncedQuery)}&include_adult=false&page=1`, {
@@ -77,16 +79,24 @@ export default function SearchMovie() {
         
         {/* Language Tabs */}
         <div className="flex justify-center">
-          <div className="bg-[#1a1a25] border border-white/10 rounded-full h-12 p-1 flex items-center shadow-lg">
+          <div className={cn(
+            "rounded-full h-12 p-1 flex items-center transition-all",
+            isDark
+              ? "bg-[#1a1a25] border border-white/10 shadow-lg"
+              : "bg-white/95 border border-slate-200/90 shadow-md backdrop-blur-sm"
+          )}>
             {LANGUAGES.map((lang) => (
               <button 
                 key={lang.id} 
                 onClick={() => setLanguage(lang.id)}
-                className={`rounded-full px-6 h-full text-sm font-medium transition-all ${
+                className={cn(
+                  "rounded-full px-6 h-full text-sm font-semibold transition-all",
                   language === lang.id 
-                    ? 'bg-purple-600 text-white shadow-md' 
-                    : 'text-slate-400 hover:text-white'
-                }`}
+                    ? "bg-purple-600 text-white shadow-md shadow-purple-500/25" 
+                    : isDark
+                      ? "text-slate-400 hover:text-white"
+                      : "text-slate-600 hover:text-purple-700 hover:bg-purple-50/50"
+                )}
               >
                 {lang.label}
               </button>
@@ -96,7 +106,10 @@ export default function SearchMovie() {
 
         {/* Search Bar */}
         <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+          <div className={cn(
+            "absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors",
+            isDark ? "text-slate-400" : "text-slate-500 group-focus-within:text-purple-600"
+          )}>
             {isSearching ? <Loader2 className="animate-spin" size={20} /> : <Search size={20} />}
           </div>
           <input
@@ -110,7 +123,12 @@ export default function SearchMovie() {
             }}
             type="text"
             placeholder="Search for a movie (e.g. Inception, KGF, Dangal)..."
-            className="w-full bg-[#161622] border border-white/10 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none rounded-2xl h-16 pl-12 pr-4 text-lg text-white shadow-xl placeholder:text-slate-500 transition-all"
+            className={cn(
+              "w-full rounded-2xl h-16 pl-12 pr-4 text-lg shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-purple-500",
+              isDark
+                ? "bg-[#161622] border border-white/10 text-white placeholder:text-slate-500 focus:border-purple-500"
+                : "bg-white border-2 border-slate-200 text-slate-900 placeholder:text-slate-500 focus:border-purple-600 shadow-slate-200/50"
+            )}
           />
         </div>
 
@@ -121,16 +139,21 @@ export default function SearchMovie() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-[140px] left-0 right-0 bg-[#161622] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] overflow-y-auto"
+              className={cn(
+                "absolute top-[140px] left-0 right-0 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-[400px] overflow-y-auto",
+                isDark
+                  ? "bg-[#161622] border border-white/10"
+                  : "bg-white border border-slate-200 shadow-2xl"
+              )}
             >
               {isSearching && results.length === 0 && (
-                <div className="p-4 text-center text-slate-400 py-8">
+                <div className={cn("p-4 text-center py-8", isDark ? "text-slate-400" : "text-slate-500")}>
                   Searching across databases...
                 </div>
               )}
               
               {!isSearching && results.length === 0 && (
-                <div className="p-4 text-center text-slate-400 py-8">
+                <div className={cn("p-4 text-center py-8", isDark ? "text-slate-400" : "text-slate-500")}>
                   No movies found. Try another title.
                 </div>
               )}
@@ -139,9 +162,17 @@ export default function SearchMovie() {
                 <div 
                   key={movie.id}
                   onClick={() => navigate(`/movie/${movie.id}`)}
-                  className="p-4 border-b border-white/5 flex gap-4 hover:bg-[#1a1a25] cursor-pointer transition-colors"
+                  className={cn(
+                    "p-4 border-b flex gap-4 cursor-pointer transition-colors",
+                    isDark
+                      ? "border-white/5 hover:bg-[#1a1a25]"
+                      : "border-slate-100 hover:bg-purple-50/70"
+                  )}
                 >
-                  <div className="w-12 h-16 bg-[#0a0a0f] rounded overflow-hidden flex-shrink-0 flex items-center justify-center">
+                  <div className={cn(
+                    "w-12 h-16 rounded overflow-hidden flex-shrink-0 flex items-center justify-center",
+                    isDark ? "bg-[#0a0a0f]" : "bg-slate-100"
+                  )}>
                     {movie.poster_path ? (
                       <img 
                         src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`} 
@@ -149,19 +180,24 @@ export default function SearchMovie() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <Film size={20} className="text-slate-600" />
+                      <Film size={20} className={isDark ? "text-slate-600" : "text-slate-400"} />
                     )}
                   </div>
                   <div className="flex-1 flex flex-col justify-center text-left">
-                    <h4 className="text-white font-medium text-lg">{movie.title}</h4>
-                    <div className="flex items-center gap-2 mt-1 text-sm text-slate-400">
+                    <h4 className={cn("font-semibold text-lg", isDark ? "text-white" : "text-slate-900")}>
+                      {movie.title}
+                    </h4>
+                    <div className={cn("flex items-center gap-2 mt-1 text-sm", isDark ? "text-slate-400" : "text-slate-600")}>
                       <span>{movie.release_date?.substring(0, 4) || 'Unknown Year'}</span>
                       <span>•</span>
-                      <span className="uppercase text-[10px] font-bold bg-white/10 px-2 py-0.5 rounded text-slate-300">
+                      <span className={cn(
+                        "uppercase text-[10px] font-bold px-2 py-0.5 rounded",
+                        isDark ? "bg-white/10 text-slate-300" : "bg-purple-100 text-purple-700"
+                      )}>
                         {movie.original_language}
                       </span>
                       <span>•</span>
-                      <span className="flex items-center gap-1 font-medium text-amber-400">
+                      <span className="flex items-center gap-1 font-semibold text-amber-500">
                         ⭐ {movie.vote_average?.toFixed(1) || 'N/A'}
                       </span>
                     </div>

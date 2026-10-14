@@ -56,6 +56,33 @@ export default function UpcomingMovieDetail() {
       const res = await fetch(`http://localhost:5000/api/upcoming/${id}`);
       if (!res.ok) throw new Error('Movie not found');
       const data = await res.json();
+      
+      // Client-side fallback to TMDB API if videos array is empty
+      if (!data.videos || data.videos.length === 0) {
+        try {
+          const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
+          const tvidRes = await fetch(`https://api.tmdb.org/3/movie/${data.tmdb_id}/videos`, {
+            headers: { Authorization: `Bearer ${TMDB_TOKEN}`, accept: 'application/json' },
+          });
+          if (tvidRes.ok) {
+            const tvidData = await tvidRes.json();
+            const ytvids = (tvidData.results || [])
+              .filter((v: any) => v.site === 'YouTube')
+              .map((v: any, idx: number) => ({
+                youtube_id: v.key,
+                type: (v.type?.toLowerCase() === 'teaser' ? 'teaser' : 'trailer'),
+                title: v.name,
+                language: v.iso_639_1 || 'en',
+                is_official: v.official ?? true,
+                sort_order: idx,
+              }));
+            if (ytvids.length > 0) {
+              data.videos = ytvids;
+            }
+          }
+        } catch {}
+      }
+
       setMovie(data);
 
       // Check watchlist in localStorage

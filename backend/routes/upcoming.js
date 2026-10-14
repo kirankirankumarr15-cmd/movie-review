@@ -293,10 +293,44 @@ router.get('/:movie_id', async (req, res) => {
     }
 
     // 2. Videos
-    const videos = await MovieVideo.findAll({
+    let videos = await MovieVideo.findAll({
       where: { tmdb_id: tmdbId },
       order: [['sort_order', 'ASC']],
     });
+
+    if (videos.length === 0) {
+      try {
+        const TMDB_TOKEN = process.env.TMDB_TOKEN || "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
+        const axios = require('axios');
+        const vRes = await axios.get(`https://api.tmdb.org/3/movie/${tmdbId}/videos`, {
+          headers: { Authorization: `Bearer ${TMDB_TOKEN}`, accept: 'application/json' },
+          timeout: 6000,
+        });
+        const vResults = (vRes.data?.results || []).filter(v => v.site === 'YouTube');
+        if (vResults.length > 0) {
+          const toInsert = vResults.slice(0, 5).map((v, idx) => ({
+            tmdb_id: tmdbId,
+            youtube_id: v.key,
+            type: v.type?.toLowerCase() === 'teaser' ? 'teaser' : 'trailer',
+            title: v.name,
+            language: v.iso_639_1 || 'en',
+            is_official: v.official ?? true,
+            sort_order: idx,
+          }));
+          await MovieVideo.bulkCreate(toInsert);
+          await UpcomingMovie.update(
+            { has_trailer: true, has_teaser: toInsert.some(x => x.type === 'teaser') },
+            { where: { tmdb_id: tmdbId } }
+          );
+          videos = await MovieVideo.findAll({
+            where: { tmdb_id: tmdbId },
+            order: [['sort_order', 'ASC']],
+          });
+        }
+      } catch (tmdbErr) {
+        console.warn('TMDB dynamic video fetch notice:', tmdbErr.message);
+      }
+    }
 
     // 3. Official Announcements Timeline
     const announcements = await Announcement.findAll({

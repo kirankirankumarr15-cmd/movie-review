@@ -816,6 +816,15 @@ function MovieCard({
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none" />
 
+        {/* Hover Play Teaser / Trailer Indicator */}
+        {(movie.has_trailer || movie.has_teaser) && (
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="w-13 h-13 rounded-full bg-purple-600/90 backdrop-blur-md flex items-center justify-center text-white shadow-xl transform scale-90 group-hover:scale-100 transition-transform">
+              <Play size={22} fill="white" className="ml-1" />
+            </div>
+          </div>
+        )}
+
         {/* Top Badges: Language & Release Type */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
           <span className="px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[11px] font-bold text-white uppercase border border-white/15 shadow">

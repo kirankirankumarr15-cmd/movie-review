@@ -113,6 +113,34 @@ async function syncUpcomingFromTMDB(models) {
         });
       }
 
+      // Sync videos from TMDB if not yet present
+      const vidCount = await MovieVideo.count({ where: { tmdb_id: item.id } });
+      if (vidCount === 0) {
+        try {
+          const vRes = await axios.get(`https://api.tmdb.org/3/movie/${item.id}/videos`, {
+            headers: TMDB_HEADERS,
+            timeout: 5000,
+          });
+          const vResults = (vRes.data?.results || []).filter(v => v.site === 'YouTube');
+          if (vResults.length > 0) {
+            const toInsert = vResults.slice(0, 4).map((v, idx) => ({
+              tmdb_id: item.id,
+              youtube_id: v.key,
+              type: v.type?.toLowerCase() === 'teaser' ? 'teaser' : 'trailer',
+              title: v.name,
+              language: v.iso_639_1 || item.original_language,
+              is_official: v.official ?? true,
+              sort_order: idx,
+            }));
+            await MovieVideo.bulkCreate(toInsert);
+            await movieRecord.update({
+              has_trailer: true,
+              has_teaser: toInsert.some(x => x.type === 'teaser'),
+            });
+          }
+        } catch {}
+      }
+
       syncedCount++;
     }
 

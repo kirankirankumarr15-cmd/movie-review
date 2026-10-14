@@ -82,17 +82,23 @@ export default function Home() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-display font-bold text-white mb-6 leading-tight tracking-tight"
+            className={cn(
+              "text-5xl md:text-7xl font-display font-extrabold mb-6 leading-tight tracking-tight",
+              isDark ? "text-white" : "text-slate-950"
+            )}
           >
             Understand what audiences <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">really feel.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600">really feel.</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl"
+            className={cn(
+              "text-lg md:text-xl mb-12 max-w-2xl leading-relaxed",
+              isDark ? "text-slate-300" : "text-slate-700 font-medium"
+            )}
           >
             Instantly aggregate reviews from across the web. We analyze the sentiment of 
             millions of opinions to give you the ultimate verdict on any movie.
@@ -109,7 +115,10 @@ export default function Home() {
         </div>
         
         {/* Footer text */}
-        <div className="absolute bottom-8 text-center text-slate-500 text-sm">
+        <div className={cn(
+          "absolute bottom-8 text-center text-sm font-medium",
+          isDark ? "text-slate-400" : "text-slate-600"
+        )}>
           Powered by TMDB, OMDb, Reddit, and Claude AI
         </div>
       </section>

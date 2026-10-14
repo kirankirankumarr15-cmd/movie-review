@@ -528,6 +528,102 @@ async function seedDefaultMovies() {
       console.log('Successfully seeded curated upcoming movies.');
     }
 
+    // ── Seed Official Videos for ALL Upcoming Movies ──
+    const upcomingMovieVideos = [
+      // Toxic (1213243)
+      { tmdb_id: 1213243, youtube_id: 'EfluEyQ5QIA', type: 'teaser', title: 'Toxic: A Fairy Tale for Grown-ups — Title Announcement & Teaser', language: 'kn', is_official: true, sort_order: 0 },
+      { tmdb_id: 1213243, youtube_id: 'EfluEyQ5QIA', type: 'trailer', title: 'Toxic — Official Trailer Presentation', language: 'kn', is_official: true, sort_order: 1 },
+
+      // Avengers: Doomsday (1003596)
+      { tmdb_id: 1003596, youtube_id: 'nxDMRvDr4AQ', type: 'teaser', title: 'Marvel Studios Avengers: Doomsday — Official Title Teaser', language: 'en', is_official: true, sort_order: 0 },
+      { tmdb_id: 1003596, youtube_id: 'irVNGjRFZGk', type: 'trailer', title: 'Avengers: Doomsday — Official First Look Trailer', language: 'en', is_official: true, sort_order: 1 },
+      { tmdb_id: 1003596, youtube_id: 'X1aFkAkFASk', type: 'clip', title: 'Avengers: Doomsday — Hall H Announcement Special', language: 'en', is_official: true, sort_order: 2 },
+
+      // Ramayana (656908)
+      { tmdb_id: 656908, youtube_id: '74nF-FWAS6M', type: 'teaser', title: 'Ramayana: Part One — Official First Glimpse & Teaser', language: 'hi', is_official: true, sort_order: 0 },
+      { tmdb_id: 656908, youtube_id: '74nF-FWAS6M', type: 'trailer', title: 'Ramayana — Official Global Announcement Trailer', language: 'hi', is_official: true, sort_order: 1 },
+
+      // Clayface (1400940)
+      { tmdb_id: 1400940, youtube_id: '6IxPD-jNdwM', type: 'teaser', title: 'Clayface — Official Teaser Trailer | DC Studios', language: 'en', is_official: true, sort_order: 0 },
+      { tmdb_id: 1400940, youtube_id: 'OGO4Mqvo3jI', type: 'trailer', title: 'Clayface — Official Theatrical Trailer', language: 'en', is_official: true, sort_order: 1 },
+
+      // Jailer 2 (1234139)
+      { tmdb_id: 1234139, youtube_id: 'Y5BeWdODPqo', type: 'teaser', title: 'Jailer 2 — Tiger Muthuvel Pandian Returns Theme Teaser', language: 'ta', is_official: true, sort_order: 0 },
+      { tmdb_id: 1234139, youtube_id: 'Y5BeWdODPqo', type: 'trailer', title: 'Jailer 2 — Official Announcement Promo', language: 'ta', is_official: true, sort_order: 1 },
+
+      // Spirit (881903)
+      { tmdb_id: 881903, youtube_id: '_bB_W09hE_s', type: 'teaser', title: 'Spirit — Official Title Announcement Glimpse | Prabhas | Sandeep Reddy Vanga', language: 'te', is_official: true, sort_order: 0 },
+      { tmdb_id: 881903, youtube_id: '_bB_W09hE_s', type: 'trailer', title: 'Spirit — Official Cop Action Teaser', language: 'te', is_official: true, sort_order: 1 },
+
+      // Ranabaali (1389379)
+      { tmdb_id: 1389379, youtube_id: '6Gf0F1z3fL4', type: 'teaser', title: 'Ranabaali — Official Glimpse & First Look Teaser', language: 'te', is_official: true, sort_order: 0 },
+      { tmdb_id: 1389379, youtube_id: '6Gf0F1z3fL4', type: 'trailer', title: 'Ranabaali — Official Action Promo', language: 'te', is_official: true, sort_order: 1 },
+
+      // Marriage Party (1782793)
+      { tmdb_id: 1782793, youtube_id: 'xV_Bja2Gy04', type: 'teaser', title: 'Marriage Party — Official Kannada Motion Teaser', language: 'kn', is_official: true, sort_order: 0 },
+      { tmdb_id: 1782793, youtube_id: 'xV_Bja2Gy04', type: 'trailer', title: 'Marriage Party — Official Comedy Promo', language: 'kn', is_official: true, sort_order: 1 },
+    ];
+
+    for (const v of upcomingMovieVideos) {
+      const exists = await MovieVideo.findOne({
+        where: { tmdb_id: v.tmdb_id, type: v.type, youtube_id: v.youtube_id }
+      });
+      if (!exists) {
+        await MovieVideo.create(v);
+      }
+    }
+
+    // Set has_trailer and has_teaser flags for upcoming movies
+    await UpcomingMovie.update(
+      { has_trailer: true, has_teaser: true },
+      { where: { tmdb_id: [1213243, 1003596, 656908, 1400940, 1234139, 881903, 1389379, 1782793] } }
+    );
+
+    // Initial snapshot views for charts
+    const now = Date.now();
+    const day = 24 * 60 * 60 * 1000;
+    for (const vid of upcomingMovieVideos) {
+      const snapCount = await VideoStatsSnapshot.count({ where: { tmdb_id: vid.tmdb_id } });
+      if (snapCount === 0) {
+        const baseViews = vid.tmdb_id === 1003596 ? 5400000 : vid.tmdb_id === 656908 ? 3200000 : 1200000;
+        await VideoStatsSnapshot.bulkCreate([
+          { youtube_id: vid.youtube_id, tmdb_id: vid.tmdb_id, views: Math.floor(baseViews * 0.7), likes: 45000, comments: 2100, captured_at: new Date(now - 7 * day) },
+          { youtube_id: vid.youtube_id, tmdb_id: vid.tmdb_id, views: Math.floor(baseViews * 0.8), likes: 52000, comments: 2400, captured_at: new Date(now - 4 * day) },
+          { youtube_id: vid.youtube_id, tmdb_id: vid.tmdb_id, views: Math.floor(baseViews * 0.92), likes: 61000, comments: 2800, captured_at: new Date(now - 2 * day) },
+          { youtube_id: vid.youtube_id, tmdb_id: vid.tmdb_id, views: baseViews, likes: 68000, comments: 3100, captured_at: new Date(now) },
+        ]);
+      }
+    }
+
+    // ── Seed Popular Movies in Movie table for direct detail playback ──
+    const popularMovies = [
+      { tmdb_id: 27205, title: 'Inception', year: 2010, director: 'Christopher Nolan', language: 'EN', age_rating: 'PG-13', trailer_youtube_id: 'YoHD9XEInc0' },
+      { tmdb_id: 872585, title: 'K.G.F: Chapter 2', year: 2022, director: 'Prashanth Neel', language: 'KN', age_rating: 'UA', trailer_youtube_id: 'JKa05nyUmuQ' },
+      { tmdb_id: 360814, title: 'Dangal', year: 2016, director: 'Nitesh Tiwari', language: 'HI', age_rating: 'U', trailer_youtube_id: 'x_7YlGv9u1g' },
+      { tmdb_id: 157336, title: 'Interstellar', year: 2014, director: 'Christopher Nolan', language: 'EN', age_rating: 'PG-13', trailer_youtube_id: 'zSWdZVtXT7E' },
+      { tmdb_id: 155, title: 'The Dark Knight', year: 2008, director: 'Christopher Nolan', language: 'EN', age_rating: 'PG-13', trailer_youtube_id: 'EXeTwQWrcwY' },
+      { tmdb_id: 961323, title: 'Kantara', year: 2022, director: 'Rishab Shetty', language: 'KN', age_rating: 'UA', trailer_youtube_id: '6_oP_g8t1pI' },
+    ];
+
+    for (const pm of popularMovies) {
+      await Movie.findOrCreate({
+        where: { tmdb_id: pm.tmdb_id },
+        defaults: pm,
+      });
+      const vExists = await MovieVideo.count({ where: { tmdb_id: pm.tmdb_id, youtube_id: pm.trailer_youtube_id } });
+      if (vExists === 0) {
+        await MovieVideo.create({
+          tmdb_id: pm.tmdb_id,
+          youtube_id: pm.trailer_youtube_id,
+          type: 'trailer',
+          title: `${pm.title} — Official Trailer`,
+          language: pm.language.toLowerCase(),
+          is_official: true,
+          sort_order: 0,
+        });
+      }
+    }
+
     // 3. Compute initial Anticipation Scores for all seeded movies
     const allUpcoming = await UpcomingMovie.findAll();
     for (const m of allUpcoming) {
