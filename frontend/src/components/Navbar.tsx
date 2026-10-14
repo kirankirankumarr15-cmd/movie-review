@@ -10,6 +10,7 @@ import { cn } from '../lib/utils';
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/explore', label: 'Explore' },
+  { to: '/upcoming', label: 'Upcoming' },
   { to: '/analyzer', label: 'Analyzer' },
   { to: '/dashboard', label: 'Dashboard', protected: true },
   { to: '/history', label: 'History', protected: true },

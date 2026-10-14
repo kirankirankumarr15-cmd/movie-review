@@ -17,6 +17,8 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Explore from './pages/Explore';
 import MovieDetails from './pages/MovieDetails';
+import Upcoming from './pages/Upcoming';
+import UpcomingMovieDetail from './pages/UpcomingMovieDetail';
 
 function AppContent() {
   const { theme } = useTheme();
@@ -29,6 +31,8 @@ function AppContent() {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
+          <Route path="/upcoming" element={<Upcoming />} />
+          <Route path="/upcoming/:id" element={<UpcomingMovieDetail />} />
           <Route path="/analyzer" element={<Analyzer />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/about" element={<About />} />

@@ -8,6 +8,8 @@ const analyzeRouter = require('./routes/analyze');
 const reviewsRouter = require('./routes/reviews');
 const statsRouter = require('./routes/stats');
 const moviesRouter = require('./routes/movies');
+const upcomingRouter = require('./routes/upcoming');
+const { syncUpcomingFromTMDB } = require('./services/tmdbSync');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -31,6 +33,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/movies', moviesRouter);
+app.use('/api/upcoming', upcomingRouter);
 app.use('/api', analyzeRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api', statsRouter);
@@ -60,6 +63,13 @@ const keepAlive = setInterval(() => {}, 1000 * 60 * 60);
 sequelize.sync().then(async () => {
   console.log('Database synced');
   await seedDefaultMovies();
+
+  // Set up 12-hour recurring background sync for TMDB upcoming & snapshots
+  setInterval(() => {
+    const models = require('./database');
+    syncUpcomingFromTMDB(models).catch(e => console.warn('Scheduled sync notice:', e.message));
+  }, 12 * 60 * 60 * 1000);
+
   const server = app.listen(PORT, () => {
     console.log(`CineSense backend running on http://localhost:${PORT}`);
   });
