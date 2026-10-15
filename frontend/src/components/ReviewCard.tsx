@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
-import { Trash2, Film } from 'lucide-react';
+import { Trash2, Film, ChevronDown, ChevronUp } from 'lucide-react';
 import type { Review } from '../types';
-import { formatDateTime, truncateText } from '../lib/utils';
+import { formatDateTime } from '../lib/utils';
 import SentimentBadge from './SentimentBadge';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '../lib/utils';
+import { useState } from 'react';
 
 interface ReviewCardProps {
   review: Review;
@@ -15,6 +16,8 @@ interface ReviewCardProps {
 export default function ReviewCard({ review, onDelete, isDeleting }: ReviewCardProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [expanded, setExpanded] = useState(false);
+  const isLong = review.review_text.length > 150;
 
   return (
     <motion.article
@@ -46,9 +49,21 @@ export default function ReviewCard({ review, onDelete, isDeleting }: ReviewCardP
         <SentimentBadge sentiment={review.sentiment} size="sm" />
       </div>
 
-      <p className={cn('text-sm leading-relaxed mb-4', isDark ? 'text-slate-400' : 'text-slate-600')}>
-        {truncateText(review.review_text, 150)}
+      <p className={cn('text-sm leading-relaxed mb-3', isDark ? 'text-slate-400' : 'text-slate-600')}>
+        {expanded || !isLong ? review.review_text : `${review.review_text.slice(0, 150)}…`}
       </p>
+
+      {isLong && (
+        <button
+          onClick={() => setExpanded(v => !v)}
+          className={cn(
+            'flex items-center gap-1 text-xs mb-3 font-medium transition-colors',
+            isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-700'
+          )}
+        >
+          {expanded ? <><ChevronUp size={12} /> Show less</> : <><ChevronDown size={12} /> Show more</>}
+        </button>
+      )}
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">

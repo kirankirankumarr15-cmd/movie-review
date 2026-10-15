@@ -1,0 +1,1497 @@
+{
+  "total_movies": 144,
+  "playable_count": 10,
+  "failing_count": 134,
+  "counts_by_reason": {
+    "OK": 10,
+    "NO_VIDEO_FOUND": 85,
+    "NOT_EMBEDDABLE": 0,
+    "VIDEO_REMOVED/PRIVATE": 4,
+    "WRONG_LANGUAGE_FILTERED": 5,
+    "QUOTA_EXCEEDED": 0,
+    "API_ERROR": 40,
+    "MISMATCHED_MOVIE": 0
+  },
+  "movies": [
+    {
+      "movie_id": 1213243,
+      "title": "Toxic: A Fairy Tale for Grown-ups",
+      "language": "kn",
+      "year": 2026,
+      "stored_video_ids": [
+        "EfluEyQ5QIA",
+        "EfluEyQ5QIA",
+        "EfluEyQ5QIA",
+        "EfluEyQ5QIA"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (EfluEyQ5QIA)",
+      "validated_video_id": "EfluEyQ5QIA"
+    },
+    {
+      "movie_id": 27205,
+      "title": "Inception",
+      "language": "en",
+      "year": 2010,
+      "stored_video_ids": [
+        "YoHD9XEInc0"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (YoHD9XEInc0)",
+      "validated_video_id": "YoHD9XEInc0"
+    },
+    {
+      "movie_id": 872585,
+      "title": "K.G.F: Chapter 2",
+      "language": "kn",
+      "year": 2022,
+      "stored_video_ids": [
+        "JKa05nyUmuQ"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (JKa05nyUmuQ)",
+      "validated_video_id": "JKa05nyUmuQ"
+    },
+    {
+      "movie_id": 360814,
+      "title": "Dangal",
+      "language": "hi",
+      "year": 2016,
+      "stored_video_ids": [
+        "x_7YlGv9u1g"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (x_7YlGv9u1g)",
+      "validated_video_id": "x_7YlGv9u1g"
+    },
+    {
+      "movie_id": 157336,
+      "title": "Interstellar",
+      "language": "en",
+      "year": 2014,
+      "stored_video_ids": [
+        "zSWdZVtXT7E"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (zSWdZVtXT7E)",
+      "validated_video_id": "zSWdZVtXT7E"
+    },
+    {
+      "movie_id": 155,
+      "title": "The Dark Knight",
+      "language": "en",
+      "year": 2008,
+      "stored_video_ids": [
+        "EXeTwQWrcwY"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (EXeTwQWrcwY)",
+      "validated_video_id": "EXeTwQWrcwY"
+    },
+    {
+      "movie_id": 961323,
+      "title": "Kantara",
+      "language": "kn",
+      "year": 2022,
+      "stored_video_ids": [
+        "6_oP_g8t1pI"
+      ],
+      "status": "VIDEO_REMOVED/PRIVATE",
+      "exact_reason": "YouTube oEmbed HTTP 404: Video private, removed or invalid",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 278,
+      "title": "The Shawshank Redemption",
+      "language": "en",
+      "year": 1994,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video pYGf3p0mE60 (Fresh Fish), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 569094,
+      "title": "Spider-Man: Across the Spider-Verse",
+      "language": "en",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video UjU95JdjfVY (Miles is the Prowler), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 238,
+      "title": "The Godfather",
+      "language": "en",
+      "year": 1972,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video kbKCCV2EAqo (Why This One Shot in ‘The Godfather’ Suddenly Feels Terrifying!), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 299534,
+      "title": "Avengers: Endgame",
+      "language": "en",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video sieV5FBL98Q (Anthony Russo Breaks Down Iconic Scenes), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 13,
+      "title": "Forrest Gump",
+      "language": "en",
+      "year": 1994,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video 7kfYBYg59-E (Happy July Fourth!), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 20453,
+      "title": "3 Idiots",
+      "language": "hi",
+      "year": 2009,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video 22zjP29xZGM (Kamyabi Ka Raaz), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 19666,
+      "title": "Lagaan",
+      "language": "hi",
+      "year": 2001,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video DdvCM9e1vkg (Bhuvan Accepts the Challenge | Aamir Khan | Paul Blackthorne | Lagaan | Aamir Khan Talkies), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 348892,
+      "title": "Bajrangi Bhaijaan",
+      "language": "hi",
+      "year": 2015,
+      "stored_video_ids": [],
+      "status": "WRONG_LANGUAGE_FILTERED",
+      "exact_reason": "TMDB has 1 regional videos, but default call returned 0 because include_video_language was missing",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 12259,
+      "title": "Sholay",
+      "language": "hi",
+      "year": 1975,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video RDY97iu1_q8 (India’s Biggest Blockbuster Is Back in cinemas — ‘Sholay - The Final Cut’ 12th Dec release worldwide), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 14752,
+      "title": "Dil Chahta Hai",
+      "language": "hi",
+      "year": 2001,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video OBAcYSSUf6o (Dil Chahta Hai | Bollywood Nostalgia | Trailer | Netflix India), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 564147,
+      "title": "KGF: Chapter 1",
+      "language": "kn",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB returned 3oxo-wacE50, but Network error contacting YouTube: Request failed with status code 403",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 587412,
+      "title": "KGF: Chapter 2",
+      "language": "kn",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video Qah9sSIXJqk (Official Teaser), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 858485,
+      "title": "Kantara",
+      "language": "kn",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "WRONG_LANGUAGE_FILTERED",
+      "exact_reason": "TMDB has 3 regional videos, but default call returned 0 because include_video_language was missing",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 39095,
+      "title": "Mungaru Male",
+      "language": "kn",
+      "year": 2006,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/39095/videos returned 0 videos for title \"Mungaru Male\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 262476,
+      "title": "Ulidavaru Kandante",
+      "language": "kn",
+      "year": 2014,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video POJ_6EtGeMw (Ulidavaru Kandante: Theatrical Trailer - Rakshit Shetty | Kishore | Achuth Kumar | Tara), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 81239,
+      "title": "Aa Dinagalu",
+      "language": "kn",
+      "year": 2007,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video R6B5bcgkPIE (Aa Dinagalu Teaser), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 510568,
+      "title": "Tagaru",
+      "language": "kn",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video dPKIc9XUuIk (Tagaru - Tagaru Banthu Tagaru (Lyric Video) | Shiva Rajkumar, Dhananjay, Manvitha | Charanraj), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 454113,
+      "title": "Raajakumara",
+      "language": "kn",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "WRONG_LANGUAGE_FILTERED",
+      "exact_reason": "TMDB has 1 regional videos, but default call returned 0 because include_video_language was missing",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 579974,
+      "title": "RRR",
+      "language": "te",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video FYt_srWx_V8 (\"Naatu Naatu\" from 'RRR' Wins Best Song | 95th Oscars (2023)), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 256040,
+      "title": "Baahubali: The Beginning",
+      "language": "te",
+      "year": 2015,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video l-i8YFGoMPQ (Panchhi Bole), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 350312,
+      "title": "Baahubali 2: The Conclusion",
+      "language": "te",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video qD-6d8Wo3do (Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 628241,
+      "title": "Ala Vaikunthapurramuloo",
+      "language": "te",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "WRONG_LANGUAGE_FILTERED",
+      "exact_reason": "TMDB has 3 regional videos, but default call returned 0 because include_video_language was missing",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 743563,
+      "title": "Vikram",
+      "language": "ta",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video jJf35tEkW9E (Making Glimpse), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 148284,
+      "title": "Enthiran",
+      "language": "ta",
+      "year": 2010,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video fYKLIjpfuwQ (14 years of Enthiran - Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 456287,
+      "title": "Mersal",
+      "language": "ta",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video gQDo5QuZTaw (Mersal - Official Tamil Teaser | Vijay | A R Rahman | Atlee), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 366080,
+      "title": "Kabali",
+      "language": "ta",
+      "year": 2016,
+      "stored_video_ids": [],
+      "status": "WRONG_LANGUAGE_FILTERED",
+      "exact_reason": "TMDB has 1 regional videos, but default call returned 0 because include_video_language was missing",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 587030,
+      "title": "Kaithi",
+      "language": "ta",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video tP_dh_s27iw (Khaidi - Official Trailer (Telugu) | Karthi | Lokesh Kanagaraj | Sam CS | S R Prabhu | 4K), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1269325,
+      "title": "Drishyam",
+      "language": "ml",
+      "year": 2013,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video MFQFxsDWbA8 (Drishyam: The Conclusion - Official Trailer | Ajay Devgn, Tabu, Jaideep | Abhishek Pathak | 2 Oct), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 564701,
+      "title": "Lucifer",
+      "language": "ml",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video HxghNgeC-NE (Lucifer Video Song  | Kadavule Pole | Mohanlal | Prithviraj Sukumaran | Deepak Dev), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 341895,
+      "title": "Premam",
+      "language": "ml",
+      "year": 2015,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/341895/videos returned 0 videos for title \"Premam\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 2405,
+      "title": "Joseph",
+      "language": "ml",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video jwAr8vgg3-c (Joseph Reveals Himself to His Brothers), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 496243,
+      "title": "Parasite",
+      "language": "korean",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video fLlosedYVlo (Mark Kermode reviews Parasite), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 670,
+      "title": "Oldboy",
+      "language": "korean",
+      "year": 2003,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video tAaBkFChaRg (Official 20th Anniversary Re-Release Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 396535,
+      "title": "Train to Busan",
+      "language": "korean",
+      "year": 2016,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video xcTYwgqXew0 (You can’t outrun the infected. 10th Anniversary is now available on Digital.), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 129,
+      "title": "Spirited Away",
+      "language": "japanese",
+      "year": 2001,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video GAp2_0JJskk (Official Trailer [Subtitled]), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 372058,
+      "title": "Your Name",
+      "language": "japanese",
+      "year": 2016,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video TYku4P7MHdo (Official English Trailer [Dubbed]), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 149,
+      "title": "Akira",
+      "language": "japanese",
+      "year": 1988,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video Jq4ER-P6NCQ (AKIRA returns in 4K to UK cinemas 17th April), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1417,
+      "title": "Pan's Labyrinth",
+      "language": "spanish",
+      "year": 2006,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video aaH3jpNY-rE (Official 20th Anniversary Featurette), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 25376,
+      "title": "The Secret in Their Eyes",
+      "language": "spanish",
+      "year": 2009,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video g0QhRbx0Fao (Mark Kermode reviews Secret in Their Eyes (2009) | BFI Player), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 194,
+      "title": "Amélie",
+      "language": "french",
+      "year": 2001,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video LqZ3eW33oRw (How 'Amélie' Convinced Eva Longoria She Was in Paris!), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 77338,
+      "title": "The Intouchables",
+      "language": "french",
+      "year": 2011,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video dvdJ--DV0Uo (Official Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 598,
+      "title": "City of God",
+      "language": "portuguese",
+      "year": 2002,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video UW9tYkh8Yrc (Destiny), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 637,
+      "title": "Life Is Beautiful",
+      "language": "italian",
+      "year": 1997,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video pAYEQP8gx3w (Life is Beautiful (1998) Official Trailer - Robert Benigni Movie HD), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 11216,
+      "title": "Cinema Paradiso",
+      "language": "italian",
+      "year": 1988,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video JMyVSD6OvO8 (Cinema Paradiso Official Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 5801,
+      "title": "Pather Panchali",
+      "language": "bengali",
+      "year": 1955,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video 3owOG5y-fSw (Mark Kermode reviews Pather Panchali (1955) | BFI Player), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 146,
+      "title": "Crouching Tiger, Hidden Dragon",
+      "language": "chinese",
+      "year": 2000,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video 3m4h5bFNWtk (Fight Sequences | Behind The Scenes), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 383367,
+      "title": "Sairat",
+      "language": "marathi",
+      "year": 2016,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video iShPI_JF524 (Sairat Official Trailer | Nagraj Manjule | Ajay Atul), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 369865,
+      "title": "Chhello Divas",
+      "language": "gujarati",
+      "year": 2015,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video S7gLUbvwm64 (CHHELLO DIVAS | Official Theatrical Trailer | Belvedere Films | HD), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 352165,
+      "title": "Angrej",
+      "language": "punjabi",
+      "year": 2015,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/352165/videos returned 0 videos for title \"Angrej\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 565696,
+      "title": "Daman",
+      "language": "odia",
+      "year": 2001,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/565696/videos returned 0 videos for title \"Daman\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 387,
+      "title": "Das Boot",
+      "language": "german",
+      "year": 1981,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video KhNnU4h1Q50 (Das Boot (1981) REMASTERED TRAILER [HD]), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1396,
+      "title": "Breaking Bad",
+      "language": "en",
+      "year": 2008,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video S2U9TXmYJ94 (Restoration Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 66732,
+      "title": "Stranger Things",
+      "language": "en",
+      "year": 2016,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1399,
+      "title": "Game of Thrones",
+      "language": "en",
+      "year": 2011,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 76331,
+      "title": "Succession",
+      "language": "en",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 100088,
+      "title": "The Last of Us",
+      "language": "en",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video UkjsQLK5uDc (Quentin Tarantino on Black Gunn), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 60574,
+      "title": "Peaky Blinders",
+      "language": "en",
+      "year": 2013,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 76479,
+      "title": "The Boys",
+      "language": "en",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video s8PvzY-WRgw (Deceived (Theatrical Trailer)), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 79352,
+      "title": "Sacred Games",
+      "language": "hi",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video M6eGPQmHd10 (Vaamanan Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 84105,
+      "title": "Mirzapur",
+      "language": "hi",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video zAaqR0ldWJQ (Frenemies Trailer - Disney Channel), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 93352,
+      "title": "The Family Man",
+      "language": "hi",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/93352/videos returned 0 videos for title \"The Family Man\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 101352,
+      "title": "Panchayat",
+      "language": "hi",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/101352/videos returned 0 videos for title \"Panchayat\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 103051,
+      "title": "Paatal Lok",
+      "language": "hi",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/103051/videos returned 0 videos for title \"Paatal Lok\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 111188,
+      "title": "Scam 1992: The Harshad Mehta Story",
+      "language": "hi",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/111188/videos returned 0 videos for title \"Scam 1992: The Harshad Mehta Story\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 132117,
+      "title": "Farzi",
+      "language": "hi",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 89113,
+      "title": "Kota Factory",
+      "language": "hi",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 155313,
+      "title": "Humble Politiciann Nograj",
+      "language": "kn",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 215871,
+      "title": "Beast of Bangalore: Indian Predator",
+      "language": "kn",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/215871/videos returned 0 videos for title \"Beast of Bangalore: Indian Predator\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 122442,
+      "title": "Kyaabre",
+      "language": "kn",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 91021,
+      "title": "Weekend With Ramesh",
+      "language": "kn",
+      "year": 2014,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 99684,
+      "title": "Gattimela",
+      "language": "kn",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 104262,
+      "title": "Kamali",
+      "language": "kn",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video MLg-lfaBbkY (Wolf Devil Woman excerpt), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 200946,
+      "title": "Dhootha",
+      "language": "te",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video DbWDYUvUuoo (Weakness (2010) Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 203202,
+      "title": "Rana Naidu",
+      "language": "te",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 224744,
+      "title": "Save the Tigers",
+      "language": "te",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 200882,
+      "title": "Modern Love Hyderabad",
+      "language": "te",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 195485,
+      "title": "Gaalivaana",
+      "language": "te",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 200861,
+      "title": "Suzhal - The Vortex",
+      "language": "ta",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/200861/videos returned 0 videos for title \"Suzhal - The Vortex\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 200881,
+      "title": "Vadhandhi: The Fable of Velonie",
+      "language": "ta",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 201088,
+      "title": "Sweet Kaaram Coffee",
+      "language": "ta",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video TfTKUhu5JTM (Unboxing), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 200874,
+      "title": "Modern Love Chennai",
+      "language": "ta",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 249543,
+      "title": "Inspector Rishi",
+      "language": "ta",
+      "year": 2024,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 228658,
+      "title": "Kerala Crime Files",
+      "language": "ml",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/228658/videos returned 0 videos for title \"Kerala Crime Files\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 236058,
+      "title": "Masterpeace",
+      "language": "ml",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 241088,
+      "title": "Perilloor Premier League",
+      "language": "ml",
+      "year": 2024,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/241088/videos returned 0 videos for title \"Perilloor Premier League\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 216636,
+      "title": "Poacher",
+      "language": "ml",
+      "year": 2024,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 261576,
+      "title": "1000 Babies",
+      "language": "ml",
+      "year": 2024,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/261576/videos returned 0 videos for title \"1000 Babies\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 93405,
+      "title": "Squid Game",
+      "language": "korean",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 99966,
+      "title": "All of Us Are Dead",
+      "language": "korean",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/99966/videos returned 0 videos for title \"All of Us Are Dead\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 94796,
+      "title": "Crash Landing on You",
+      "language": "korean",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/94796/videos returned 0 videos for title \"Crash Landing on You\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 136283,
+      "title": "The Glory",
+      "language": "korean",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 117376,
+      "title": "Vincenzo",
+      "language": "korean",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 70593,
+      "title": "Kingdom",
+      "language": "korean",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/70593/videos returned 0 videos for title \"Kingdom\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 110316,
+      "title": "Alice in Borderland",
+      "language": "japanese",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/110316/videos returned 0 videos for title \"Alice in Borderland\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 126308,
+      "title": "Shōgun",
+      "language": "japanese",
+      "year": 2024,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/126308/videos returned 0 videos for title \"Shōgun\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1429,
+      "title": "Attack on Titan",
+      "language": "japanese",
+      "year": 2013,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video 5TBu6e1IC_0 (Original Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 95479,
+      "title": "JUJUTSU KAISEN",
+      "language": "japanese",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 71446,
+      "title": "Money Heist",
+      "language": "spanish",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video Cl2Z_iog0cM (Lord, All Men Can't Be Dogs - Trailer), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 76669,
+      "title": "Elite",
+      "language": "spanish",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video qgZPmRjYAbs (Places in the Heart (Winnie the Pooh: A Valentine for You)), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 63351,
+      "title": "Narcos",
+      "language": "spanish",
+      "year": 2015,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 146176,
+      "title": "Berlin",
+      "language": "spanish",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 96677,
+      "title": "Lupin",
+      "language": "french",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 93811,
+      "title": "Into the Night",
+      "language": "french",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 92916,
+      "title": "Marianne",
+      "language": "french",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 70613,
+      "title": "Black Spot (Zone Blanche)",
+      "language": "french",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/70613/videos returned 0 videos for title \"Black Spot (Zone Blanche)\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 70523,
+      "title": "Dark",
+      "language": "german",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/70523/videos returned 0 videos for title \"Dark\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 90669,
+      "title": "1899",
+      "language": "german",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/90669/videos returned 0 videos for title \"1899\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 66980,
+      "title": "Babylon Berlin",
+      "language": "german",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video jCvlnS53gno (The Young Avenger (Trailer)), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 61068,
+      "title": "Gomorrah",
+      "language": "italian",
+      "year": 2014,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/61068/videos returned 0 videos for title \"Gomorrah\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 73671,
+      "title": "Suburra: Blood on Rome",
+      "language": "italian",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/73671/videos returned 0 videos for title \"Suburra: Blood on Rome\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 78154,
+      "title": "My Brilliant Friend",
+      "language": "italian",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 69050,
+      "title": "3%",
+      "language": "portuguese",
+      "year": 2016,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/69050/videos returned 0 videos for title \"3%\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 110529,
+      "title": "Invisible City",
+      "language": "portuguese",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 78074,
+      "title": "Sintonia",
+      "language": "portuguese",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 110115,
+      "title": "Good Morning, Verônica",
+      "language": "portuguese",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video JoLKdE_qb6g (THE BILL DOUGLAS TRILOGY (My Childhood)), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 75964,
+      "title": "Byomkesh",
+      "language": "bengali",
+      "year": 2017,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 85930,
+      "title": "Eken Babu",
+      "language": "bengali",
+      "year": 2018,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/85930/videos returned 0 videos for title \"Eken Babu\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 115260,
+      "title": "Feluda Pherot",
+      "language": "bengali",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/115260/videos returned 0 videos for title \"Feluda Pherot\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 153871,
+      "title": "Gora",
+      "language": "bengali",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 101644,
+      "title": "Samantar",
+      "language": "marathi",
+      "year": 2020,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video 759Ky0fgWgg (La repentie - 2002), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 89080,
+      "title": "City of Dreams",
+      "language": "marathi",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 199317,
+      "title": "Pet Puraan",
+      "language": "marathi",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/199317/videos returned 0 videos for title \"Pet Puraan\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 124930,
+      "title": "Vitthal Teedi",
+      "language": "gujarati",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 230034,
+      "title": "Kohrra",
+      "language": "punjabi",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 136460,
+      "title": "Tabbar",
+      "language": "punjabi",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 240518,
+      "title": "Chamak",
+      "language": "punjabi",
+      "year": 2023,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 90761,
+      "title": "The Untamed",
+      "language": "chinese",
+      "year": 2019,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/90761/videos returned 0 videos for title \"The Untamed\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 108545,
+      "title": "3 Body Problem",
+      "language": "chinese",
+      "year": 2024,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB has video fdBBaou5Gkw (Evil of Dracula (1974) ORIGINAL TRAILER [HD 1080p]), but it was not stored or surfaced in DB",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 198002,
+      "title": "Word of Honor",
+      "language": "chinese",
+      "year": 2021,
+      "stored_video_ids": [],
+      "status": "NO_VIDEO_FOUND",
+      "exact_reason": "TMDB /movie/198002/videos returned 0 videos for title \"Word of Honor\"",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 204658,
+      "title": "Gangs of Puri",
+      "language": "odia",
+      "year": 2022,
+      "stored_video_ids": [],
+      "status": "API_ERROR",
+      "exact_reason": "TMDB API error HTTP 404: Request failed with status code 404",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1234139,
+      "title": "Jailer 2",
+      "language": "ta",
+      "year": 2026,
+      "stored_video_ids": [
+        "Y5BeWdODPqo",
+        "Y5BeWdODPqo"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (Y5BeWdODPqo)",
+      "validated_video_id": "Y5BeWdODPqo"
+    },
+    {
+      "movie_id": 656908,
+      "title": "Ramayana",
+      "language": "hi",
+      "year": 2026,
+      "stored_video_ids": [
+        "74nF-FWAS6M",
+        "74nF-FWAS6M"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (74nF-FWAS6M)",
+      "validated_video_id": "74nF-FWAS6M"
+    },
+    {
+      "movie_id": 881903,
+      "title": "Spirit",
+      "language": "te",
+      "year": null,
+      "stored_video_ids": [
+        "_bB_W09hE_s",
+        "_bB_W09hE_s"
+      ],
+      "status": "VIDEO_REMOVED/PRIVATE",
+      "exact_reason": "YouTube oEmbed HTTP 404: Video private, removed or invalid",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1003596,
+      "title": "Avengers: Doomsday",
+      "language": "en",
+      "year": 2026,
+      "stored_video_ids": [
+        "nxDMRvDr4AQ",
+        "irVNGjRFZGk",
+        "X1aFkAkFASk"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (nxDMRvDr4AQ)",
+      "validated_video_id": "nxDMRvDr4AQ"
+    },
+    {
+      "movie_id": 1389379,
+      "title": "Ranabaali",
+      "language": "te",
+      "year": 2026,
+      "stored_video_ids": [
+        "6Gf0F1z3fL4",
+        "6Gf0F1z3fL4"
+      ],
+      "status": "VIDEO_REMOVED/PRIVATE",
+      "exact_reason": "YouTube oEmbed HTTP 404: Video private, removed or invalid",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1782793,
+      "title": "Marriage Party",
+      "language": "kn",
+      "year": 2026,
+      "stored_video_ids": [
+        "xV_Bja2Gy04",
+        "xV_Bja2Gy04"
+      ],
+      "status": "VIDEO_REMOVED/PRIVATE",
+      "exact_reason": "YouTube oEmbed HTTP 404: Video private, removed or invalid",
+      "validated_video_id": null
+    },
+    {
+      "movie_id": 1400940,
+      "title": "Clayface",
+      "language": "en",
+      "year": 2026,
+      "stored_video_ids": [
+        "6IxPD-jNdwM",
+        "OGO4Mqvo3jI"
+      ],
+      "status": "OK",
+      "exact_reason": "Playable official video confirmed (6IxPD-jNdwM)",
+      "validated_video_id": "6IxPD-jNdwM"
+    }
+  ],
+  "checked_at": "2026-10-14T11:05:22.041Z"
+}

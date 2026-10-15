@@ -107,6 +107,9 @@ export const authApi = {
 
   me: () =>
     request<{ user: import('../types').User }>('/api/auth/me'),
+
+  updateProfile: (name: string) =>
+    request<{ user: import('../types').User }>('/api/auth/me', { method: 'PATCH', body: { name } }),
 };
 
 // ── Analyze endpoint ─────────────────────────────────────────────────────────

@@ -36,6 +36,8 @@ const Review = sequelize.define('Review', {
   positive_score: { type: DataTypes.FLOAT, allowNull: false },
   neutral_score: { type: DataTypes.FLOAT, allowNull: false },
   negative_score: { type: DataTypes.FLOAT, allowNull: false },
+  media_type: { type: DataTypes.STRING, defaultValue: 'movie' },
+  season_number: { type: DataTypes.INTEGER, allowNull: true },
 });
 
 const Movie = sequelize.define('Movie', {
@@ -95,6 +97,29 @@ const MovieVideo = sequelize.define('MovieVideo', {
   is_official: { type: DataTypes.BOOLEAN, defaultValue: true },
   sort_order: { type: DataTypes.INTEGER, defaultValue: 0 },
   published_at: { type: DataTypes.STRING, allowNull: true },
+  embeddable: { type: DataTypes.BOOLEAN, defaultValue: true },
+  checked_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  source: { type: DataTypes.STRING, defaultValue: 'auto' }, // 'tmdb' | 'youtube_search' | 'manual'
+  status: { type: DataTypes.STRING, defaultValue: 'OK' }, // 'OK' | 'NEEDS_REVIEW' | 'NOT_EMBEDDABLE' | 'VIDEO_REMOVED' | 'QUOTA_EXCEEDED'
+  channel_title: { type: DataTypes.STRING, allowNull: true },
+  channel_id: { type: DataTypes.STRING, allowNull: true },
+  score: { type: DataTypes.FLOAT, allowNull: true },
+  diagnostic_reason: { type: DataTypes.TEXT, allowNull: true },
+});
+
+const OfficialChannel = sequelize.define('OfficialChannel', {
+  channel_id: { type: DataTypes.STRING, allowNull: false, unique: true },
+  channel_name: { type: DataTypes.STRING, allowNull: false },
+  is_whitelisted: { type: DataTypes.BOOLEAN, defaultValue: true },
+  category: { type: DataTypes.STRING, defaultValue: 'Production House' },
+});
+
+const SourceLog = sequelize.define('SourceLog', {
+  movie_id: { type: DataTypes.INTEGER, allowNull: true },
+  action: { type: DataTypes.STRING, allowNull: false }, // 'tmdb_fetch', 'youtube_search', 'embed_check', 'manual_override', 'nightly_revalidate'
+  status: { type: DataTypes.STRING, allowNull: false }, // 'OK', 'ERROR', 'FALLBACK', 'REJECTED'
+  details: { type: DataTypes.TEXT, allowNull: true },
+  timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
 });
 
 const VideoStatsSnapshot = sequelize.define('VideoStatsSnapshot', {
@@ -168,15 +193,225 @@ const AdminLog = sequelize.define('AdminLog', {
   details: { type: DataTypes.TEXT, allowNull: true },
 });
 
+/* ── Universal Catalog: Series, Seasons & Episodes Models ──── */
+
+const Series = sequelize.define('Series', {
+  tmdb_id: { type: DataTypes.INTEGER, allowNull: false, unique: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  original_name: { type: DataTypes.STRING, allowNull: true },
+  original_language: { type: DataTypes.STRING, allowNull: true, defaultValue: 'en' },
+  first_air_date: { type: DataTypes.STRING, allowNull: true },
+  last_air_date: { type: DataTypes.STRING, allowNull: true },
+  status: { type: DataTypes.STRING, defaultValue: 'Returning Series' }, // Returning Series | Ended | Canceled | In Production | Planned
+  number_of_seasons: { type: DataTypes.INTEGER, defaultValue: 0 },
+  number_of_episodes: { type: DataTypes.INTEGER, defaultValue: 0 },
+  type: { type: DataTypes.STRING, defaultValue: 'Scripted' }, // Scripted | Reality | Documentary | Talk Show | News | Miniseries
+  genres: { type: DataTypes.TEXT, allowNull: true }, // JSON array string
+  networks: { type: DataTypes.TEXT, allowNull: true }, // JSON array of network objects
+  poster_path: { type: DataTypes.STRING, allowNull: true },
+  backdrop_path: { type: DataTypes.STRING, allowNull: true },
+  overview: { type: DataTypes.TEXT, allowNull: true },
+  vote_average: { type: DataTypes.FLOAT, defaultValue: 0 },
+  vote_count: { type: DataTypes.INTEGER, defaultValue: 0 },
+  popularity: { type: DataTypes.FLOAT, defaultValue: 0 },
+  next_episode_to_air: { type: DataTypes.TEXT, allowNull: true }, // JSON string
+  content_ratings: { type: DataTypes.TEXT, allowNull: true }, // JSON string
+  tagline: { type: DataTypes.STRING, allowNull: true },
+  origin_country: { type: DataTypes.TEXT, allowNull: true }, // JSON string
+  created_by: { type: DataTypes.TEXT, allowNull: true }, // JSON string
+  is_hidden: { type: DataTypes.BOOLEAN, defaultValue: false },
+  last_synced_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+});
+
+const Season = sequelize.define('Season', {
+  series_tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  season_number: { type: DataTypes.INTEGER, allowNull: false },
+  name: { type: DataTypes.STRING, allowNull: true },
+  overview: { type: DataTypes.TEXT, allowNull: true },
+  poster_path: { type: DataTypes.STRING, allowNull: true },
+  air_date: { type: DataTypes.STRING, allowNull: true },
+  episode_count: { type: DataTypes.INTEGER, defaultValue: 0 },
+});
+
+const Episode = sequelize.define('Episode', {
+  series_tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  season_number: { type: DataTypes.INTEGER, allowNull: false },
+  episode_number: { type: DataTypes.INTEGER, allowNull: false },
+  name: { type: DataTypes.STRING, allowNull: true },
+  air_date: { type: DataTypes.STRING, allowNull: true },
+  runtime: { type: DataTypes.INTEGER, allowNull: true },
+  overview: { type: DataTypes.TEXT, allowNull: true },
+  still_path: { type: DataTypes.STRING, allowNull: true },
+  vote_average: { type: DataTypes.FLOAT, defaultValue: 0 },
+});
+
+const SeriesCast = sequelize.define('SeriesCast', {
+  series_tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  tmdb_person_id: { type: DataTypes.INTEGER, allowNull: false },
+  name: { type: DataTypes.STRING, allowNull: false },
+  character: { type: DataTypes.STRING, allowNull: true },
+  profile_path: { type: DataTypes.STRING, allowNull: true },
+  order: { type: DataTypes.INTEGER, defaultValue: 0 },
+  known_for_department: { type: DataTypes.STRING, defaultValue: 'Acting' },
+});
+
+const SeriesVideo = sequelize.define('SeriesVideo', {
+  series_tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  youtube_id: { type: DataTypes.STRING, allowNull: false },
+  title: { type: DataTypes.STRING, allowNull: true },
+  type: { type: DataTypes.STRING, defaultValue: 'trailer' }, // trailer | teaser | clip
+  language: { type: DataTypes.STRING, allowNull: true },
+  is_official: { type: DataTypes.BOOLEAN, defaultValue: true },
+});
+
+/* ── Networks, OTT Providers & Universal Search Models ─────── */
+
+const Network = sequelize.define('Network', {
+  tmdb_id: { type: DataTypes.INTEGER, allowNull: false, unique: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  logo_path: { type: DataTypes.STRING, allowNull: true },
+  origin_country: { type: DataTypes.STRING, allowNull: true },
+  homepage: { type: DataTypes.STRING, allowNull: true },
+  slug: { type: DataTypes.STRING, allowNull: false, unique: true },
+});
+
+const WatchProvider = sequelize.define('WatchProvider', {
+  provider_id: { type: DataTypes.INTEGER, allowNull: false, unique: true },
+  provider_name: { type: DataTypes.STRING, allowNull: false },
+  logo_path: { type: DataTypes.STRING, allowNull: true },
+  slug: { type: DataTypes.STRING, allowNull: false, unique: true },
+  display_priority: { type: DataTypes.INTEGER, defaultValue: 0 },
+});
+
+const ContentProvider = sequelize.define('ContentProvider', {
+  content_id: { type: DataTypes.INTEGER, allowNull: false },
+  media_type: { type: DataTypes.STRING, allowNull: false }, // 'movie' | 'tv'
+  title: { type: DataTypes.STRING, allowNull: true },
+  provider_id: { type: DataTypes.INTEGER, allowNull: false },
+  provider_name: { type: DataTypes.STRING, allowNull: true },
+  logo_path: { type: DataTypes.STRING, allowNull: true },
+  region: { type: DataTypes.STRING, defaultValue: 'IN' },
+  type: { type: DataTypes.STRING, defaultValue: 'stream' }, // stream | rent | buy | ads | free
+  deep_link: { type: DataTypes.STRING, allowNull: true },
+});
+
+const Person = sequelize.define('Person', {
+  tmdb_id: { type: DataTypes.INTEGER, allowNull: false, unique: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  original_name: { type: DataTypes.STRING, allowNull: true },
+  profile_path: { type: DataTypes.STRING, allowNull: true },
+  known_for_department: { type: DataTypes.STRING, allowNull: true },
+  popularity: { type: DataTypes.FLOAT, defaultValue: 0 },
+  biography: { type: DataTypes.TEXT, allowNull: true },
+  place_of_birth: { type: DataTypes.STRING, allowNull: true },
+  birthday: { type: DataTypes.STRING, allowNull: true },
+});
+
+const PersonCredit = sequelize.define('PersonCredit', {
+  person_tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  media_type: { type: DataTypes.STRING, allowNull: false }, // 'movie' | 'tv'
+  content_tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  title: { type: DataTypes.STRING, allowNull: false },
+  character_or_job: { type: DataTypes.STRING, allowNull: true },
+  release_or_air_date: { type: DataTypes.STRING, allowNull: true },
+  poster_path: { type: DataTypes.STRING, allowNull: true },
+});
+
+const IngestionQueue = sequelize.define('IngestionQueue', {
+  tmdb_id: { type: DataTypes.INTEGER, allowNull: false },
+  media_type: { type: DataTypes.STRING, allowNull: false }, // 'movie' | 'tv'
+  priority: { type: DataTypes.INTEGER, defaultValue: 10 },
+  status: { type: DataTypes.STRING, defaultValue: 'pending' }, // pending | processing | completed | failed
+  language: { type: DataTypes.STRING, allowNull: true },
+  retries: { type: DataTypes.INTEGER, defaultValue: 0 },
+  last_error: { type: DataTypes.TEXT, allowNull: true },
+});
+
+const SearchIndex = sequelize.define('SearchIndex', {
+  entity_type: { type: DataTypes.STRING, allowNull: false }, // 'movie' | 'tv' | 'person' | 'channel' | 'platform'
+  entity_id: { type: DataTypes.STRING, allowNull: false },
+  title: { type: DataTypes.STRING, allowNull: false },
+  original_title: { type: DataTypes.STRING, allowNull: true },
+  normalized_title: { type: DataTypes.STRING, allowNull: true },
+  script_aliases: { type: DataTypes.TEXT, allowNull: true }, // JSON string array of multilingual scripts & transliterations
+  tokens: { type: DataTypes.TEXT, allowNull: true },
+  language: { type: DataTypes.STRING, allowNull: true },
+  year: { type: DataTypes.INTEGER, allowNull: true },
+  popularity: { type: DataTypes.FLOAT, defaultValue: 0 },
+  vote_average: { type: DataTypes.FLOAT, defaultValue: 0 },
+  poster_path: { type: DataTypes.STRING, allowNull: true },
+  backdrop_path: { type: DataTypes.STRING, allowNull: true },
+  extra_meta: { type: DataTypes.TEXT, allowNull: true }, // JSON string for genres, network names, provider names, character, etc.
+});
+
+const SearchLog = sequelize.define('SearchLog', {
+  query: { type: DataTypes.STRING, allowNull: false },
+  normalized_query: { type: DataTypes.STRING, allowNull: false },
+  results_count: { type: DataTypes.INTEGER, defaultValue: 0 },
+  timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+});
+
 /* ── Relationships ────────────────────────────────────────── */
 User.hasMany(Review, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 Review.belongsTo(User, { foreignKey: 'user_id' });
+
+Series.hasMany(Season, { foreignKey: 'series_tmdb_id', sourceKey: 'tmdb_id', onDelete: 'CASCADE' });
+Season.belongsTo(Series, { foreignKey: 'series_tmdb_id', targetKey: 'tmdb_id' });
+
+Series.hasMany(Episode, { foreignKey: 'series_tmdb_id', sourceKey: 'tmdb_id', onDelete: 'CASCADE' });
+Episode.belongsTo(Series, { foreignKey: 'series_tmdb_id', targetKey: 'tmdb_id' });
+
+Series.hasMany(SeriesCast, { foreignKey: 'series_tmdb_id', sourceKey: 'tmdb_id', onDelete: 'CASCADE' });
+SeriesCast.belongsTo(Series, { foreignKey: 'series_tmdb_id', targetKey: 'tmdb_id' });
+
+Series.hasMany(SeriesVideo, { foreignKey: 'series_tmdb_id', sourceKey: 'tmdb_id', onDelete: 'CASCADE' });
+SeriesVideo.belongsTo(Series, { foreignKey: 'series_tmdb_id', targetKey: 'tmdb_id' });
 
 /* ── Comprehensive Real Data Seeding ──────────────────────── */
 
 async function seedDefaultMovies() {
   try {
     await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN published_at VARCHAR(255);').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN embeddable BOOLEAN DEFAULT 1;').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN checked_at DATETIME;').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN source VARCHAR(50) DEFAULT "auto";').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN status VARCHAR(50) DEFAULT "OK";').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN channel_title VARCHAR(255);').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN channel_id VARCHAR(255);').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN score FLOAT;').catch(() => {});
+    await sequelize.query('ALTER TABLE MovieVideos ADD COLUMN diagnostic_reason TEXT;').catch(() => {});
+    await sequelize.query('ALTER TABLE Reviews ADD COLUMN media_type VARCHAR(20) DEFAULT "movie";').catch(() => {});
+    await sequelize.query('ALTER TABLE Reviews ADD COLUMN season_number INTEGER;').catch(() => {});
+
+    // Seed Official Channels Whitelist
+    const officialChannels = [
+      { channel_id: 'UCq-Fj5jknLsUf-MWSy4_brA', channel_name: 'T-Series', category: 'Music & Production' },
+      { channel_id: 'UCFFbwnve3yF62-tVXkTyHqg', channel_name: 'Zee Music Company', category: 'Music & Production' },
+      { channel_id: 'UC56gTxKC4xJyAcvXlC_h5jA', channel_name: 'Sony Music South', category: 'Music & Production' },
+      { channel_id: 'UC_A7KZZslfltqf7X_yP15kw', channel_name: 'Lahari Music / T-Series Kannada', category: 'Music & Production' },
+      { channel_id: 'UCJ8iWw2xK8Nl7cR4eX5Q1kA', channel_name: 'KVN Productions', category: 'Production House' },
+      { channel_id: 'UC_1c0e3I6p0q1V2fV5_j7kA', channel_name: 'Hombale Films', category: 'Production House' },
+      { channel_id: 'UCc1bC_1B3e1c6b1_v4Q1_jA', channel_name: 'Sun Pictures', category: 'Production House' },
+      { channel_id: 'UCbTLwN10NoCU4WDzLf1JMOA', channel_name: 'Yash Raj Films', category: 'Production House' },
+      { channel_id: 'UCvC4D8onUfXzvjTOM-dBfEA', channel_name: 'Marvel Entertainment', category: 'Studio' },
+      { channel_id: 'UCjmJDM5pRKbUlVIzDYYWb6g', channel_name: 'Warner Bros. Pictures', category: 'Studio' },
+      { channel_id: 'UCq0OueAsdxH6b8nyAspwViw', channel_name: 'Universal Pictures', category: 'Studio' },
+      { channel_id: 'UCF9imwPMSGz4Vq1NiTWCC7g', channel_name: 'Paramount Pictures', category: 'Studio' },
+      { channel_id: 'UC_4V7y_mP5j1_s8M6k7o_lA', channel_name: 'Walt Disney Studios', category: 'Studio' },
+      { channel_id: 'UC2-BeLxzUBSs0uS4865AECA', channel_name: '20th Century Studios', category: 'Studio' },
+      { channel_id: 'UC_bC8_1k7_j7_k1_1_A', channel_name: 'Mythri Movie Makers', category: 'Production House' },
+      { channel_id: 'UC_7_1k_b_1_j_A', channel_name: 'Sri Venkateswara Creations', category: 'Production House' },
+      { channel_id: 'UC_4_1_j_k_b_1_A', channel_name: 'Lyca Productions', category: 'Production House' },
+      { channel_id: 'UC_7_1k_A_j_1_A', channel_name: 'Reliance Entertainment', category: 'Production House' },
+      { channel_id: 'UCANLZYMidaCbLQFWXBC95Jg', channel_name: 'Rotten Tomatoes Classic Trailers', category: 'Official Trailer Distributor' },
+    ];
+
+    for (const ch of officialChannels) {
+      await OfficialChannel.findOrCreate({
+        where: { channel_id: ch.channel_id },
+        defaults: ch,
+      });
+    }
 
     // 1. Movie Table (Legacy / Movie Details)
     const count = await Movie.count({ where: { trailer_youtube_id: 'EfluEyQ5QIA' } });
@@ -687,5 +922,20 @@ module.exports = {
   FanDiscussion,
   RelatedNews,
   AdminLog,
+  OfficialChannel,
+  SourceLog,
+  Series,
+  Season,
+  Episode,
+  SeriesCast,
+  SeriesVideo,
+  Network,
+  WatchProvider,
+  ContentProvider,
+  Person,
+  PersonCredit,
+  IngestionQueue,
+  SearchIndex,
+  SearchLog,
   seedDefaultMovies,
 };

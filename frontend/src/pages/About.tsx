@@ -61,10 +61,10 @@ Visualization`}
                 { name: 'TypeScript', type: 'Language' },
                 { name: 'Tailwind CSS', type: 'Styling' },
                 { name: 'Recharts', type: 'Charts' },
-                { name: 'Python', type: 'Backend' },
-                { name: 'Flask', type: 'API' },
-                { name: 'NLTK', type: 'NLP Engine' },
-                { name: 'SQLite', type: 'Database' },
+                { name: 'Node.js', type: 'Backend' },
+                { name: 'Express', type: 'API' },
+                { name: 'VADER Sentiment', type: 'NLP Engine' },
+                { name: 'Supabase / SQLite', type: 'Database' },
               ].map(tech => (
                 <div key={tech.name} className={cn(
                   'rounded-lg border p-4 text-center transition-all hover:-translate-y-0.5',

@@ -3,81 +3,87 @@ const router = express.Router();
 const { Movie, MovieVideo } = require('../database');
 const { Op } = require('sequelize');
 
+const { resolveMovieVideos } = require('../services/trailerResolver');
+const { SourceLog } = require('../database');
+
 // GET /api/movies/videos/:tmdbId — returns typed video list (teaser/trailer/clip/song)
 router.get('/videos/:tmdbId', async (req, res) => {
   try {
     const tmdbId = parseInt(req.params.tmdbId, 10);
     if (isNaN(tmdbId)) return res.status(400).json({ error: 'Invalid tmdb_id' });
 
-    let videos = await MovieVideo.findAll({
-      where: { tmdb_id: tmdbId, is_official: true },
-      order: [['sort_order', 'ASC'], ['type', 'ASC']],
+    // Look up movie details for context
+    const movie = await Movie.findOne({ where: { tmdb_id: tmdbId } });
+
+    const result = await resolveMovieVideos({
+      tmdb_id: tmdbId,
+      title: movie?.title || '',
+      year: movie?.year || null,
+      language: movie?.language || 'en',
     });
 
-    if (videos.length === 0) {
-      // Check Movie table
-      const movie = await Movie.findOne({ where: { tmdb_id: tmdbId } });
-      if (movie && movie.trailer_youtube_id) {
-        await MovieVideo.create({
-          tmdb_id: tmdbId,
-          youtube_id: movie.trailer_youtube_id,
-          type: 'trailer',
-          title: `${movie.title} — Official Trailer`,
-          language: (movie.language || 'en').toLowerCase(),
-          is_official: true,
-          sort_order: 0,
-        });
-        videos = await MovieVideo.findAll({
-          where: { tmdb_id: tmdbId, is_official: true },
-          order: [['sort_order', 'ASC'], ['type', 'ASC']],
-        });
-      }
-    }
-
-    if (videos.length === 0) {
-      // Fetch from TMDB API
-      try {
-        const TMDB_TOKEN = process.env.TMDB_TOKEN || "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
-        const axios = require('axios');
-        const vRes = await axios.get(`https://api.tmdb.org/3/movie/${tmdbId}/videos`, {
-          headers: { Authorization: `Bearer ${TMDB_TOKEN}`, accept: 'application/json' },
-          timeout: 6000,
-        });
-        const vResults = (vRes.data?.results || []).filter(v => v.site === 'YouTube');
-        if (vResults.length > 0) {
-          const toInsert = vResults.slice(0, 5).map((v, idx) => ({
-            tmdb_id: tmdbId,
-            youtube_id: v.key,
-            type: v.type?.toLowerCase() === 'teaser' ? 'teaser' : 'trailer',
-            title: v.name,
-            language: v.iso_639_1 || 'en',
-            is_official: v.official ?? true,
-            sort_order: idx,
-          }));
-          await MovieVideo.bulkCreate(toInsert);
-          videos = await MovieVideo.findAll({
-            where: { tmdb_id: tmdbId, is_official: true },
-            order: [['sort_order', 'ASC'], ['type', 'ASC']],
-          });
-        }
-      } catch (e) {
-        console.warn('TMDB video fetch notice in movies router:', e.message);
-      }
-    }
+    const videos = result.videos || [];
+    const isEmbeddable = videos.some(v => v.embeddable !== false);
 
     return res.json({
       tmdb_id: tmdbId,
+      status: result.status,
+      source: result.source,
+      has_video: videos.length > 0,
+      embeddable: isEmbeddable,
       videos: videos.map(v => ({
         youtube_id: v.youtube_id,
         type: v.type,
         title: v.title,
         language: v.language,
         is_official: v.is_official,
+        embeddable: v.embeddable !== false,
+        source: v.source,
       })),
     });
   } catch (err) {
     console.error('Error fetching movie videos:', err.message);
     res.status(500).json({ error: 'Server error retrieving videos' });
+  }
+});
+
+// POST /api/movies/report-video-error — IFrame Player error telemetry (2, 5, 100, 101, 150)
+router.post('/report-video-error', async (req, res) => {
+  try {
+    const { tmdb_id, youtube_id, error_code, error_message } = req.body;
+    const tmdbId = parseInt(tmdb_id, 10);
+    if (!tmdbId || !youtube_id) {
+      return res.status(400).json({ error: 'tmdb_id and youtube_id are required' });
+    }
+
+    const isNotEmbeddable = error_code === 150 || error_code === 101;
+    const status = isNotEmbeddable ? 'NOT_EMBEDDABLE' : 'VIDEO_REMOVED/PRIVATE';
+
+    await MovieVideo.update(
+      {
+        status,
+        embeddable: false,
+        diagnostic_reason: `Reported by player onError code ${error_code}: ${error_message || 'Playback blocked'}`,
+        checked_at: new Date(),
+      },
+      {
+        where: { tmdb_id: tmdbId, youtube_id },
+      }
+    );
+
+    await SourceLog.create({
+      movie_id: tmdbId,
+      action: 'player_error',
+      status,
+      details: `Player reported onError code ${error_code} for video ${youtube_id}`,
+    }).catch(() => {});
+
+    console.log(`[Player Telemetry] Flagged video ${youtube_id} as ${status} (error ${error_code}) for movie ${tmdbId}`);
+
+    res.json({ success: true, status, error_code });
+  } catch (err) {
+    console.error('Error reporting video failure:', err);
+    res.status(500).json({ error: 'Failed to record error' });
   }
 });
 

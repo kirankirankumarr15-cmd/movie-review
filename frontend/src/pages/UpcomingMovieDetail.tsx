@@ -278,8 +278,8 @@ export default function UpcomingMovieDetail() {
                 </div>
               </div>
 
-              {/* Centered Play Button (Direct on screen player) */}
-              {hasVideos && (
+              {/* Centered Play Button (Direct on screen player) or Trailer not available yet badge */}
+              {hasVideos ? (
                 <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
                   <button
                     ref={playButtonRef}
@@ -289,6 +289,13 @@ export default function UpcomingMovieDetail() {
                   >
                     <Play className="text-white ml-1 group-hover:scale-110 transition-transform" fill="white" size={32} />
                   </button>
+                </div>
+              ) : (
+                <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                  <div className="px-4 py-2.5 rounded-2xl bg-black/65 backdrop-blur-md border border-white/15 text-xs text-slate-300 font-semibold flex items-center gap-2 shadow-xl">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                    <span>Trailer not available yet</span>
+                  </div>
                 </div>
               )}
             </motion.div>

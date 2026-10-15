@@ -19,6 +19,7 @@ import Explore from './pages/Explore';
 import MovieDetails from './pages/MovieDetails';
 import Upcoming from './pages/Upcoming';
 import UpcomingMovieDetail from './pages/UpcomingMovieDetail';
+import TrailerDiagnostics from './pages/TrailerDiagnostics';
 
 function AppContent() {
   const { theme } = useTheme();
@@ -33,6 +34,8 @@ function AppContent() {
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/upcoming" element={<Upcoming />} />
           <Route path="/upcoming/:id" element={<UpcomingMovieDetail />} />
+          <Route path="/admin/diagnostics" element={<TrailerDiagnostics />} />
+          <Route path="/diagnostics" element={<TrailerDiagnostics />} />
           <Route path="/analyzer" element={<Analyzer />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/about" element={<About />} />

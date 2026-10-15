@@ -109,15 +109,22 @@ npm run dev
 | POST | `/api/auth/login` | No | Authenticate user & get JWT |
 | POST | `/api/auth/logout` | Yes | Logout |
 | GET | `/api/auth/me` | Yes | Get current user profile |
-| POST | `/api/analyze` | Optional | Analyze sentiment (saves to Supabase if logged in) |
-| GET | `/api/reviews` | Yes | Get user's review history |
+| PATCH | `/api/auth/me` | Yes | Update display name |
+| POST | `/api/analyze` | Optional | Analyze sentiment (saves to DB if logged in) |
+| GET | `/api/reviews` | Yes | Get user's review history (filterable & sortable) |
 | DELETE | `/api/reviews/:id`| Yes | Delete a specific review |
 | GET | `/api/stats` | Yes | Get analytics dashboard stats |
+
+## Running Backend in Dev Mode (Hot Reload)
+```bash
+cd backend
+npm run dev   # Uses nodemon for automatic restart on file changes
+```
 
 ## Limitations & Future Improvements
 - **Context/Sarcasm**: VADER is a lexicon and rule-based sentiment analysis tool. It struggles with deep context, irony, or heavy sarcasm.
 - **Future Improvement**: Upgrade the NLP engine from VADER to a transformer-based model via Hugging Face for better contextual understanding.
-- **Future Improvement**: Add pagination to the Review History endpoint.
+- **Pagination**: Currently handled client-side (10 per page). Future improvement: server-side cursor pagination for very large datasets.
 
 ## License
 MIT License

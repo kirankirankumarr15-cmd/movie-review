@@ -209,7 +209,31 @@ export default function HeroPlayer({
           },
           onError: (e: any) => {
             if (destroyed) return;
-            console.warn('YouTube Player error code:', e?.data);
+            const errCode = e?.data;
+            console.warn('YouTube Player error code:', errCode);
+
+            // Report telemetry to server
+            if (activeVideo?.youtube_id) {
+              fetch('http://localhost:5000/api/movies/report-video-error', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  youtube_id: activeVideo.youtube_id,
+                  error_code: errCode,
+                  error_message: `YouTube IFrame API onError event code: ${errCode}`,
+                }),
+              }).catch(() => {});
+            }
+
+            // Automatically try next stored video if multiple exist
+            const currentIndex = videos.findIndex(v => v.youtube_id === activeVideo.youtube_id);
+            if (currentIndex !== -1 && currentIndex + 1 < videos.length) {
+              const nextVideo = videos[currentIndex + 1];
+              console.log('Automatically switching to next stored video:', nextVideo.title || nextVideo.youtube_id);
+              setActiveVideo(nextVideo);
+              return;
+            }
+
             // If controls:0 or origin caused 150/153/2/101, try standard controls fallback once
             if (!fallbackAttemptedRef.current) {
               fallbackAttemptedRef.current = true;
@@ -235,6 +259,7 @@ export default function HeroPlayer({
                 return;
               }
             }
+
             setHasError(true);
             setPlayerReady(true);
           },

@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion';
-import { User as UserIcon, LogOut, LayoutDashboard, History as HistoryIcon } from 'lucide-react';
+import { User as UserIcon, LogOut, LayoutDashboard, History as HistoryIcon, Pencil, Check, X } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import { Link, useNavigate } from 'react-router-dom';
 import { cn, formatDate } from '../lib/utils';
 import { useEffect, useState } from 'react';
-import { statsApi } from '../services/api';
+import { statsApi, authApi } from '../services/api';
 import type { Stats } from '../types';
 import LoadingState from '../components/LoadingState';
+import { toast } from 'sonner';
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -16,6 +17,9 @@ export default function Profile() {
   const isDark = theme === 'dark';
   const [stats, setStats] = useState<Stats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState('');
+  const [savingName, setSavingName] = useState(false);
 
   useEffect(() => {
     statsApi.get()
@@ -24,12 +28,31 @@ export default function Profile() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  if (!user) return null;
+  const handleSaveName = async () => {
+    if (!nameInput.trim() || nameInput.trim() === user?.name) {
+      setEditingName(false);
+      return;
+    }
+    setSavingName(true);
+    try {
+      await authApi.updateProfile(nameInput.trim());
+      toast.success('Name updated successfully!');
+      // Reload user — the page will reflect the new name on next auth refresh
+      window.location.reload();
+    } catch (err: any) {
+      toast.error(err?.message || 'Failed to update name.');
+    } finally {
+      setSavingName(false);
+      setEditingName(false);
+    }
+  };
 
   const handleLogout = async () => {
     await logout();
     navigate('/');
   };
+
+  if (!user) return null;
 
   return (
     <main className="pt-16 min-h-screen">
@@ -49,9 +72,34 @@ export default function Profile() {
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1">
-              <h1 className={cn('font-display text-3xl font-bold mb-1', isDark ? 'text-white' : 'text-slate-900')}>
-                {user.name}
-              </h1>
+              {editingName ? (
+                <div className="flex items-center gap-2 mb-1">
+                  <input
+                    autoFocus
+                    value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleSaveName(); if (e.key === 'Escape') setEditingName(false); }}
+                    className={cn('input text-xl font-bold py-1 px-2 max-w-[220px]', isDark ? 'bg-[#16161f]' : 'bg-white')}
+                    maxLength={60}
+                    disabled={savingName}
+                  />
+                  <button onClick={handleSaveName} disabled={savingName} className="text-green-400 hover:text-green-300 transition-colors" title="Save"><Check size={18} /></button>
+                  <button onClick={() => setEditingName(false)} className="text-slate-500 hover:text-slate-300 transition-colors" title="Cancel"><X size={18} /></button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 mb-1">
+                  <h1 className={cn('font-display text-3xl font-bold', isDark ? 'text-white' : 'text-slate-900')}>
+                    {user.name}
+                  </h1>
+                  <button
+                    onClick={() => { setNameInput(user.name); setEditingName(true); }}
+                    className={cn('p-1 rounded transition-colors', isDark ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600')}
+                    title="Edit name"
+                  >
+                    <Pencil size={14} />
+                  </button>
+                </div>
+              )}
               <p className={cn('text-sm mb-4', isDark ? 'text-slate-400' : 'text-slate-500')}>
                 {user.email}
               </p>

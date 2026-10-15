@@ -91,4 +91,13 @@ router.get('/me', authMiddleware, requireAuth, (req, res) => {
   res.json({ user: { id: user.id, name: user.name, email: user.email, created_at: user.createdAt } });
 });
 
+router.patch('/me', authMiddleware, requireAuth, async (req, res) => {
+  const { name } = req.body;
+  if (!name || !name.trim()) {
+    return res.status(400).json({ error: 'Name cannot be empty.' });
+  }
+  await req.user.update({ name: name.trim() });
+  res.json({ user: { id: req.user.id, name: req.user.name, email: req.user.email, created_at: req.user.createdAt } });
+});
+
 module.exports = { router, authMiddleware, requireAuth };

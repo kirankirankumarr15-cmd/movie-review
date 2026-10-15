@@ -485,8 +485,8 @@ export default function MovieDetails() {
                 <div className="w-full h-full bg-slate-900" />
               )}
 
-              {/* Play Button Overlay — only when videos exist */}
-              {heroVideos.length > 0 && (
+              {/* Play Button Overlay — or Trailer not available yet badge */}
+              {heroVideos.length > 0 ? (
                 <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
                   <button
                     ref={playButtonRef}
@@ -498,6 +498,13 @@ export default function MovieDetails() {
                   >
                     <Play className="text-white ml-1 group-hover:scale-110 transition-transform" fill="white" size={28} />
                   </button>
+                </div>
+              ) : (
+                <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                  <div className="px-4 py-2.5 rounded-2xl bg-black/65 backdrop-blur-md border border-white/15 text-xs text-slate-300 font-semibold flex items-center gap-2 shadow-xl">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                    <span>Trailer not available yet</span>
+                  </div>
                 </div>
               )}
 

@@ -13,9 +13,6 @@ router.post('/analyze', authMiddleware, async (req, res) => {
   if (!reviewText) {
     return res.status(400).json({ error: 'Review text cannot be empty.' });
   }
-  if (!movieName) {
-    return res.status(400).json({ error: 'Movie name cannot be empty.' });
-  }
   if (reviewText.length > MAX_REVIEW_LENGTH) {
     return res.status(400).json({ error: `Review must be ${MAX_REVIEW_LENGTH} characters or fewer.` });
   }

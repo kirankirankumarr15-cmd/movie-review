@@ -2,7 +2,9 @@ import { motion } from 'framer-motion';
 import type { AnalysisResult } from '../types';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '../lib/utils';
-import { Star, ThumbsUp, ThumbsDown, Film, Users, AlignCenter } from 'lucide-react';
+import { Star, ThumbsUp, ThumbsDown, Film, Users, AlignCenter, Copy, Share2, Check } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface ResultCardProps {
   result: AnalysisResult;
@@ -22,6 +24,34 @@ const fadeUp: Variants = {
 export default function ResultCard({ result }: ResultCardProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    const text = [
+      `🎬 ${result.movie.title} (${result.movie.year})`,
+      `Sentiment: ${result.userAnalysis.sentiment} (${result.userAnalysis.score}/100)`,
+      `IMDb: ${result.ratings.imdb}  |  RT: ${result.ratings.rottenTomatoes}  |  Metacritic: ${result.ratings.metacritic}`,
+      ``,
+      `Verdict: ${result.verdict}`,
+      ``,
+      `Analyzed with CineSense — https://cinesense.app`,
+    ].join('\n');
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success('Result copied to clipboard!');
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({
+        title: `CineSense — ${result.movie.title}`,
+        text: `My review of "${result.movie.title}" is ${result.userAnalysis.sentiment}. ${result.verdict}`,
+      });
+    } else {
+      handleCopy();
+    }
+  };
 
   const getSentimentColor = (sentiment: string) => {
     const s = sentiment.toLowerCase();
@@ -46,7 +76,36 @@ export default function ResultCard({ result }: ResultCardProps) {
 
   return (
     <motion.div initial="hidden" animate="visible" className="space-y-6">
-      
+
+      {/* Copy / Share toolbar */}
+      <div className="flex items-center justify-end gap-2">
+        {'share' in navigator && (
+          <button
+            onClick={handleShare}
+            className={cn(
+              'flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors',
+              isDark ? 'border-[#2a2a3d] text-slate-400 hover:bg-white/5 hover:text-slate-200' : 'border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+            )}
+            title="Share result"
+          >
+            <Share2 size={12} /> Share
+          </button>
+        )}
+        <button
+          onClick={handleCopy}
+          className={cn(
+            'flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors',
+            copied
+              ? 'border-green-500/30 text-green-400 bg-green-500/10'
+              : isDark ? 'border-[#2a2a3d] text-slate-400 hover:bg-white/5 hover:text-slate-200' : 'border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+          )}
+          title="Copy result to clipboard"
+        >
+          {copied ? <Check size={12} /> : <Copy size={12} />}
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
+      </div>
+
       {/* 1. MOVIE OVERVIEW */}
       <motion.div custom={0} variants={fadeUp} className={cn('rounded-xl border p-5 flex flex-col sm:flex-row gap-5', isDark ? 'bg-[#1a1a25] border-[#2a2a3d]' : 'bg-white border-slate-200')}>
         {result.movie.poster && (
