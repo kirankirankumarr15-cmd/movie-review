@@ -19,6 +19,40 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function isExtensionError(e) {
+                  var src = (e && (e.filename || (e.error && e.error.stack))) || '';
+                  var msg = (e && (e.message || (e.error && e.error.message))) || '';
+                  return (
+                    src.indexOf('chrome-extension://') !== -1 ||
+                    src.indexOf('moz-extension://') !== -1 ||
+                    msg.indexOf('Minified React error #299') !== -1 ||
+                    msg.indexOf('embed_script.js') !== -1
+                  );
+                }
+                window.addEventListener('error', function(event) {
+                  if (isExtensionError(event)) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    return true;
+                  }
+                }, true);
+                window.addEventListener('unhandledrejection', function(event) {
+                  if (isExtensionError(event.reason)) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    return true;
+                  }
+                }, true);
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans bg-[#0a0a0f] text-slate-100 min-h-screen antialiased flex flex-col`}>
         <Navbar />
         <main className="flex-1 flex flex-col">
