@@ -44,7 +44,7 @@ export default function SearchMovie() {
       setShowDropdown(true);
 
       try {
-        const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
+        const TMDB_TOKEN = import.meta.env.VITE_TMDB_API_KEY || import.meta.env.VITE_TMDB_TOKEN || "";
         
         const res = await fetch(`https://api.tmdb.org/3/search/movie?query=${encodeURIComponent(debouncedQuery)}&include_adult=false&page=1`, {
           headers: {

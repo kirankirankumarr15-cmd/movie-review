@@ -266,7 +266,7 @@ const INITIAL_SEED: LocalDbSchema = {
 };
 
 // Thread-safe read/write helper
-function getLocalDb(): LocalDbSchema {
+export function getLocalDb(): LocalDbSchema {
   try {
     const dir = path.dirname(DB_FILE_PATH);
     if (!fs.existsSync(dir)) {

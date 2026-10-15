@@ -1,19 +1,14 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import {
-  Activity,
-  CheckCircle2,
-  AlertCircle,
-  RefreshCw,
   Search,
   Wrench,
   ExternalLink,
-  Play,
-  Film,
   ShieldCheck,
-  Filter,
+  RefreshCw,
+  CheckCircle2,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { BASE_URL } from '../services/api';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '../lib/utils';
 
@@ -55,7 +50,7 @@ export default function TrailerDiagnostics() {
   const fetchDiagnostics = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/admin/trailer-diagnostics');
+      const res = await fetch(`${BASE_URL}/api/admin/trailer-diagnostics`);
       if (!res.ok) throw new Error('Failed to load diagnostics report');
       const data: DiagnosticReport = await res.json();
       setReport(data);
@@ -75,7 +70,7 @@ export default function TrailerDiagnostics() {
     setRepairing(true);
     toast.info('Starting auto-repair scan across all movies...');
     try {
-      const res = await fetch('http://localhost:5000/api/admin/trailer-diagnostics/re-scan', {
+      const res = await fetch(`${BASE_URL}/api/admin/trailer-diagnostics/re-scan`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fillMissing: true }),
@@ -98,7 +93,7 @@ export default function TrailerDiagnostics() {
 
     setSubmittingOverride(true);
     try {
-      const res = await fetch('http://localhost:5000/api/admin/trailer-diagnostics/override', {
+      const res = await fetch(`${BASE_URL}/api/admin/trailer-diagnostics/override`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

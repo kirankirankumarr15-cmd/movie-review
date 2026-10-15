@@ -19,6 +19,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { BASE_URL } from '../services/api';
 
 interface UpcomingMovieItem {
   id: number;
@@ -159,7 +160,7 @@ export default function Upcoming() {
         sort: sortBy,
       });
 
-      const res = await fetch(`http://localhost:5000/api/upcoming?${params.toString()}`);
+      const res = await fetch(`${BASE_URL}/api/upcoming?${params.toString()}`);
       if (!res.ok) throw new Error('Failed to fetch upcoming movies');
       const data = await res.json();
 
@@ -206,7 +207,7 @@ export default function Upcoming() {
       return;
     }
     try {
-      const res = await fetch('http://localhost:5000/api/upcoming/reminders', {
+      const res = await fetch(`${BASE_URL}/api/upcoming/reminders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -233,7 +234,7 @@ export default function Upcoming() {
       return;
     }
     try {
-      const res = await fetch('http://localhost:5000/api/upcoming/admin/override-date', {
+      const res = await fetch(`${BASE_URL}/api/upcoming/admin/override-date`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -260,7 +261,7 @@ export default function Upcoming() {
   const handleAdminSync = async () => {
     setSyncingTMDB(true);
     try {
-      const res = await fetch('http://localhost:5000/api/upcoming/admin/sync', { method: 'POST' });
+      const res = await fetch(`${BASE_URL}/api/upcoming/admin/sync`, { method: 'POST' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       toast.success(`Sync finished! Synced ${data.syncedCount} upcoming movies from TMDB.`);

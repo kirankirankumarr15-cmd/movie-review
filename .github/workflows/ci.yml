@@ -1,0 +1,60 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Build, Lint, Typecheck & Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+            cinesense-app/package-lock.json
+
+      - name: Run Environment & DB Setup
+        run: node scripts/setup.js
+
+      - name: Install Backend Dependencies
+        run: npm --prefix backend ci
+
+      - name: Run Backend Unit Tests
+        run: npm --prefix backend run test
+
+      - name: Install Frontend Dependencies
+        run: npm --prefix frontend ci
+
+      - name: Lint Frontend
+        run: npm --prefix frontend run lint
+
+      - name: Typecheck & Build Frontend
+        run: npm --prefix frontend run build
+
+      - name: Install App Dependencies
+        run: npm --prefix cinesense-app ci
+
+      - name: Lint App
+        run: npm --prefix cinesense-app run lint
+
+      - name: Build Next.js App
+        run: npm --prefix cinesense-app run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NODE_ENV: production

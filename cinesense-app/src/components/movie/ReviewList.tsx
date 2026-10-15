@@ -62,7 +62,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
   };
 
   // Filter logic
-  let filtered = reviews.filter((r) => {
+  const filtered = reviews.filter((r) => {
     if (sourceFilter !== "all" && r.source.toLowerCase() !== sourceFilter.toLowerCase()) return false;
     if (sentimentFilter !== "all" && r.sentiment.toLowerCase() !== sentimentFilter.toLowerCase()) return false;
     if (languageFilter !== "all" && r.language.toLowerCase() !== languageFilter.toLowerCase()) return false;

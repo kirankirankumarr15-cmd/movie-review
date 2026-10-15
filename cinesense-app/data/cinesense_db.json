@@ -1885,6 +1885,34 @@
   ],
   "source_logs": [
     {
+      "id": "log-1792056982349",
+      "source": "News",
+      "status": "EMPTY",
+      "message": "No critic reviews matched",
+      "timestamp": "2026-10-15T09:36:22.349Z"
+    },
+    {
+      "id": "log-1792056982343",
+      "source": "YouTube",
+      "status": "EMPTY",
+      "message": "No YouTube comments or key omitted",
+      "timestamp": "2026-10-15T09:36:22.343Z"
+    },
+    {
+      "id": "log-1792056982338",
+      "source": "Reddit",
+      "status": "EMPTY",
+      "message": "No matching Reddit posts",
+      "timestamp": "2026-10-15T09:36:22.338Z"
+    },
+    {
+      "id": "log-1792056982331",
+      "source": "TMDB",
+      "status": "EMPTY",
+      "message": "No reviews on TMDB",
+      "timestamp": "2026-10-15T09:36:22.331Z"
+    },
+    {
       "id": "log-1792056769969",
       "source": "News",
       "status": "EMPTY",
@@ -2555,34 +2583,6 @@
       "status": "SUCCESS",
       "message": "Fetched 1 reviews",
       "timestamp": "2026-10-13T10:01:28.725Z"
-    },
-    {
-      "id": "log-1791885688498",
-      "source": "News",
-      "status": "EMPTY",
-      "message": "No critic reviews matched",
-      "timestamp": "2026-10-13T10:01:28.498Z"
-    },
-    {
-      "id": "log-1791885688495",
-      "source": "YouTube",
-      "status": "EMPTY",
-      "message": "No YouTube comments or key omitted",
-      "timestamp": "2026-10-13T10:01:28.495Z"
-    },
-    {
-      "id": "log-1791885688492",
-      "source": "Reddit",
-      "status": "EMPTY",
-      "message": "No matching Reddit posts",
-      "timestamp": "2026-10-13T10:01:28.492Z"
-    },
-    {
-      "id": "log-1791885688488",
-      "source": "TMDB",
-      "status": "SUCCESS",
-      "message": "Fetched 1 reviews",
-      "timestamp": "2026-10-13T10:01:28.488Z"
     }
   ],
   "movie_videos": [

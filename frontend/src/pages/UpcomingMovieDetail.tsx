@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import HeroPlayer from '../components/HeroPlayer';
+import { BASE_URL } from '../services/api';
 
 export default function UpcomingMovieDetail() {
   const { id } = useParams<{ id: string }>();
@@ -53,14 +54,14 @@ export default function UpcomingMovieDetail() {
     if (!id) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/upcoming/${id}`);
+      const res = await fetch(`${BASE_URL}/api/upcoming/${id}`);
       if (!res.ok) throw new Error('Movie not found');
       const data = await res.json();
       
       // Client-side fallback to TMDB API if videos array is empty
       if (!data.videos || data.videos.length === 0) {
         try {
-          const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
+          const TMDB_TOKEN = import.meta.env.VITE_TMDB_API_KEY || import.meta.env.VITE_TMDB_TOKEN || '';
           const tvidRes = await fetch(`https://api.tmdb.org/3/movie/${data.tmdb_id}/videos`, {
             headers: { Authorization: `Bearer ${TMDB_TOKEN}`, accept: 'application/json' },
           });
@@ -120,7 +121,7 @@ export default function UpcomingMovieDetail() {
     if (!movie || isVoting) return;
     setIsVoting(true);
     try {
-      const res = await fetch('http://localhost:5000/api/upcoming/excitement-votes', {
+      const res = await fetch(`${BASE_URL}/api/upcoming/excitement-votes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -153,7 +154,7 @@ export default function UpcomingMovieDetail() {
     }
     setSendingReminder(true);
     try {
-      const res = await fetch('http://localhost:5000/api/upcoming/reminders', {
+      const res = await fetch(`${BASE_URL}/api/upcoming/reminders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

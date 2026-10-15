@@ -3,12 +3,12 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Play, Eye, Bookmark, Clock, Share2, Check, Loader2, Sparkles, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
-import { analyzeApi } from "../services/api";
+import { analyzeApi, BASE_URL } from "../services/api";
 import { toast } from "sonner";
 import { cn } from "../lib/utils";
 import HeroPlayer, { type HeroVideo } from "../components/HeroPlayer";
 
-const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
+const TMDB_TOKEN = import.meta.env.VITE_TMDB_API_KEY || import.meta.env.VITE_TMDB_TOKEN || "";
 
 type RatingCategory = "Skip" | "Timepass" | "Go for it" | "Perfection";
 
@@ -147,7 +147,7 @@ export default function MovieDetails() {
         // 1. Load structured video list from our DB (/api/movies/videos/:tmdbId)
         let structuredVideos: HeroVideo[] = [];
         try {
-          const vidsRes = await fetch(`http://localhost:5000/api/movies/videos/${id}`);
+          const vidsRes = await fetch(`${BASE_URL}/api/movies/videos/${id}`);
           if (vidsRes.ok) {
             const vidsJson = await vidsRes.json();
             if (Array.isArray(vidsJson.videos) && vidsJson.videos.length > 0) {
@@ -159,7 +159,7 @@ export default function MovieDetails() {
         // 2. Check legacy DB trailer field as fallback single-video
         if (structuredVideos.length === 0) {
           try {
-            const dbRes = await fetch(`http://localhost:5000/api/movies/trailer/${id}`);
+            const dbRes = await fetch(`${BASE_URL}/api/movies/trailer/${id}`);
             if (dbRes.ok) {
               const dbJson = await dbRes.json();
               if (dbJson.found && dbJson.trailer_youtube_id) {

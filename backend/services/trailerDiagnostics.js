@@ -13,7 +13,7 @@
 const axios = require('axios');
 const { Movie, UpcomingMovie, MovieVideo, SourceLog } = require('../database');
 
-const TMDB_TOKEN = process.env.TMDB_TOKEN || "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMDIyYTkwNTAwZTA2ODMwYjFlMzg2MDY2YTgwOGIxMyIsIm5iZiI6MTc5MTQ1MTc0NC42NzIsInN1YiI6IjZhYzc2MjYwMGY5MTNjYWU1YzAzZWE5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0jRg9sQctBUCKSYpazZ7r9p4jTveORB5QZd3VShKt1o";
+const TMDB_TOKEN = process.env.TMDB_TOKEN || process.env.TMDB_API_KEY || '';
 const TMDB_HEADERS = {
   Authorization: `Bearer ${TMDB_TOKEN}`,
   accept: 'application/json',

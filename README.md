@@ -1,57 +1,48 @@
-# CineSense — Movie Review Sentiment Analyzer
+# CineSense — Multi-Lingual Movie Review Sentiment & Trailer Resolver
 
-> **Understand what audiences really feel.**
+> **Understand what audiences really feel. Watch verified official trailers.**
 
-CineSense is a full-stack web application that allows users to enter movie reviews and automatically classifies them as 😊 Positive, 😐 Neutral, or 😞 Negative using real Natural Language Processing (NLP).
+CineSense is a modern, reproducible cinematic platform featuring multi-lingual sentiment analysis, upcoming release anticipation tracking, and an intelligent YouTube trailer resolution engine with embed-health diagnostics.
 
-## Features
-- **Instant Analysis**: Analyze reviews within seconds using the VADER sentiment algorithm.
-- **Three-Way Classification**: Reviews are classified based on standard VADER compound score thresholds.
-- **Detailed Insights**: View the compound score, confidence indicator, and sentiment-bearing words.
-- **Review History**: Logged-in users can save their reviews and manage their history in the cloud.
-- **Analytics Dashboard**: Visualize sentiment trends, distributions, and averages using interactive charts.
-- **Responsive & Accessible**: Works across all devices with keyboard navigation and cinematic dark/light mode support.
+---
 
-## Target Audiences / Use Cases
-- **Movie Viewers & Audience**: Enter movie reviews, get positive/neutral/negative sentiment scores, and review previous analyses.
-- **Movie Critics**: Analyze large numbers of reviews rapidly to identify overall audience sentiment and compare reactions.
-- **Movie Enthusiasts**: Track personal opinions about different movies and analyze how reviews vary over time using the dashboard.
-- **Students & Researchers**: Use CineSense as a practical NLP learning tool to study sentiment analysis, VADER lexical rules, and explore data trends.
-- **Production & Marketing Teams**: Analyze audience feedback to identify whether reviews are generally positive or negative, helping to understand post-release reactions.
+## Architecture Overview
 
-## Technology Stack
-**Frontend**: React, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React, Recharts
-**Backend**: Node.js, Express, Sequelize (ORM), `vader-sentiment` (NLP), JSON Web Tokens (JWT), bcrypt
-**Database**: Supabase PostgreSQL
-
-## Architecture & NLP Methodology
-
-```mermaid
-graph TD
-    A[React Frontend] -->|REST API Request| B(Node.js Backend)
-    B --> C{vader-sentiment NLP}
-    C -->|Calculates compound score| D[Classification Logic]
-    D --> E[(Supabase PostgreSQL)]
-    E -->|Stores Review History| B
-    B -->|Returns JSON Response| A
-    A -->|Renders UI & Charts| F[User Dashboard]
+```
+                      ┌──────────────────────────────────────────┐
+                      │    cinesense-app (Next.js 16 Full-Stack) │
+                      │    Port 3000 — App Router & Turbopack    │
+                      └────────────────────┬─────────────────────┘
+                                           │
+                    ┌──────────────────────┴──────────────────────┐
+                    ▼                                             ▼
+       ┌──────────────────────────┐                  ┌──────────────────────────┐
+       │   backend (Express API)  │                  │  frontend (Vite React)   │
+       │   Port 5000              │                  │  Port 5173 / 5174        │
+       │   Sequelize + SQLite/PG  │                  │  Tailwind + FramerMotion │
+       └────────────┬─────────────┘                  └──────────────────────────┘
+                    │
+                    ├──► VADER NLP & Sentiment Pipeline
+                    ├──► Intelligent YouTube Trailer Resolver
+                    └──► Background Scheduled Sync & Health Validation
 ```
 
-1. **Frontend**: Sends the review text to the Express API.
-2. **Backend (Node.js)**: Receives the text and passes it to the `vader-sentiment` NLP analyzer.
-3. **NLP (VADER)**: Calculates the `pos`, `neu`, `neg`, and `compound` scores.
-4. **Classification**:
-   - `compound >= 0.05` → **Positive**
-   - `compound <= -0.05` → **Negative**
-   - Otherwise → **Neutral**
-5. **Persistence**: If the user is logged in, the review and its scores are saved to the remote Supabase database.
-6. **Response**: The API returns the calculated scores and classification back to the React frontend for visualization.
+- **`cinesense-app`**: Next.js 16 (React 19) full-stack web application with server components, discovery, and trailer player (`http://localhost:3000`).
+- **`backend`**: Node.js & Express REST API with Sequelize ORM supporting local zero-config SQLite or remote PostgreSQL (`http://localhost:5000`).
+- **`frontend`**: Vite + React 19 single-page dashboard with interactive analytics (`http://localhost:5173`).
+
+---
 
 ## Prerequisites
-- Node.js (v18+)
-- Supabase Account (for database)
 
-## Installation & Setup
+- **Node.js**: `>= 20.0.0` (LTS recommended, see `.nvmrc`)
+- **npm**: `>= 10.0.0`
+- **Git**
+- *(Optional)* Docker & Docker Compose for containerized execution.
+
+---
+
+## Quickstart (3 Steps)
 
 ### 1. Clone the repository
 ```bash
@@ -59,72 +50,136 @@ git clone https://github.com/kirankirankumarr15-cmd/movie-review.git
 cd "Movie Review Sentiment Analyze"
 ```
 
-### 2. Backend Setup
+### 2. Run automated setup (Installs, verifies envs, creates & seeds DB)
 ```bash
-cd backend
-npm install
+npm run setup
 ```
+*(This sets up `.env` files from `.env.example`, runs migrations, and seeds verified movie & trailer data).*
 
-### 3. Frontend Setup
+### 3. Start development server
 ```bash
-cd frontend
-npm install
-```
-
-### 4. Database Setup (Supabase)
-Create a `.env` file in the `backend` directory and add your connection details:
-```env
-PORT=5000
-SECRET_KEY=your_super_secret_jwt_key
-FRONTEND_URL=http://localhost:5174
-DATABASE_URL="postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
-```
-*(Note: Sequelize will automatically create the `Users` and `Reviews` tables in your Supabase database the first time you start the backend).*
-
-## Running the Application
-
-You will need two separate terminal windows.
-
-### Terminal 1: Start the Backend
-```bash
-cd backend
-npm start
-# or: node server.js
-```
-*Runs on http://localhost:5000*
-
-### Terminal 2: Start the Frontend
-```bash
-cd frontend
 npm run dev
 ```
-*Runs on http://localhost:5174 (or 5173)*
+Open **[http://localhost:3000](http://localhost:3000)** to view the CineSense application.
 
-## API Documentation
+---
 
-| Method | Endpoint | Auth Required? | Description |
-|--------|----------|----------------|-------------|
-| GET | `/api/health` | No | Health check |
-| POST | `/api/auth/register` | No | Register a new user |
-| POST | `/api/auth/login` | No | Authenticate user & get JWT |
-| POST | `/api/auth/logout` | Yes | Logout |
-| GET | `/api/auth/me` | Yes | Get current user profile |
-| PATCH | `/api/auth/me` | Yes | Update display name |
-| POST | `/api/analyze` | Optional | Analyze sentiment (saves to DB if logged in) |
-| GET | `/api/reviews` | Yes | Get user's review history (filterable & sortable) |
-| DELETE | `/api/reviews/:id`| Yes | Delete a specific review |
-| GET | `/api/stats` | Yes | Get analytics dashboard stats |
+## Available Root Commands
 
-## Running Backend in Dev Mode (Hot Reload)
+| Command | Description |
+|---|---|
+| `npm run setup` | One-command setup: environment checks, `.env` creation, DB migrations & seed |
+| `npm run dev` | Starts the Next.js web application (`http://localhost:3000`) |
+| `npm run dev:backend` | Starts the Express API server with nodemon (`http://localhost:5000`) |
+| `npm run dev:frontend` | Starts the Vite React client (`http://localhost:5173`) |
+| `npm run build` | Compiles and builds production bundles for all apps |
+| `npm run start` | Starts the production Next.js server |
+| `npm test` | Runs the automated test suite (anticipation formulas & trailer resolver) |
+| `npm run lint` | Runs ESLint and Oxlint across all codebases |
+| `npm run typecheck` | Typechecks both Next.js and Vite applications |
+| `npm run db:migrate` | Runs database migrations |
+| `npm run db:seed` | Seeds database with verified movies, trailers, and reviews |
+| `npm run catalog:sync`| Synchronizes catalog movies into the database |
+
+---
+
+## Environment Variables Reference
+
+CineSense is designed with **graceful runtime degradation**: if optional third-party API keys are missing, the app boots and serves offline demo data without crashing.
+
+| Variable | Scope | Required? | Default / Description |
+|---|---|---|---|
+| `NEXT_PUBLIC_APP_URL` | `cinesense-app` | No (Dev) | `http://localhost:3000` |
+| `NEXTAUTH_SECRET` | `cinesense-app` | Yes (Prod) | Random 32+ char secret for JWT session encryption |
+| `TMDB_API_KEY` | Monorepo / App | Optional | TMDB v3 API Key (Get at [themoviedb.org](https://www.themoviedb.org/settings/api)) |
+| `YOUTUBE_API_KEY` | Monorepo / App | Optional | Google YouTube Data v3 API Key |
+| `NEXT_PUBLIC_SUPABASE_URL` | `cinesense-app` | Optional | Supabase Postgres URL (falls back to local JSON store) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `cinesense-app` | Optional | Supabase Anon Key |
+| `PORT` | `backend` | No | `5000` |
+| `SECRET_KEY` | `backend` | Yes (Prod) | JWT secret for user authentication |
+| `DATABASE_URL` | `backend` | Optional | Postgres connection URI (defaults to `cinesense.sqlite`) |
+| `FRONTEND_URL` | `backend` | No | `http://localhost:5173` |
+| `VITE_API_URL` | `frontend` | No | `http://localhost:5000` |
+
+---
+
+## Health Check & Observability
+
+Both web and backend expose standardized health check endpoints:
+
+- **Next.js Web App**: `GET http://localhost:3000/api/health`
+  ```json
+  {
+    "status": "ok",
+    "service": "CineSense Web App (Next.js 16)",
+    "environment": "development",
+    "features": {
+      "tmdb_connected": true,
+      "supabase_connected": false,
+      "sentiment_analysis_ai": "local_vader_sentiment"
+    }
+  }
+  ```
+- **Express Backend API**: `GET http://localhost:5000/api/health`
+  ```json
+  {
+    "status": "ok",
+    "service": "CineSense API (Node.js)"
+  }
+  ```
+
+---
+
+## Docker & Container Deployment
+
+To run the entire platform via Docker:
+
 ```bash
-cd backend
-npm run dev   # Uses nodemon for automatic restart on file changes
+docker compose up --build
+```
+This starts:
+- **`cinesense-web`** on port `3000` (Next.js 16 with automatic healthcheck)
+- **`cinesense-api`** on port `5000` (Express API with SQLite / Postgres volume)
+
+---
+
+## Background Services & Scheduled Jobs
+
+The Express backend includes built-in in-process recurring tasks (no external message queues required):
+- **12-Hour Sync**: Automatically refreshes upcoming movie metadata and releases.
+- **24-Hour Nightly Validator**: Validates YouTube video embeddability and flags broken trailers.
+
+Manual sync triggers:
+- Ingest upcoming releases: `POST http://localhost:5000/api/upcoming/admin/sync`
+- Auto-repair trailer links: `POST http://localhost:5000/api/admin/trailer-diagnostics/re-scan`
+
+---
+
+## Troubleshooting Common Issues
+
+### 1. `EADDRINUSE: address already in use`
+A previously running process is occupying port 3000 or 5000.
+- **Windows (PowerShell)**:
+  ```powershell
+  Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess | Stop-Process -Force
+  Get-Process -Id (Get-NetTCPConnection -LocalPort 5000).OwningProcess | Stop-Process -Force
+  ```
+- **macOS / Linux**:
+  ```bash
+  kill -9 $(lsof -t -i:3000)
+  kill -9 $(lsof -t -i:5000)
+  ```
+
+### 2. Node Version Mismatch
+If you encounter runtime syntax errors, ensure you are running Node.js 20+:
+```bash
+nvm use 20
 ```
 
-## Limitations & Future Improvements
-- **Context/Sarcasm**: VADER is a lexicon and rule-based sentiment analysis tool. It struggles with deep context, irony, or heavy sarcasm.
-- **Future Improvement**: Upgrade the NLP engine from VADER to a transformer-based model via Hugging Face for better contextual understanding.
-- **Pagination**: Currently handled client-side (10 per page). Future improvement: server-side cursor pagination for very large datasets.
+### 3. Missing Third-Party Keys
+If you do not have TMDB or YouTube API keys, CineSense automatically operates using its built-in catalog with verified trailers for popular films (e.g. *Toxic*, *Jana Nayagan*, *Inception*).
 
-## License
-MIT License
+---
+
+## Security Note: API Key Rotation
+If any personal TMDB tokens or database credentials were committed to git history in earlier development iterations, ensure you generate fresh tokens in your [TMDB Account Settings](https://www.themoviedb.org/settings/api) and Supabase console. All source code in this repository now strictly accesses keys through `process.env`.

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Next.js 16 Web Application (Port 3000)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinesense-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-cinesense_secure_compose_secret_32char}
+      - TMDB_API_KEY=${TMDB_API_KEY:-}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # Express & Sequelize Backend API (Port 5000)
+  api:
+    image: node:20-alpine
+    container_name: cinesense-api
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - backend_modules:/app/node_modules
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - SECRET_KEY=${SECRET_KEY:-cinesense_backend_secret_32chars}
+      - FRONTEND_URL=http://localhost:3000
+      - TMDB_READ_TOKEN=${TMDB_READ_TOKEN:-}
+      - TMDB_API_KEY=${TMDB_API_KEY:-}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY:-}
+    command: sh -c "npm install && node server.js"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  backend_modules:

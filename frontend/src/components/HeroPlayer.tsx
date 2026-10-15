@@ -30,6 +30,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { BASE_URL } from '../services/api';
 
 /* ─── Types ─────────────────────────────────────────────────── */
 
@@ -214,7 +215,7 @@ export default function HeroPlayer({
 
             // Report telemetry to server
             if (activeVideo?.youtube_id) {
-              fetch('http://localhost:5000/api/movies/report-video-error', {
+              fetch(`${BASE_URL}/api/movies/report-video-error`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -226,11 +227,11 @@ export default function HeroPlayer({
             }
 
             // Automatically try next stored video if multiple exist
-            const currentIndex = videos.findIndex(v => v.youtube_id === activeVideo.youtube_id);
+            const currentIndex = videos.findIndex(v => v.youtube_id === activeVideo?.youtube_id);
             if (currentIndex !== -1 && currentIndex + 1 < videos.length) {
               const nextVideo = videos[currentIndex + 1];
               console.log('Automatically switching to next stored video:', nextVideo.title || nextVideo.youtube_id);
-              setActiveVideo(nextVideo);
+              setActiveIdx(currentIndex + 1);
               return;
             }
 

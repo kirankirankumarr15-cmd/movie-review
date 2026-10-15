@@ -194,6 +194,7 @@ export interface MovieVideo {
   is_official: boolean;
   channel_name?: string;
   channel_id?: string;
+  embeddable?: boolean;
 }
 
 export interface OfficialChannel {
