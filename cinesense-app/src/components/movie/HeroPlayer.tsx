@@ -254,11 +254,11 @@ export function HeroPlayer({
 
   const backdropUrl = movie.backdrop_path 
     ? (movie.backdrop_path.startsWith('http') ? movie.backdrop_path : `https://image.tmdb.org/t/p/original${movie.backdrop_path}`)
-    : '/posters/placeholder.jpg';
+    : (currentVideo ? `https://img.youtube.com/vi/${currentVideo.youtube_id}/maxresdefault.jpg` : '/posters/placeholder.jpg');
 
   const posterUrl = movie.poster_path
     ? (movie.poster_path.startsWith('http') ? movie.poster_path : `https://image.tmdb.org/t/p/w500${movie.poster_path}`)
-    : '/posters/placeholder.jpg';
+    : (currentVideo ? `https://img.youtube.com/vi/${currentVideo.youtube_id}/hqdefault.jpg` : '/posters/placeholder.jpg');
 
   return (
     <div
@@ -498,8 +498,16 @@ export function HeroPlayer({
                     </span>
                   </button>
                 ) : (
-                  <div className="text-xs text-zinc-500 italic py-2">
-                    No official video uploaded yet.
+                  <div className="flex items-center gap-3 py-2">
+                    <a
+                      href={`https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' official trailer')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-red-600/25 transition-all transform hover:scale-105 active:scale-95"
+                    >
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                      <span>Search Trailer on YouTube ↗</span>
+                    </a>
                   </div>
                 )}
 
