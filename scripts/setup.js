@@ -72,7 +72,26 @@ if (fs.existsSync(cinesenseDbPath)) {
   }
 }
 
-// 4. Initialize & Seed Backend Database (SQLite or Postgres)
+// 4. Ensure dependencies are installed in each subproject for fresh clones
+const { execSync } = require('child_process');
+const projects = [
+  { name: 'backend', path: path.join(ROOT_DIR, 'backend') },
+  { name: 'frontend', path: path.join(ROOT_DIR, 'frontend') },
+  { name: 'cinesense-app', path: path.join(ROOT_DIR, 'cinesense-app') },
+];
+
+for (const proj of projects) {
+  const nodeModules = path.join(proj.path, 'node_modules');
+  if (!fs.existsSync(nodeModules)) {
+    console.log(`📦 Installing dependencies for ${proj.name} (fresh clone detected)...`);
+    execSync('npm install', { cwd: proj.path, stdio: 'inherit' });
+    console.log(`✓ Successfully installed dependencies for ${proj.name}`);
+  } else {
+    console.log(`✓ Dependencies present for ${proj.name}`);
+  }
+}
+
+// 5. Initialize & Seed Backend Database (SQLite or Postgres)
 async function setupBackendDb() {
   try {
     console.log('\n📦 Initializing Backend Database & Running Migrations...');
