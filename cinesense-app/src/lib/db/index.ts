@@ -66,8 +66,8 @@ const INITIAL_SEED: LocalDbSchema = {
       language: 'kn',
       age_rating: 'A',
       runtime_minutes: 155,
-      poster_path: null,
-      backdrop_path: null,
+      poster_path: '/5RTd3YCLWbEhbe9OXRuNX3pbT5U.jpg',
+      backdrop_path: '/tBRSSfgqOAq7YlG8udcoJIBm2FG.jpg',
       trailer_youtube_id: 'EfluEyQ5QIA',
       genres: [
         { id: 28, name: 'Action' },
@@ -76,6 +76,30 @@ const INITIAL_SEED: LocalDbSchema = {
       ],
       box_office: {
         budget: 200,
+        currency: 'INR Crores'
+      }
+    },
+    {
+      id: 'movie-962640-kgf3',
+      tmdb_id: 962640,
+      title: 'K.G.F: Chapter 3',
+      original_title: 'ಕೆ.ಜಿ.ಎಫ್: Chapter 3',
+      overview: 'The saga of Rocky continues as international intelligence agencies converge on his sprawling criminal empire.',
+      release_date: '2026-12-18',
+      year: 2026,
+      director: 'Prashanth Neel',
+      language: 'kn',
+      age_rating: 'UA',
+      runtime_minutes: 180,
+      poster_path: '/ex2zyM6LVd31h9TlAi9RaR7QARK.jpg',
+      backdrop_path: '/tBRSSfgqOAq7YlG8udcoJIBm2FG.jpg',
+      trailer_youtube_id: 'EfluEyQ5QIA',
+      genres: [
+        { id: 28, name: 'Action' },
+        { id: 80, name: 'Crime' }
+      ],
+      box_office: {
+        budget: 250,
         currency: 'INR Crores'
       }
     }

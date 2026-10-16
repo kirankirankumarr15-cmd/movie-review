@@ -3,17 +3,17 @@
     {
       "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
       "tmdb_id": 1213243,
-      "title": "Toxic: A Fairy Tale for Grown-ups",
-      "original_title": "Toxic",
-      "overview": "A high-octane action thriller exploring the gritty underworld, headlined by Yash and directed by Geetu Mohandas.",
+      "title": "Toxic",
+      "original_title": "ಟಾಕ್ಸಿಕ್",
+      "overview": "A powerful drug cartel pulls the strings behind a facade of sun-soaked beaches as a gritty, violent underworld power struggle emerges during the crumbling of Portuguese colonial rule.",
       "release_date": "2026-08-26",
       "year": 2026,
       "director": "Geetu Mohandas",
       "language": "kn",
       "age_rating": "A",
-      "runtime_minutes": 155,
-      "poster_path": null,
-      "backdrop_path": null,
+      "runtime_minutes": 192,
+      "poster_path": "/5RTd3YCLWbEhbe9OXRuNX3pbT5U.jpg",
+      "backdrop_path": "/tBRSSfgqOAq7YlG8udcoJIBm2FG.jpg",
       "trailer_youtube_id": "EfluEyQ5QIA",
       "genres": [
         {
@@ -30,8 +30,43 @@
         }
       ],
       "box_office": {
-        "budget": 200,
-        "currency": "INR Crores"
+        "budget": 60000000,
+        "revenue": 3386250
+      },
+      "updated_at": "2026-10-16T08:26:38.336Z"
+    },
+    {
+      "id": "movie-962640-1792139198959",
+      "year": 2024,
+      "language": "kn",
+      "created_at": "2026-10-16T08:26:38.956Z",
+      "updated_at": "2026-10-16T08:26:38.956Z",
+      "tmdb_id": 962640,
+      "title": "K.G.F: Chapter 3",
+      "original_title": "ಕೆ.ಜಿ.ಎಫ್: Chapter 3",
+      "overview": "",
+      "release_date": "",
+      "director": "Prashanth Neel",
+      "age_rating": "UA",
+      "poster_path": "/ex2zyM6LVd31h9TlAi9RaR7QARK.jpg",
+      "backdrop_path": null,
+      "genres": [
+        {
+          "id": 28,
+          "name": "Action"
+        },
+        {
+          "id": 80,
+          "name": "Crime"
+        },
+        {
+          "id": 18,
+          "name": "Drama"
+        }
+      ],
+      "box_office": {
+        "budget": 0,
+        "revenue": 0
       }
     }
   ],
@@ -1659,6 +1694,31 @@
       "helpfulness_down": 0,
       "posted_at": "2023-08-26T09:21:31Z",
       "fetched_at": "2026-10-15T09:32:25.188Z"
+    },
+    {
+      "id": "tmdb-6ad04619168896dccde691d8",
+      "tmdb_id": 1234139,
+      "source": "TMDB",
+      "author": "harishnj22@gmail.com",
+      "text": "The action sequel attempts to replicate the electrifying formula of its predecessor, but it falters heavily due to weak storytelling that lacks genuine depth. The narrative wanders through disjointed conflicts that make little sense, failing to give Tiger Muthuvel Pandian a purposeful mission and leaving the high stakes feeling synthetic rather than organic.\r\n\r\nRajinikanth is brilliant on screen, effortlessly commanding every frame with his unmatched charisma, magnetic screen presence, and impeccable comic timing. Anirudh Ravichander chips in with some energetic soundtracks, and Nelson stages a handful of stylish elevation scenes and set pieces designed to trigger loud applause.\r\n\r\nHowever, almost nothing comes together in a compelling way because the emotional and logical foundations are missing. The pivotal identity exposure of the hero is particularly weak, handled through feeble reasoning that drains the moment of any true dramatic punch. Without crisp writing to bind the mass moments together, the film ends up as a hollow spectacle that wastes its lead star's towering presence.",
+      "url": "https://www.themoviedb.org/review/6ad04619168896dccde691d8",
+      "language": "en",
+      "sentiment": "positive",
+      "confidence": 69,
+      "compound_score": 0.4053,
+      "aspects": {
+        "story": "negative",
+        "acting": "positive",
+        "music": "positive",
+        "direction": null,
+        "visuals": null,
+        "action": "negative"
+      },
+      "is_spoiler": false,
+      "helpfulness_up": 0,
+      "helpfulness_down": 0,
+      "posted_at": "2026-10-15T03:18:49Z",
+      "fetched_at": "2026-10-16T08:21:23.673Z"
     }
   ],
   "user_reviews": [
@@ -1884,6 +1944,62 @@
     }
   ],
   "source_logs": [
+    {
+      "id": "log-1792139067963",
+      "source": "News",
+      "status": "EMPTY",
+      "message": "No critic reviews matched",
+      "timestamp": "2026-10-16T08:24:27.963Z"
+    },
+    {
+      "id": "log-1792139067958",
+      "source": "YouTube",
+      "status": "EMPTY",
+      "message": "No YouTube comments or key omitted",
+      "timestamp": "2026-10-16T08:24:27.958Z"
+    },
+    {
+      "id": "log-1792139067953",
+      "source": "Reddit",
+      "status": "EMPTY",
+      "message": "No matching Reddit posts",
+      "timestamp": "2026-10-16T08:24:27.953Z"
+    },
+    {
+      "id": "log-1792139067946",
+      "source": "TMDB",
+      "status": "EMPTY",
+      "message": "No reviews on TMDB",
+      "timestamp": "2026-10-16T08:24:27.946Z"
+    },
+    {
+      "id": "log-1792138883996",
+      "source": "News",
+      "status": "EMPTY",
+      "message": "No critic reviews matched",
+      "timestamp": "2026-10-16T08:21:23.996Z"
+    },
+    {
+      "id": "log-1792138883989",
+      "source": "YouTube",
+      "status": "EMPTY",
+      "message": "No YouTube comments or key omitted",
+      "timestamp": "2026-10-16T08:21:23.989Z"
+    },
+    {
+      "id": "log-1792138883982",
+      "source": "Reddit",
+      "status": "EMPTY",
+      "message": "No matching Reddit posts",
+      "timestamp": "2026-10-16T08:21:23.982Z"
+    },
+    {
+      "id": "log-1792138883976",
+      "source": "TMDB",
+      "status": "SUCCESS",
+      "message": "Fetched 1 reviews",
+      "timestamp": "2026-10-16T08:21:23.976Z"
+    },
     {
       "id": "log-1792056982349",
       "source": "News",
@@ -2527,62 +2643,6 @@
       "status": "SUCCESS",
       "message": "Fetched 1 reviews",
       "timestamp": "2026-10-13T10:21:16.851Z"
-    },
-    {
-      "id": "log-1791885801993",
-      "source": "News",
-      "status": "EMPTY",
-      "message": "No critic reviews matched",
-      "timestamp": "2026-10-13T10:03:21.993Z"
-    },
-    {
-      "id": "log-1791885801989",
-      "source": "YouTube",
-      "status": "EMPTY",
-      "message": "No YouTube comments or key omitted",
-      "timestamp": "2026-10-13T10:03:21.989Z"
-    },
-    {
-      "id": "log-1791885801986",
-      "source": "Reddit",
-      "status": "EMPTY",
-      "message": "No matching Reddit posts",
-      "timestamp": "2026-10-13T10:03:21.986Z"
-    },
-    {
-      "id": "log-1791885801982",
-      "source": "TMDB",
-      "status": "SUCCESS",
-      "message": "Fetched 1 reviews",
-      "timestamp": "2026-10-13T10:03:21.982Z"
-    },
-    {
-      "id": "log-1791885688736",
-      "source": "News",
-      "status": "EMPTY",
-      "message": "No critic reviews matched",
-      "timestamp": "2026-10-13T10:01:28.736Z"
-    },
-    {
-      "id": "log-1791885688733",
-      "source": "YouTube",
-      "status": "EMPTY",
-      "message": "No YouTube comments or key omitted",
-      "timestamp": "2026-10-13T10:01:28.733Z"
-    },
-    {
-      "id": "log-1791885688730",
-      "source": "Reddit",
-      "status": "EMPTY",
-      "message": "No matching Reddit posts",
-      "timestamp": "2026-10-13T10:01:28.730Z"
-    },
-    {
-      "id": "log-1791885688725",
-      "source": "TMDB",
-      "status": "SUCCESS",
-      "message": "Fetched 1 reviews",
-      "timestamp": "2026-10-13T10:01:28.725Z"
     }
   ],
   "movie_videos": [
@@ -2607,6 +2667,16 @@
       "is_official": true,
       "channel_name": "KVN Productions",
       "channel_id": "UC7m01_w20K5tK5d8C9J1_kw"
+    },
+    {
+      "id": "vid-yt-1234139-FW_PPcr1sPE",
+      "tmdb_id": 1234139,
+      "youtube_id": "FW_PPcr1sPE",
+      "type": "trailer",
+      "title": "JAILER 2 - Official Trailer | Superstar Rajinikanth | Sun Pictures | Anirudh | Nelson",
+      "language": "ta",
+      "is_official": true,
+      "embeddable": true
     }
   ],
   "official_channels": [
