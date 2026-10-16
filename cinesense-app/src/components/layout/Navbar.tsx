@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { User, LogIn, LogOut, ShieldCheck, Sparkles, ChevronDown, Award } from "lucide-react";
+import { User, LogIn, LogOut, ShieldCheck, Sparkles, ChevronDown, Award, Menu, X } from "lucide-react";
 import AuthModal, { AuthUser } from "@/components/auth/AuthModal";
 
 export default function Navbar() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -69,7 +70,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Navigation Links */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
             <Link href="/" className="text-slate-300 hover:text-white transition-colors">
               Home
@@ -98,8 +99,8 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          {/* Actions: Admin & Sign In / User Profile */}
-          <div className="flex items-center gap-3">
+          {/* Actions: Admin, Profile & Mobile Menu Toggle */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/admin"
               className="text-xs px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-colors"
@@ -180,8 +181,76 @@ export default function Navbar() {
                 <span>Sign In</span>
               </button>
             )}
+
+            {/* Mobile Hamburger Menu Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+              className="md:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none cursor-pointer"
+              aria-label="Toggle navigation menu"
+            >
+              {isMobileNavOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer / Dropdown */}
+        {isMobileNavOpen && (
+          <div className="md:hidden border-t border-white/10 bg-[#0c0c14]/98 backdrop-blur-2xl px-4 py-4 shadow-2xl animate-in slide-in-from-top-2 duration-150">
+            <nav className="flex flex-col space-y-1 text-sm font-medium">
+              <Link
+                href="/"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
+              >
+                <span>Home</span>
+              </Link>
+              <Link
+                href="/explore"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
+              >
+                <span>Explore Movies</span>
+              </Link>
+              <Link
+                href="/compare"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
+              >
+                <span>Compare Films</span>
+              </Link>
+              <Link
+                href="/calendar"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
+              >
+                <span>Release Calendar</span>
+              </Link>
+              <Link
+                href="/analyze-review"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
+              >
+                <span>Analyze Review (AI)</span>
+              </Link>
+              <Link
+                href="/community"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
+              >
+                <span>Community Hub</span>
+              </Link>
+              <Link
+                href="/hub/kn"
+                onClick={() => setIsMobileNavOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-amber-300 font-semibold flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 mt-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>Sandalwood (Kannada Cinema)</span>
+              </Link>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Interactive Authentication Modal */}
