@@ -156,8 +156,8 @@ export default function Navbar() {
                       onClick={() => setIsMenuOpen(false)}
                       className="px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2"
                     >
-                      <Sparkles size={14} className="text-purple-400" />
-                      Community & Reviews
+                      <User size={14} className="text-purple-400" />
+                      My Profile & Watchlist
                     </Link>
                     <button
                       type="button"

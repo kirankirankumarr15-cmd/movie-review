@@ -13,7 +13,9 @@ import {
   UserPlus, 
   Film, 
   Star,
-  ShieldCheck
+  ShieldCheck,
+  Edit3,
+  Check
 } from "lucide-react";
 import { WatchlistItem, CuratedList } from "@/lib/db/types";
 
@@ -22,14 +24,54 @@ export default function CommunityPage() {
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
   const [lists, setLists] = useState<CuratedList[]>([]);
   const [userStatus, setUserStatus] = useState<"watchlist" | "watched" | "favorite">("watchlist");
+  const [currentUser, setCurrentUser] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    username: string;
+    badge: string;
+    points: number;
+  } | null>(null);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState("");
 
   useEffect(() => {
+    // Load local user from session
+    try {
+      const stored = localStorage.getItem("cinesense_user");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setCurrentUser(parsed);
+        setNameInput(parsed.name || "");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
     // Load local watchlist
     fetch(`/api/watchlist?userId=user-demo`)
       .then((r) => r.json())
       .then((d) => setWatchlist(d.items || []))
       .catch(() => {});
   }, []);
+
+  const handleSaveName = () => {
+    if (!nameInput.trim()) return;
+    const updated = currentUser
+      ? { ...currentUser, name: nameInput.trim() }
+      : {
+          id: `user-${Date.now()}`,
+          name: nameInput.trim(),
+          email: "user@cinesense.app",
+          username: nameInput.trim().toLowerCase().replace(/\s+/g, "_"),
+          role: "user",
+          badge: "Verified Reviewer",
+          points: 100,
+        };
+    setCurrentUser(updated as any);
+    localStorage.setItem("cinesense_user", JSON.stringify(updated));
+    setIsEditingName(false);
+  };
 
   const badges = [
     { name: "Top Reviewer", desc: "Contributed 10+ authentic reviews with high helpfulness score", earned: true, icon: Award, color: "text-amber-400 bg-amber-500/10 border-amber-500/20" },
@@ -40,6 +82,17 @@ export default function CommunityPage() {
 
   const filteredWatchlist = watchlist.filter((w) => w.status === userStatus);
 
+  const displayName = currentUser?.name || "Film Buff";
+  const initials = displayName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  const username = currentUser?.username || (currentUser?.email ? currentUser.email.split("@")[0] : "cinephile");
+  const badge = currentUser?.badge || "Verified Member";
+  const points = currentUser?.points || 100;
+
   return (
     <div className="min-h-screen bg-[#08080d] text-slate-100 py-12">
       <div className="container mx-auto px-4 max-w-5xl space-y-10">
@@ -47,28 +100,67 @@ export default function CommunityPage() {
         <div className="bg-[#101018] border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl shadow-purple-600/30">
-              AG
+              {initials}
             </div>
             <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-display font-bold text-white">
-                  Arjun Gowda
-                </h1>
+              <div className="flex flex-wrap items-center gap-2">
+                {isEditingName ? (
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={nameInput}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      placeholder="Your full name"
+                      className="bg-[#181826] border border-purple-500 rounded-xl px-3 py-1 text-sm text-white focus:outline-none"
+                      autoFocus
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSaveName}
+                      className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white cursor-pointer"
+                    >
+                      <Check size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <h1 className="text-xl sm:text-2xl font-display font-bold text-white">
+                      {displayName}
+                    </h1>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNameInput(displayName);
+                        setIsEditingName(true);
+                      }}
+                      className="p-1 text-slate-400 hover:text-purple-400 transition-colors cursor-pointer"
+                      title="Edit Display Name"
+                    >
+                      <Edit3 size={15} />
+                    </button>
+                  </>
+                )}
                 <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  Top Reviewer
+                  {badge}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono">@film_buff_99 • Bangalore, India</p>
+              <p className="text-xs text-slate-400 font-mono">@{username} • Verified Critic</p>
               <p className="text-xs text-slate-300 pt-1">
-                Watching cinema across Sandalwood, Bollywood and Hollywood. 420 reputation points.
+                Watching cinema across Sandalwood, Bollywood and Hollywood. {points} reputation points.
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors cursor-pointer">
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>Follow</span>
+            <button
+              onClick={() => {
+                setNameInput(displayName);
+                setIsEditingName(!isEditingName);
+              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors cursor-pointer"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+              <span>Edit Profile Name</span>
             </button>
             <div className="text-center px-3 py-1.5 rounded-xl bg-white/5 border border-white/10">
               <p className="text-sm font-bold text-white">128</p>

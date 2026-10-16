@@ -35,9 +35,22 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     setIsLoading(true);
 
     setTimeout(() => {
+      let cleanName = name.trim();
+      if (!cleanName) {
+        const rawPart = email.split("@")[0] || "Film Buff";
+        // Clean up email prefix like chinmayhegde2511 -> Chinmay Hegde
+        const words = rawPart.replace(/[0-9_.-]+/g, " ").trim();
+        cleanName = words
+          ? words
+              .split(" ")
+              .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+              .join(" ")
+          : rawPart;
+      }
+
       const user: AuthUser = {
         id: `user-${Date.now()}`,
-        name: name.trim() || email.split("@")[0] || "Film Buff",
+        name: cleanName,
         email: email.trim(),
         username: email.split("@")[0] || "cinephile",
         role: "user",
@@ -72,12 +85,12 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
       } else {
         user = {
           id: "user-demo",
-          name: "Arjun Gowda",
-          email: "arjun@cinesense.app",
-          username: "film_buff_99",
+          name: "Guest Critic",
+          email: "guest@cinesense.app",
+          username: "guest_critic",
           role: "user",
-          badge: "Top Reviewer",
-          points: 420,
+          badge: "Verified Reviewer",
+          points: 100,
         };
       }
 
@@ -193,22 +206,22 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
           {/* Email / Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {tab === "signup" && (
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 text-slate-400" size={16} />
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Arjun Gowda"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white"
-                  />
-                </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">
+                Your Name / Display Name {tab === "signin" && <span className="text-slate-500 font-normal">(Optional)</span>}
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-3 text-slate-400" size={16} />
+                <input
+                  type="text"
+                  required={tab === "signup"}
+                  placeholder="e.g. Chinmay Hegde / Kiran Kumar"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white"
+                />
               </div>
-            )}
+            </div>
 
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">Email Address</label>

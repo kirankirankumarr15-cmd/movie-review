@@ -31,6 +31,15 @@ export default function CommunityReviewSection({ tmdbId, movieTitle }: Community
 
     setIsSubmitting(true);
     try {
+      let currentUserName = "Community Reviewer";
+      try {
+        const stored = typeof window !== "undefined" ? localStorage.getItem("cinesense_user") : null;
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed.name) currentUserName = parsed.name;
+        }
+      } catch (e) {}
+
       const res = await fetch("/api/community/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,7 +48,7 @@ export default function CommunityReviewSection({ tmdbId, movieTitle }: Community
           rating,
           title,
           text: text.trim(),
-          userName: "Film Buff (You)",
+          userName: currentUserName,
         }),
       });
 
