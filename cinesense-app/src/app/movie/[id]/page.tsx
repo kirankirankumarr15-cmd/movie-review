@@ -55,6 +55,24 @@ export default async function MoviePage({ params }: PageProps) {
 
   // 1. Fetch official videos (teasers, trailers, clips, songs)
   let videos = await dbService.getMovieVideos(movie.id);
+
+  // Guard against known private/blocked YouTube IDs from TMDB for landmark movies
+  if (
+    movie.id === 564147 || 
+    movie.title?.toLowerCase().includes('k.g.f: chapter 1') || 
+    movie.title?.toLowerCase().includes('kgf: chapter 1') ||
+    movie.trailer_youtube_id === '3oxo-wacE50' ||
+    movie.trailer_youtube_id === '-KfsY-qw908'
+  ) {
+    movie.trailer_youtube_id = '-KfsY-qwBS0';
+  } else if (
+    movie.id === 585245 ||
+    movie.title?.toLowerCase().includes('k.g.f: chapter 2') ||
+    movie.title?.toLowerCase().includes('kgf: chapter 2')
+  ) {
+    movie.trailer_youtube_id = 'JKa05nyUmuQ';
+  }
+
   if (videos.length === 0 && movie.trailer_youtube_id) {
     videos = [
       {

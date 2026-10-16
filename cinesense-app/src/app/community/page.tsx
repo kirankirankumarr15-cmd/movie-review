@@ -82,16 +82,16 @@ export default function CommunityPage() {
 
   const filteredWatchlist = watchlist.filter((w) => w.status === userStatus);
 
-  const displayName = currentUser?.name || "Film Buff";
-  const initials = displayName
+  const displayName = currentUser?.name || "Kiran";
+  const initials = (displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase();
-  const username = currentUser?.username || (currentUser?.email ? currentUser.email.split("@")[0] : "cinephile");
-  const badge = currentUser?.badge || "Verified Member";
-  const points = currentUser?.points || 100;
+    .toUpperCase()) || "K";
+  const username = currentUser?.username || (currentUser?.email ? currentUser.email.split("@")[0] : "kiran");
+  const badge = currentUser?.badge || "Top Reviewer";
+  const points = currentUser?.points || 420;
 
   return (
     <div className="min-h-screen bg-[#08080d] text-slate-100 py-12">

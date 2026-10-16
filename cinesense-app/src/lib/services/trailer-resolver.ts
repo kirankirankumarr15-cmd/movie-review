@@ -79,8 +79,11 @@ export const VERIFIED_TRAILER_SEEDS: Record<string, { youtube_id: string; type: 
     { youtube_id: 'JKa05nyUmuQ', type: 'trailer', title: 'K.G.F: Chapter 2 — Official Trailer (Hombale Films)' }
   ],
   // KGF Chapter 1
+  '564147': [
+    { youtube_id: '-KfsY-qwBS0', type: 'trailer', title: 'K.G.F: Chapter 1 — Official Trailer (Excel Movies)' }
+  ],
   '490132': [
-    { youtube_id: '-KfsY-qw908', type: 'trailer', title: 'K.G.F: Chapter 1 — Official Trailer (Hombale Films)' }
+    { youtube_id: '-KfsY-qwBS0', type: 'trailer', title: 'K.G.F: Chapter 1 — Official Trailer (Excel Movies)' }
   ],
   // 777 Charlie
   '805327': [

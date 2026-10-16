@@ -289,6 +289,24 @@ export async function getMovieDetails(movieId: string | number): Promise<MovieDe
           data.trailer_youtube_id = 'EfluEyQ5QIA';
           data.age_rating = data.age_rating || 'A';
           data.director = data.director || 'Geetu Mohandas';
+        } else if (
+          Number(movieId) === 564147 || 
+          Number(movieId) === 490132 || 
+          (data.title && data.title.toLowerCase().includes('k.g.f') && data.title.toLowerCase().includes('chapter 1')) ||
+          (data.title && data.title.toLowerCase().includes('kgf') && data.title.toLowerCase().includes('chapter 1'))
+        ) {
+          // K.G.F: Chapter 1 -> Official Excel Movies Trailer (Verified embeddable, 100M+ views)
+          data.trailer_youtube_id = '-KfsY-qwBS0';
+          data.director = data.director || 'Prashanth Neel';
+        } else if (
+          Number(movieId) === 585245 || 
+          Number(movieId) === 872585 ||
+          (data.title && data.title.toLowerCase().includes('k.g.f') && data.title.toLowerCase().includes('chapter 2')) ||
+          (data.title && data.title.toLowerCase().includes('kgf') && data.title.toLowerCase().includes('chapter 2'))
+        ) {
+          // K.G.F: Chapter 2 -> Official Hombale Films Trailer
+          data.trailer_youtube_id = 'JKa05nyUmuQ';
+          data.director = data.director || 'Prashanth Neel';
         } else {
           // Find official trailer from TMDB videos
           const officialTrailer = data.videos?.results?.find(
@@ -298,6 +316,11 @@ export async function getMovieDetails(movieId: string | number): Promise<MovieDe
             (v) => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')
           );
           data.trailer_youtube_id = officialTrailer?.key || anyTrailer?.key;
+
+          // Guard against known private/blocked TMDB YouTube keys
+          if (data.trailer_youtube_id === '3oxo-wacE50' || data.trailer_youtube_id === '-KfsY-qw908') {
+            data.trailer_youtube_id = '-KfsY-qwBS0';
+          }
         }
 
         return data;

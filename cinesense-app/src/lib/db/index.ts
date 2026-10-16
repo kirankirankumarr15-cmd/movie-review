@@ -160,8 +160,8 @@ const INITIAL_SEED: LocalDbSchema = {
     },
     {
       id: 'user-demo',
-      username: 'film_buff_99',
-      full_name: 'Arjun Gowda',
+      username: 'kiran',
+      full_name: 'Kiran',
       bio: 'Watching cinema across Sandalwood, Bollywood and Hollywood.',
       badge_title: 'Top Reviewer',
       points: 420,
