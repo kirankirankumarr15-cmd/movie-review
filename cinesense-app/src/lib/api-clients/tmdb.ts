@@ -396,6 +396,33 @@ export async function getDiscoveryMovies(
 ): Promise<MovieSearchResult[]> {
   if (process.env.TMDB_API_KEY) {
     try {
+      const todayStr = new Date().toISOString().split('T')[0];
+
+      // Genuinely upcoming releases starting from today onwards
+      if (category === 'upcoming') {
+        const discoverUrl = new URL(`${TMDB_BASE_URL}/discover/movie`);
+        discoverUrl.searchParams.append('primary_release_date.gte', todayStr);
+        discoverUrl.searchParams.append('sort_by', 'popularity.desc');
+        discoverUrl.searchParams.append('page', page.toString());
+        discoverUrl.searchParams.append('include_adult', 'false');
+
+        if (language && language !== 'all') {
+          discoverUrl.searchParams.append('with_original_language', language);
+        }
+
+        const res = await fetch(discoverUrl.toString(), {
+          method: 'GET',
+          headers: getAuthHeaders(),
+          next: { revalidate: 1800 },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          let results: MovieSearchResult[] = data.results || [];
+          if (results.length > 0) return results;
+        }
+      }
+
       let endpoint = `${TMDB_BASE_URL}/movie/${category}`;
       if (category === 'trending') {
         endpoint = `${TMDB_BASE_URL}/trending/movie/week`;
@@ -414,8 +441,6 @@ export async function getDiscoveryMovies(
         if (category === 'top_rated') {
           discoverUrl.searchParams.append('sort_by', 'vote_average.desc');
           discoverUrl.searchParams.append('vote_count.gte', '20');
-        } else if (category === 'upcoming') {
-          discoverUrl.searchParams.append('sort_by', 'primary_release_date.desc');
         } else {
           discoverUrl.searchParams.append('sort_by', 'popularity.desc');
         }
