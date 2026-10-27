@@ -441,7 +441,7 @@ export async function getDiscoveryMovies(
 
         if (res.ok) {
           const data = await res.json();
-          let results: MovieSearchResult[] = data.results || [];
+          const results: MovieSearchResult[] = data.results || [];
           if (results.length > 0) return results;
         }
       }

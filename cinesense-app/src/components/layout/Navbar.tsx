@@ -2,28 +2,19 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { User, LogIn, LogOut, ShieldCheck, Sparkles, ChevronDown, Award, Menu, X } from "lucide-react";
-import AuthModal, { AuthUser } from "@/components/auth/AuthModal";
+import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Award, Menu, X } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthContext";
+import AuthModal from "@/components/auth/AuthModal";
 
 export default function Navbar() {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const { user, isAdmin, logout, isAuthModalOpen, openAuthModal, closeAuthModal, login } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Check saved session on client mount
   useEffect(() => {
     setIsMounted(true);
-    try {
-      const savedUser = localStorage.getItem("cinesense_user");
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
-      }
-    } catch (e) {
-      console.error("Failed to parse saved user", e);
-    }
   }, []);
 
   // Close user dropdown menu on click outside
@@ -38,8 +29,7 @@ export default function Navbar() {
   }, []);
 
   const handleSignOut = () => {
-    localStorage.removeItem("cinesense_user");
-    setUser(null);
+    logout();
     setIsMenuOpen(false);
   };
 
@@ -99,14 +89,18 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          {/* Actions: Admin, Profile & Mobile Menu Toggle */}
+          {/* Actions: Admin (ONLY for kirankirankumarr15@gmail.com), Profile & Mobile Menu Toggle */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              href="/admin"
-              className="text-xs px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-colors"
-            >
-              Admin
-            </Link>
+            {/* Desktop Admin button - strictly visible only to authorized admin */}
+            {isMounted && isAdmin && (
+              <Link
+                href="/admin"
+                className="text-xs px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition-all flex items-center gap-1.5 font-semibold shadow-sm shadow-emerald-950"
+              >
+                <ShieldCheck size={14} className="text-emerald-400" />
+                <span>Admin</span>
+              </Link>
+            )}
 
             {isMounted && user ? (
               /* Signed In Profile Button & Dropdown */
@@ -141,16 +135,19 @@ export default function Navbar() {
                         <span>{user.badge}</span>
                       </div>
                     </div>
-                    {user.role === "admin" && (
+
+                    {/* Admin Dashboard Option: Strictly restricted to kirankirankumarr15@gmail.com */}
+                    {isAdmin && (
                       <Link
                         href="/admin"
                         onClick={() => setIsMenuOpen(false)}
-                        className="px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2"
+                        className="px-4 py-2 text-xs text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/10 flex items-center gap-2 font-medium"
                       >
                         <ShieldCheck size={14} className="text-emerald-400" />
                         Admin Dashboard
                       </Link>
                     )}
+
                     <Link
                       href="/community"
                       onClick={() => setIsMenuOpen(false)}
@@ -159,6 +156,7 @@ export default function Navbar() {
                       <User size={14} className="text-purple-400" />
                       My Profile & Watchlist
                     </Link>
+
                     <button
                       type="button"
                       onClick={handleSignOut}
@@ -174,7 +172,7 @@ export default function Navbar() {
               /* Sign In Button */
               <button
                 type="button"
-                onClick={() => setIsAuthOpen(true)}
+                onClick={openAuthModal}
                 className="text-xs font-semibold px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5 cursor-pointer"
               >
                 <LogIn size={14} />
@@ -248,6 +246,18 @@ export default function Navbar() {
                 <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
                 <span>Sandalwood (Kannada Cinema)</span>
               </Link>
+
+              {/* Mobile Admin Link - ONLY for kirankirankumarr15@gmail.com */}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setIsMobileNavOpen(false)}
+                  className="px-3 py-2.5 rounded-xl text-emerald-300 font-semibold flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 mt-2"
+                >
+                  <ShieldCheck size={16} className="text-emerald-400" />
+                  <span>Admin Command Center</span>
+                </Link>
+              )}
             </nav>
           </div>
         )}
@@ -255,10 +265,10 @@ export default function Navbar() {
 
       {/* Interactive Authentication Modal */}
       <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
         onSuccess={(signedInUser) => {
-          setUser(signedInUser);
+          login(signedInUser);
         }}
       />
     </>

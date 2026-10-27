@@ -70,6 +70,7 @@ export default function CommunityPage() {
         };
     setCurrentUser(updated as any);
     localStorage.setItem("cinesense_user", JSON.stringify(updated));
+    window.dispatchEvent(new Event("cinesense_auth_change"));
     setIsEditingName(false);
   };
 
@@ -82,14 +83,14 @@ export default function CommunityPage() {
 
   const filteredWatchlist = watchlist.filter((w) => w.status === userStatus);
 
-  const displayName = currentUser?.name || "Kiran";
+  const displayName = currentUser?.name || "Film Enthusiast";
   const initials = (displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase()) || "K";
-  const username = currentUser?.username || (currentUser?.email ? currentUser.email.split("@")[0] : "kiran");
+    .toUpperCase()) || "FE";
+  const username = currentUser?.username || (currentUser?.email ? currentUser.email.split("@")[0] : "reviewer");
   const badge = currentUser?.badge || "Top Reviewer";
   const points = currentUser?.points || 420;
 

@@ -5,6 +5,7 @@ import { ThemeProvider, useTheme } from './hooks/useTheme';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 
 // Pages
 import Home from './pages/Home';
@@ -29,20 +30,22 @@ function AppContent() {
       <Navbar />
       <div className="flex-1">
         <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/movie/:id" element={<MovieDetails />} />
-          <Route path="/upcoming" element={<Upcoming />} />
-          <Route path="/upcoming/:id" element={<UpcomingMovieDetail />} />
-          <Route path="/admin/diagnostics" element={<TrailerDiagnostics />} />
-          <Route path="/diagnostics" element={<TrailerDiagnostics />} />
-          <Route path="/analyzer" element={<Analyzer />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/about" element={<About />} />
+          {/* Auth routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Protected routes */}
+          {/* Admin routes: strictly restricted to kirankirankumarr15@gmail.com */}
+          <Route path="/admin/diagnostics" element={<AdminRoute><TrailerDiagnostics /></AdminRoute>} />
+          <Route path="/diagnostics" element={<AdminRoute><TrailerDiagnostics /></AdminRoute>} />
+
+          {/* Protected routes: login required to use the website */}
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/movie/:id" element={<ProtectedRoute><MovieDetails /></ProtectedRoute>} />
+          <Route path="/upcoming" element={<ProtectedRoute><Upcoming /></ProtectedRoute>} />
+          <Route path="/upcoming/:id" element={<ProtectedRoute><UpcomingMovieDetail /></ProtectedRoute>} />
+          <Route path="/analyzer" element={<ProtectedRoute><Analyzer /></ProtectedRoute>} />
+          <Route path="/explore" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
+          <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

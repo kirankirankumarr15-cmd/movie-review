@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X, Lock, Mail, User, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
+import { X, Lock, Mail, User, ShieldCheck, Sparkles, CheckCircle2, Shield } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ADMIN_EMAIL, AuthUser } from "./AuthContext";
 
-export interface AuthUser {
-  id: string;
-  name: string;
-  email: string;
-  username: string;
-  role: "user" | "admin";
-  badge: string;
-  points: number;
-}
+export type { AuthUser };
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -35,31 +28,50 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     setIsLoading(true);
 
     setTimeout(() => {
+      const cleanEmail = email.trim();
+      const isSuperAdmin = cleanEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+
       let cleanName = name.trim();
       if (!cleanName) {
-        const rawPart = email.split("@")[0] || "Film Buff";
-        // Clean up email prefix like chinmayhegde2511 -> Chinmay Hegde
-        const words = rawPart.replace(/[0-9_.-]+/g, " ").trim();
-        cleanName = words
-          ? words
-              .split(" ")
-              .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-              .join(" ")
-          : rawPart;
+        if (isSuperAdmin) {
+          cleanName = "Administrator";
+        } else {
+          const rawPart = cleanEmail.split("@")[0] || "Film Buff";
+          const words = rawPart.replace(/[0-9_.-]+/g, " ").trim();
+          cleanName = words
+            ? words
+                .split(" ")
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                .join(" ")
+            : rawPart;
+        }
+      }
+
+      // If user is named 'hod' or has email hod@..., change name to a friendly title
+      if (cleanName.toLowerCase() === "hod" || cleanEmail.toLowerCase().startsWith("hod@")) {
+        cleanName = "Senior Critic";
+      }
+
+      let cleanUsername = cleanEmail.split("@")[0] || (isSuperAdmin ? "admin" : "cinephile");
+      if (cleanUsername.toLowerCase() === "hod") {
+        cleanUsername = "senior_critic";
       }
 
       const user: AuthUser = {
-        id: `user-${Date.now()}`,
+        id: isSuperAdmin ? "user-admin" : `user-${Date.now()}`,
         name: cleanName,
-        email: email.trim(),
-        username: email.split("@")[0] || "cinephile",
-        role: "user",
-        badge: "Verified Reviewer",
-        points: 100,
+        email: cleanEmail,
+        username: cleanUsername,
+        role: isSuperAdmin ? "admin" : "user",
+        badge: isSuperAdmin ? "Super Admin" : "Verified Reviewer",
+        points: isSuperAdmin ? 2500 : 100,
       };
 
-      localStorage.setItem("cinesense_user", JSON.stringify(user));
-      setSuccessMessage("Signed in successfully!");
+      setSuccessMessage(
+        isSuperAdmin
+          ? `Welcome back, Administrator!`
+          : `Signed in successfully!`
+      );
       setIsLoading(false);
       setTimeout(() => {
         onSuccess(user);
@@ -75,12 +87,12 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
       if (role === "admin") {
         user = {
           id: "user-admin",
-          name: "CineSense Admin",
-          email: "admin@cinesense.app",
-          username: "cinesense_admin",
+          name: "Administrator",
+          email: ADMIN_EMAIL,
+          username: "admin",
           role: "admin",
-          badge: "Head Moderator",
-          points: 1500,
+          badge: "Super Admin",
+          points: 2500,
         };
       } else {
         user = {
@@ -94,7 +106,6 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         };
       }
 
-      localStorage.setItem("cinesense_user", JSON.stringify(user));
       setSuccessMessage(`Welcome back, ${user.name}!`);
       setIsLoading(false);
       setTimeout(() => {
@@ -130,7 +141,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X size={20} />
@@ -150,9 +161,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             <button
               type="button"
               onClick={() => setTab("signin")}
-              className={`py-2 text-xs font-bold rounded-lg transition-all ${
+              className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 tab === "signin"
-                  ? "bg-purple-600 text-white shadow-md"
+                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -161,9 +172,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
             <button
               type="button"
               onClick={() => setTab("signup")}
-              className={`py-2 text-xs font-bold rounded-lg transition-all ${
+              className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 tab === "signup"
-                  ? "bg-purple-600 text-white shadow-md"
+                  ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -174,13 +185,13 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
           {/* 1-Click Fast Logins */}
           <div className="space-y-2 mb-6">
             <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-              1-Click Instant Demo Login
+              1-Click Instant Fast Access
             </p>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => handleQuickLogin("reviewer")}
-                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-200 transition-all flex items-center justify-center gap-2 group hover:border-purple-500/40"
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-200 transition-all flex items-center justify-center gap-2 group hover:border-purple-500/40 cursor-pointer"
               >
                 <Sparkles size={14} className="text-amber-400" />
                 <span>Demo Reviewer</span>
@@ -188,10 +199,10 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
               <button
                 type="button"
                 onClick={() => handleQuickLogin("admin")}
-                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-slate-200 transition-all flex items-center justify-center gap-2 group hover:border-pink-500/40"
+                className="p-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-semibold text-emerald-200 transition-all flex items-center justify-center gap-2 group hover:border-emerald-400 cursor-pointer"
               >
                 <ShieldCheck size={14} className="text-emerald-400" />
-                <span>Admin User</span>
+                <span>Admin</span>
               </button>
             </div>
           </div>
@@ -215,16 +226,23 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
                 <input
                   type="text"
                   required={tab === "signup"}
-                  placeholder="e.g. Chinmay Hegde / Kiran Kumar"
+                  placeholder="e.g. Alex Morgan / Film Buff"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white"
+                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Email Address</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-medium text-slate-300">Email Address</label>
+                {email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase() && (
+                  <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                    <Shield size={10} /> Admin Email Recognized
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 text-slate-400" size={16} />
                 <input
@@ -233,7 +251,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white"
+                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none"
                 />
               </div>
             </div>
@@ -248,7 +266,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white"
+                  className="w-full bg-[#181826] border border-white/10 focus:border-purple-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none"
                 />
               </div>
             </div>

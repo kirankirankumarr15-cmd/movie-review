@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { BASE_URL } from '../services/api';
+import { useAuth } from '../hooks/useAuth';
+import { ADMIN_EMAIL } from '../components/AdminRoute';
 
 interface UpcomingMovieItem {
   id: number;
@@ -91,6 +93,7 @@ const GENRES = [
 
 export default function Upcoming() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   // State
   const [movies, setMovies] = useState<UpcomingMovieItem[]>([]);
@@ -306,14 +309,16 @@ export default function Upcoming() {
                 <div className="text-lg font-bold text-purple-200">IST (UTC+05:30)</div>
               </div>
 
-              <button
-                onClick={() => setAdminModalOpen(true)}
-                className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition-all"
-                title="Admin Overrides & Sync"
-              >
-                <ShieldCheck size={16} className="text-purple-400" />
-                <span>Admin</span>
-              </button>
+              {user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase() && (
+                <button
+                  onClick={() => setAdminModalOpen(true)}
+                  className="px-3.5 py-2.5 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-xs font-semibold text-purple-200 flex items-center gap-1.5 transition-all shadow-sm"
+                  title="Admin Overrides & Sync"
+                >
+                  <ShieldCheck size={16} className="text-emerald-400" />
+                  <span>Admin</span>
+                </button>
+              )}
             </div>
           </div>
 

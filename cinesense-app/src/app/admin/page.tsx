@@ -1,8 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { 
   ShieldAlert, 
+  ShieldCheck,
+  Lock,
+  ArrowLeft,
+  LogOut,
   Activity, 
   Film, 
   MessageSquare, 
@@ -12,6 +17,7 @@ import {
   Server
 } from "lucide-react";
 import { formatDisplayDate } from "@/lib/utils";
+import { useAuth, ADMIN_EMAIL } from "@/components/auth/AuthContext";
 
 // Comprehensive i18n dictionary for English and Kannada (Hindi removed as requested)
 const I18N = {
@@ -118,6 +124,7 @@ const I18N = {
 };
 
 export default function AdminDashboardPage() {
+  const { user, isAdmin, isLoading: isAuthLoading, logout, openAuthModal } = useAuth();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [uiLanguage, setUiLanguage] = useState<"kn" | "en">("kn");
@@ -125,9 +132,14 @@ export default function AdminDashboardPage() {
   const t = I18N[uiLanguage];
 
   const loadStats = async () => {
+    if (!isAdmin) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/stats");
+      const res = await fetch("/api/admin/stats", {
+        headers: {
+          "x-user-email": user?.email || ADMIN_EMAIL,
+        },
+      });
       const d = await res.json();
       setData(d);
     } catch (err) {
@@ -138,8 +150,78 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    loadStats();
-  }, []);
+    if (isAdmin) {
+      loadStats();
+    }
+  }, [isAdmin]);
+
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen bg-[#08080d] flex items-center justify-center p-6 text-slate-300">
+        <div className="flex items-center gap-3">
+          <RefreshCw className="w-5 h-5 animate-spin text-purple-400" />
+          <span className="text-sm font-medium">Verifying Administrator Authorization...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Strict Protection: Only kirankirankumarr15@gmail.com is authorized to view this dashboard
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-[#08080d] text-slate-100 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg bg-[#11111b] border-2 border-rose-500/30 rounded-3xl p-8 sm:p-10 shadow-2xl shadow-rose-950/20 text-center space-y-6">
+          <div className="mx-auto w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shadow-lg shadow-rose-500/20">
+            <ShieldAlert className="w-8 h-8 text-rose-400" />
+          </div>
+
+          <div className="space-y-2">
+            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20 uppercase tracking-wider">
+              403 Access Denied / ಪ್ರವೇಶ ನಿರಾಕರಿಸಲಾಗಿದೆ
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white pt-2">
+              Admin Command Center Restricted
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+              This dashboard is strictly reserved for authorized administrators.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 text-left space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-400">Current Account:</span>
+              <span className="font-semibold text-white">{user ? user.email : "Not Signed In"}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-slate-400">Clearance Status:</span>
+              <span className="text-rose-400 font-semibold">Unauthorized ✕</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+            <Link
+              href="/"
+              className="w-full sm:flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-all text-center border border-white/10 flex items-center justify-center gap-2"
+            >
+              <ArrowLeft size={14} />
+              <span>Back to Home</span>
+            </Link>
+
+            <button
+              onClick={() => {
+                logout();
+                openAuthModal();
+              }}
+              className="w-full sm:flex-1 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <LogOut size={14} />
+              <span>Sign In as Admin</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#08080d] text-slate-100 py-12">
@@ -147,16 +229,21 @@ export default function AdminDashboardPage() {
         {/* Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#101018] border border-white/10 rounded-3xl p-6 md:p-8">
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex flex-wrap items-center gap-2 mb-1">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               <h1 className="text-2xl md:text-3xl font-display font-bold text-white">
                 {t.title}
               </h1>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold sm:ml-2">
+                <ShieldCheck size={13} className="text-emerald-400" />
+                <span>Authorized Administrator</span>
+              </span>
             </div>
             <p className="text-xs text-slate-400">
               {t.subtitle}
             </p>
           </div>
+
 
           <div className="flex items-center gap-3">
             {/* UI Language Switcher: Kannada (Default) & English (Hindi Removed) */}
@@ -341,7 +428,9 @@ function FullMovieModerationSection({ onRefresh, t }: { onRefresh: () => void; t
 
   const loadFullMovies = async () => {
     try {
-      const res = await fetch('/api/admin/full-movies');
+      const res = await fetch('/api/admin/full-movies', {
+        headers: { 'x-user-email': ADMIN_EMAIL }
+      });
       if (res.ok) {
         const d = await res.json();
         setMovies(d);
@@ -359,7 +448,10 @@ function FullMovieModerationSection({ onRefresh, t }: { onRefresh: () => void; t
     try {
       const res = await fetch('/api/admin/full-movies', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-user-email': ADMIN_EMAIL 
+        },
         body: JSON.stringify({ id, status, reason })
       });
       if (res.ok) {
@@ -469,7 +561,9 @@ function OfficialChannelsWhitelistSection({ t }: { t: any }) {
 
   const loadChannels = async () => {
     try {
-      const res = await fetch('/api/admin/channels');
+      const res = await fetch('/api/admin/channels', {
+        headers: { 'x-user-email': ADMIN_EMAIL }
+      });
       if (res.ok) {
         const d = await res.json();
         setChannels(d);
@@ -490,7 +584,10 @@ function OfficialChannelsWhitelistSection({ t }: { t: any }) {
     try {
       const res = await fetch('/api/admin/channels', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-user-email': ADMIN_EMAIL
+        },
         body: JSON.stringify({
           channel_id: newChannelId.trim(),
           channel_name: newChannelName.trim(),
@@ -512,7 +609,8 @@ function OfficialChannelsWhitelistSection({ t }: { t: any }) {
   const handleRemoveChannel = async (channelId: string) => {
     try {
       const res = await fetch(`/api/admin/channels?channel_id=${encodeURIComponent(channelId)}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: { 'x-user-email': ADMIN_EMAIL }
       });
       if (res.ok) {
         await loadChannels();

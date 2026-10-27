@@ -160,8 +160,8 @@ const INITIAL_SEED: LocalDbSchema = {
     },
     {
       id: 'user-demo',
-      username: 'kiran',
-      full_name: 'Kiran',
+      username: 'critic',
+      full_name: 'Film Critic',
       bio: 'Watching cinema across Sandalwood, Bollywood and Hollywood.',
       badge_title: 'Top Reviewer',
       points: 420,

@@ -1,11 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Film, LayoutDashboard, Menu, X, User, LogOut, LogIn } from 'lucide-react';
+import { Film, LayoutDashboard, Menu, X, User, LogOut, LogIn, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import ThemeToggle from './ThemeToggle';
 import { cn } from '../lib/utils';
+import { ADMIN_EMAIL } from './AdminRoute';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
@@ -133,6 +134,18 @@ export default function Navbar() {
                     >
                       <LayoutDashboard size={14} /> Dashboard
                     </Link>
+                    {user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase() && (
+                      <Link
+                        to="/admin/diagnostics"
+                        onClick={() => setUserMenuOpen(false)}
+                        className={cn(
+                          'flex items-center gap-2 px-4 py-2 text-sm text-emerald-400 hover:bg-emerald-500/10 transition-colors'
+                        )}
+                        role="menuitem"
+                      >
+                        <ShieldCheck size={14} /> Admin Diagnostics
+                      </Link>
+                    )}
                     <hr className={cn('my-1', isDark ? 'border-[#2a2a3d]' : 'border-slate-200')} />
                     <button
                       onClick={handleLogout}

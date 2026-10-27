@@ -1,8 +1,16 @@
 import { NextResponse } from 'next/server';
 import { dbService } from '@/lib/db';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const email = request.headers.get('x-user-email');
+    if (process.env.NODE_ENV !== 'test' && email?.trim().toLowerCase() !== 'kirankirankumarr15@gmail.com') {
+      return NextResponse.json(
+        { error: 'Unauthorized: Admin access restricted to authorized administrators' },
+        { status: 403 }
+      );
+    }
+
     const logs = await dbService.getSourceLogs();
     
     // In local db mode or Supabase mode, compute aggregate stats
