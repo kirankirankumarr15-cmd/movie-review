@@ -2,9 +2,19 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Award, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Film, Globe, ChevronDown, User, LogIn, LogOut, ShieldCheck, Award, Menu, X } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/explore", label: "Explore" },
+  { href: "/compare", label: "Compare" },
+  { href: "/calendar", label: "Calendar" },
+  { href: "/analyze-review", label: "Analyze Review" },
+  { href: "/community", label: "Community" },
+];
 
 export default function Navbar() {
   const { user, isAdmin, logout, isAuthModalOpen, openAuthModal, closeAuthModal, login } = useAuth();
@@ -12,10 +22,9 @@ export default function Navbar() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  useEffect(() => { setIsMounted(true); }, []);
 
   // Close user dropdown menu on click outside
   useEffect(() => {
@@ -35,69 +44,55 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0a0a0f]/90 backdrop-blur-md">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/95 backdrop-blur-md shadow-sm">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between max-w-7xl">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-md shadow-purple-600/30 group-hover:scale-105 transition-transform">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white"
-              >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              </svg>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-md shadow-purple-400/30 group-hover:scale-105 transition-transform">
+              <Film className="w-4 h-4 text-white" />
             </div>
-            <span className="text-xl font-display font-bold text-white tracking-tight">
-              Cine<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Sense</span>
-            </span>
+            <div>
+              <span className="text-lg font-bold text-gray-900 tracking-tight">Sandalwood</span>
+              <p className="text-[10px] text-gray-500 leading-none">AI Movie Sentiment Analytics</p>
+            </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="/" className="text-slate-300 hover:text-white transition-colors">
-              Home
-            </Link>
-            <Link href="/explore" className="text-slate-300 hover:text-white transition-colors">
-              Explore
-            </Link>
-            <Link href="/compare" className="text-slate-300 hover:text-white transition-colors">
-              Compare
-            </Link>
-            <Link href="/calendar" className="text-slate-300 hover:text-white transition-colors">
-              Calendar
-            </Link>
-            <Link href="/analyze-review" className="text-slate-300 hover:text-white transition-colors">
-              Analyze Review
-            </Link>
-            <Link href="/community" className="text-slate-300 hover:text-white transition-colors">
-              Community
-            </Link>
-            <Link
-              href="/hub/kn"
-              className="text-amber-400 hover:text-amber-300 transition-colors font-semibold flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-              Sandalwood
-            </Link>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    isActive
+                      ? "bg-purple-600 text-white shadow-sm shadow-purple-200"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Actions: Admin (ONLY for kirankirankumarr15@gmail.com), Profile & Mobile Menu Toggle */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Desktop Admin button - strictly visible only to authorized admin */}
+          {/* Right Actions */}
+          <div className="flex items-center gap-2">
+            {/* Language dropdown */}
+            <button className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-full border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+              <Globe className="w-4 h-4" />
+              <span>English</span>
+              <ChevronDown className="w-3 h-3" />
+            </button>
+
+            {/* Admin button - strictly visible only to authorized admin */}
             {isMounted && isAdmin && (
               <Link
                 href="/admin"
-                className="text-xs px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition-all flex items-center gap-1.5 font-semibold shadow-sm shadow-emerald-950"
+                className="text-xs px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition-all flex items-center gap-1.5 font-semibold"
               >
-                <ShieldCheck size={14} className="text-emerald-400" />
+                <ShieldCheck size={14} className="text-emerald-600" />
                 <span>Admin</span>
               </Link>
             )}
@@ -108,42 +103,38 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#161625] border border-purple-500/30 hover:border-purple-500/60 transition-all text-left cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 border border-purple-200 hover:border-purple-400 transition-all text-left cursor-pointer"
                 >
                   <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="hidden sm:block text-left">
-                    <p className="text-xs font-semibold text-white leading-tight truncate max-w-[100px]">
-                      {user.name}
-                    </p>
-                    <p className="text-[10px] text-purple-300 leading-tight">
-                      {user.points} pts
-                    </p>
+                    <p className="text-xs font-semibold text-gray-900 leading-tight truncate max-w-[80px]">{user.name}</p>
+                    <p className="text-[10px] text-purple-600 leading-tight">{user.points} pts</p>
                   </div>
-                  <ChevronDown size={14} className="text-slate-400 ml-0.5" />
+                  <ChevronDown size={14} className="text-gray-400" />
                 </button>
 
                 {/* Dropdown Menu */}
                 {isMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-[#131320] border border-white/15 rounded-2xl shadow-2xl py-2 z-50 text-left">
-                    <div className="px-4 py-2 border-b border-white/10">
-                      <p className="text-xs font-bold text-white truncate">{user.name}</p>
-                      <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
-                      <div className="mt-1.5 flex items-center gap-1.5 text-[10px] text-amber-400 font-semibold">
+                  <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-xs font-bold text-gray-900 truncate">{user.name}</p>
+                      <p className="text-[11px] text-gray-500 truncate">{user.email}</p>
+                      <div className="mt-1 flex items-center gap-1.5 text-[10px] text-amber-600 font-semibold">
                         <Award size={12} />
                         <span>{user.badge}</span>
                       </div>
                     </div>
 
-                    {/* Admin Dashboard Option: Strictly restricted to kirankirankumarr15@gmail.com */}
+                    {/* Admin Dashboard Option: Strictly restricted to admin */}
                     {isAdmin && (
                       <Link
                         href="/admin"
                         onClick={() => setIsMenuOpen(false)}
-                        className="px-4 py-2 text-xs text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/10 flex items-center gap-2 font-medium"
+                        className="px-4 py-2 text-xs text-emerald-700 hover:bg-emerald-50 flex items-center gap-2 font-medium"
                       >
-                        <ShieldCheck size={14} className="text-emerald-400" />
+                        <ShieldCheck size={14} />
                         Admin Dashboard
                       </Link>
                     )}
@@ -151,16 +142,16 @@ export default function Navbar() {
                     <Link
                       href="/community"
                       onClick={() => setIsMenuOpen(false)}
-                      className="px-4 py-2 text-xs text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2"
+                      className="px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                     >
-                      <User size={14} className="text-purple-400" />
-                      My Profile & Watchlist
+                      <User size={14} className="text-purple-500" />
+                      My Profile &amp; Watchlist
                     </Link>
 
                     <button
                       type="button"
                       onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2 text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center gap-2 border-t border-white/10 mt-1 cursor-pointer"
+                      className="w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 flex items-center gap-2 border-t border-gray-100 mt-1 cursor-pointer"
                     >
                       <LogOut size={14} />
                       Sign Out
@@ -173,7 +164,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={openAuthModal}
-                className="text-xs font-semibold px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5 cursor-pointer"
+                className="text-xs font-semibold px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
               >
                 <LogIn size={14} />
                 <span>Sign In</span>
@@ -184,7 +175,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-              className="md:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none cursor-pointer"
+              className="md:hidden p-2 rounded-xl text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors focus:outline-none cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {isMobileNavOpen ? <X size={20} /> : <Menu size={20} />}
@@ -192,70 +183,28 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer / Dropdown */}
+        {/* Mobile Navigation Drawer */}
         {isMobileNavOpen && (
-          <div className="md:hidden border-t border-white/10 bg-[#0c0c14]/98 backdrop-blur-2xl px-4 py-4 shadow-2xl animate-in slide-in-from-top-2 duration-150">
+          <div className="md:hidden border-t border-gray-100 bg-white px-4 py-4 shadow-lg">
             <nav className="flex flex-col space-y-1 text-sm font-medium">
-              <Link
-                href="/"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
-              >
-                <span>Home</span>
-              </Link>
-              <Link
-                href="/explore"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
-              >
-                <span>Explore Movies</span>
-              </Link>
-              <Link
-                href="/compare"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
-              >
-                <span>Compare Films</span>
-              </Link>
-              <Link
-                href="/calendar"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
-              >
-                <span>Release Calendar</span>
-              </Link>
-              <Link
-                href="/analyze-review"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
-              >
-                <span>Analyze Review (AI)</span>
-              </Link>
-              <Link
-                href="/community"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-slate-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between"
-              >
-                <span>Community Hub</span>
-              </Link>
-              <Link
-                href="/hub/kn"
-                onClick={() => setIsMobileNavOpen(false)}
-                className="px-3 py-2.5 rounded-xl text-amber-300 font-semibold flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 mt-2"
-              >
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                <span>Sandalwood (Kannada Cinema)</span>
-              </Link>
-
-              {/* Mobile Admin Link - ONLY for kirankirankumarr15@gmail.com */}
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileNavOpen(false)}
+                  className="px-3 py-2.5 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
               {isAdmin && (
                 <Link
                   href="/admin"
                   onClick={() => setIsMobileNavOpen(false)}
-                  className="px-3 py-2.5 rounded-xl text-emerald-300 font-semibold flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 mt-2"
+                  className="px-3 py-2.5 rounded-xl text-emerald-700 font-semibold flex items-center gap-2 bg-emerald-50 border border-emerald-200 mt-2"
                 >
-                  <ShieldCheck size={16} className="text-emerald-400" />
-                  <span>Admin Command Center</span>
+                  <ShieldCheck size={16} />
+                  Admin Command Center
                 </Link>
               )}
             </nav>
