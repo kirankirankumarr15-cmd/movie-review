@@ -99,12 +99,12 @@ export default function SearchMovie() {
         {/* Language Filter Pills */}
         <div className="flex justify-center">
           <Tabs defaultValue="all" value={language} onValueChange={setLanguage} className="w-auto">
-            <TabsList className="bg-white border border-purple-100/90 shadow-sm rounded-full h-11 p-1 flex flex-wrap">
+            <TabsList className="bg-white dark:bg-white/5 border border-purple-100/90 dark:border-white/10 shadow-sm rounded-full h-11 p-1 flex flex-wrap">
               {LANGUAGES.map((lang) => (
                 <TabsTrigger
                   key={lang.id}
                   value={lang.id}
-                  className="rounded-full px-4 sm:px-5 text-xs font-semibold data-[state=active]:bg-[#6332c9] data-[state=active]:text-white text-slate-700 hover:text-purple-700 transition-all cursor-pointer"
+                  className="rounded-full px-4 sm:px-5 text-xs font-semibold data-[state=active]:bg-[#6332c9] data-[state=active]:text-white text-slate-700 dark:text-slate-300 hover:text-purple-700 dark:hover:text-purple-300 transition-all cursor-pointer"
                 >
                   {lang.label}
                 </TabsTrigger>
@@ -116,7 +116,7 @@ export default function SearchMovie() {
         {/* Search Input Box with Dropdown Anchored Directly Below It */}
         <div className="relative w-full">
           <div className="relative group flex items-center">
-            <div className="absolute left-4 flex items-center pointer-events-none text-purple-600">
+            <div className="absolute left-4 flex items-center pointer-events-none text-purple-600 dark:text-purple-400">
               {isSearching ? <Loader2 className="animate-spin" size={22} /> : <Search size={22} />}
             </div>
 
@@ -130,7 +130,7 @@ export default function SearchMovie() {
               }}
               type="text"
               placeholder="Search movies (e.g. KGF, Toxic, Stree 2, Oppenheimer)..."
-              className="w-full bg-white border-2 border-purple-100 focus:border-[#7c3aed] focus:ring-2 focus:ring-purple-500/20 rounded-full h-16 pl-13 pr-12 text-base sm:text-lg text-slate-900 shadow-sm placeholder:text-slate-400 font-medium transition-all"
+              className="w-full bg-white dark:bg-[#12121e] border-2 border-purple-100 dark:border-white/10 focus:border-[#7c3aed] focus:ring-2 focus:ring-purple-500/20 rounded-full h-16 pl-13 pr-12 text-base sm:text-lg text-slate-900 dark:text-white shadow-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium transition-all"
             />
 
             {query.length > 0 && (
@@ -143,7 +143,7 @@ export default function SearchMovie() {
                     setShowDropdown(false);
                   }
                 }}
-                className="absolute right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-purple-50 transition-colors cursor-pointer"
+                className="absolute right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-purple-50 dark:hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Clear search"
               >
                 <X size={18} />
@@ -159,7 +159,7 @@ export default function SearchMovie() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.99 }}
                 transition={{ duration: 0.15 }}
-                className="absolute top-full mt-2 left-0 right-0 bg-white border-2 border-purple-200 rounded-2xl shadow-2xl shadow-purple-900/10 z-[9999] max-h-[460px] overflow-y-auto divide-y divide-purple-100 backdrop-blur-2xl text-left"
+                className="absolute top-full mt-2 left-0 right-0 bg-white dark:bg-[#12121e] border-2 border-purple-200 dark:border-purple-500/30 rounded-2xl shadow-2xl shadow-purple-900/10 z-[9999] max-h-[460px] overflow-y-auto divide-y divide-purple-100 dark:divide-white/10 backdrop-blur-2xl text-left"
               >
                 {/* Header Banner if filtered by Language */}
                 {language !== "all" && (
