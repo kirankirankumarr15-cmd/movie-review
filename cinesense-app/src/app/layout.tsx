@@ -54,7 +54,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${outfit.variable} font-sans bg-white text-gray-900 min-h-screen antialiased flex flex-col`}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans bg-[#f8f7ff] text-slate-900 min-h-screen antialiased flex flex-col`}>
         <AppProviders>
           <Navbar />
           <main className="flex-1 flex flex-col">

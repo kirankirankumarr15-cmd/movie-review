@@ -67,8 +67,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     isActive
-                      ? "bg-purple-600 text-white shadow-sm shadow-purple-200"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      ? "bg-[#6332c9] text-white shadow-sm shadow-purple-500/25"
+                      : "text-slate-700 hover:text-purple-700 hover:bg-purple-50/80"
                   }`}
                 >
                   {link.label}
@@ -103,16 +103,14 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 border border-purple-200 hover:border-purple-400 transition-all text-left cursor-pointer"
+                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gray-200 hover:border-purple-300 hover:bg-purple-50/50 transition-all text-left cursor-pointer shadow-sm"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-6 h-6 rounded-full bg-[#7c3aed] flex items-center justify-center text-white text-xs font-bold">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
-                  <div className="hidden sm:block text-left">
-                    <p className="text-xs font-semibold text-gray-900 leading-tight truncate max-w-[80px]">{user.name}</p>
-                    <p className="text-[10px] text-purple-600 leading-tight">{user.points} pts</p>
-                  </div>
-                  <ChevronDown size={14} className="text-gray-400" />
+                  <span className="text-xs font-semibold text-gray-900 leading-tight truncate max-w-[90px]">{user.name}</span>
+                  <span className="text-[11px] font-medium text-gray-500 leading-tight">{user.points} pts</span>
+                  <ChevronDown size={12} className="text-gray-400" />
                 </button>
 
                 {/* Dropdown Menu */}

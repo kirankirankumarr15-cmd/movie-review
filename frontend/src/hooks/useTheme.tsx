@@ -16,8 +16,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     const stored = localStorage.getItem('cinesense_theme') as Theme | null;
     if (stored) return stored;
-    // Respect system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default to the signature luminous lavender/purple light theme
+    return 'light';
   });
 
   useEffect(() => {

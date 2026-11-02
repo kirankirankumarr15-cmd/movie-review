@@ -99,12 +99,12 @@ export default function SearchMovie() {
         {/* Language Filter Pills */}
         <div className="flex justify-center">
           <Tabs defaultValue="all" value={language} onValueChange={setLanguage} className="w-auto">
-            <TabsList className="bg-[#12121d] border border-white/10 rounded-full h-11 p-1 flex flex-wrap">
+            <TabsList className="bg-white border border-purple-100/90 shadow-sm rounded-full h-11 p-1 flex flex-wrap">
               {LANGUAGES.map((lang) => (
                 <TabsTrigger
                   key={lang.id}
                   value={lang.id}
-                  className="rounded-full px-4 sm:px-5 text-xs font-semibold data-[state=active]:bg-purple-600 data-[state=active]:text-white text-slate-300 transition-all cursor-pointer"
+                  className="rounded-full px-4 sm:px-5 text-xs font-semibold data-[state=active]:bg-[#6332c9] data-[state=active]:text-white text-slate-700 hover:text-purple-700 transition-all cursor-pointer"
                 >
                   {lang.label}
                 </TabsTrigger>
@@ -116,7 +116,7 @@ export default function SearchMovie() {
         {/* Search Input Box with Dropdown Anchored Directly Below It */}
         <div className="relative w-full">
           <div className="relative group flex items-center">
-            <div className="absolute left-4 flex items-center pointer-events-none text-purple-400">
+            <div className="absolute left-4 flex items-center pointer-events-none text-purple-600">
               {isSearching ? <Loader2 className="animate-spin" size={22} /> : <Search size={22} />}
             </div>
 
@@ -130,7 +130,7 @@ export default function SearchMovie() {
               }}
               type="text"
               placeholder="Search movies (e.g. KGF, Toxic, Stree 2, Oppenheimer)..."
-              className="w-full bg-[#12121d] border-2 border-white/15 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30 rounded-2xl h-16 pl-13 pr-12 text-base sm:text-lg text-white shadow-2xl placeholder:text-slate-500 font-medium transition-all"
+              className="w-full bg-white border-2 border-purple-100 focus:border-[#7c3aed] focus:ring-2 focus:ring-purple-500/20 rounded-full h-16 pl-13 pr-12 text-base sm:text-lg text-slate-900 shadow-sm placeholder:text-slate-400 font-medium transition-all"
             />
 
             {query.length > 0 && (
@@ -143,7 +143,7 @@ export default function SearchMovie() {
                     setShowDropdown(false);
                   }
                 }}
-                className="absolute right-4 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="absolute right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-purple-50 transition-colors cursor-pointer"
                 aria-label="Clear search"
               >
                 <X size={18} />
@@ -159,7 +159,7 @@ export default function SearchMovie() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.99 }}
                 transition={{ duration: 0.15 }}
-                className="absolute top-full mt-2 left-0 right-0 bg-[#12121e] border-2 border-purple-500/30 rounded-2xl shadow-2xl shadow-black/95 z-[9999] max-h-[460px] overflow-y-auto divide-y divide-white/10 backdrop-blur-2xl text-left"
+                className="absolute top-full mt-2 left-0 right-0 bg-white border-2 border-purple-200 rounded-2xl shadow-2xl shadow-purple-900/10 z-[9999] max-h-[460px] overflow-y-auto divide-y divide-purple-100 backdrop-blur-2xl text-left"
               >
                 {/* Header Banner if filtered by Language */}
                 {language !== "all" && (
@@ -186,9 +186,9 @@ export default function SearchMovie() {
 
                 {/* Empty State */}
                 {!isSearching && results.length === 0 && (
-                  <div className="p-8 text-center text-slate-400 space-y-1">
-                    <p className="text-base font-semibold text-white">No movies found</p>
-                    <p className="text-xs text-slate-400">
+                  <div className="p-8 text-center text-slate-500 space-y-1">
+                    <p className="text-base font-semibold text-slate-900">No movies found</p>
+                    <p className="text-xs text-slate-500">
                       No matching titles for &ldquo;{query}&rdquo;. Try another title or switch the language filter.
                     </p>
                   </div>
@@ -206,10 +206,10 @@ export default function SearchMovie() {
                         e.preventDefault();
                         handleSelectMovie(movie.id);
                       }}
-                      className="group/item p-3.5 sm:p-4 flex items-center gap-4 hover:bg-purple-600/15 cursor-pointer transition-colors text-left"
+                      className="group/item p-3.5 sm:p-4 flex items-center gap-4 hover:bg-purple-50 cursor-pointer transition-colors text-left"
                     >
                       {/* Poster Thumbnail */}
-                      <div className="w-12 h-18 sm:w-14 sm:h-20 bg-[#08080d] rounded-lg overflow-hidden shrink-0 border border-white/15 relative shadow-md">
+                      <div className="w-12 h-18 sm:w-14 sm:h-20 bg-slate-100 rounded-lg overflow-hidden shrink-0 border border-purple-100 relative shadow-sm">
                         {movie.poster_path ? (
                           <img
                             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
@@ -217,7 +217,7 @@ export default function SearchMovie() {
                             className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-300"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-600">
+                          <div className="w-full h-full flex items-center justify-center text-slate-400">
                             <Film size={22} />
                           </div>
                         )}
@@ -226,11 +226,11 @@ export default function SearchMovie() {
                       {/* Movie Information (Explicitly Left-Aligned) */}
                       <div className="flex-1 min-w-0 text-left">
                         <div className="flex items-center gap-2">
-                          <h4 className="text-white font-bold text-base sm:text-lg truncate group-hover/item:text-purple-300 transition-colors">
+                          <h4 className="text-slate-900 font-bold text-base sm:text-lg truncate group-hover/item:text-[#6332c9] transition-colors">
                             {movie.title}
                           </h4>
                           {movie.original_title && movie.original_title !== movie.title && (
-                            <span className="text-xs text-slate-400 truncate hidden md:inline">
+                            <span className="text-xs text-slate-500 truncate hidden md:inline">
                               ({movie.original_title})
                             </span>
                           )}
