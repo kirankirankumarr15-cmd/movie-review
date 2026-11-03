@@ -157,9 +157,9 @@ export default function AdminDashboardPage() {
 
   if (isAuthLoading) {
     return (
-      <div className="min-h-screen bg-[#08080d] flex items-center justify-center p-6 text-slate-300">
+      <div className="min-h-screen bg-[#f8f7ff] dark:bg-[#08080d] flex items-center justify-center p-6 text-slate-700 dark:text-slate-300">
         <div className="flex items-center gap-3">
-          <RefreshCw className="w-5 h-5 animate-spin text-purple-400" />
+          <RefreshCw className="w-5 h-5 animate-spin text-purple-600 dark:text-purple-400" />
           <span className="text-sm font-medium">Verifying Administrator Authorization...</span>
         </div>
       </div>
@@ -169,39 +169,39 @@ export default function AdminDashboardPage() {
   // Strict Protection: Only kirankirankumarr15@gmail.com is authorized to view this dashboard
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-[#08080d] text-slate-100 flex items-center justify-center p-4">
-        <div className="w-full max-w-lg bg-[#11111b] border-2 border-rose-500/30 rounded-3xl p-8 sm:p-10 shadow-2xl shadow-rose-950/20 text-center space-y-6">
+      <div className="min-h-screen bg-[#f8f7ff] dark:bg-[#08080d] text-slate-900 dark:text-slate-100 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg bg-white dark:bg-[#11111b] border-2 border-rose-500/30 rounded-3xl p-8 sm:p-10 shadow-lg dark:shadow-2xl text-center space-y-6">
           <div className="mx-auto w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shadow-lg shadow-rose-500/20">
-            <ShieldAlert className="w-8 h-8 text-rose-400" />
+            <ShieldAlert className="w-8 h-8 text-rose-500 dark:text-rose-400" />
           </div>
 
           <div className="space-y-2">
-            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20 uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 uppercase tracking-wider">
               403 Access Denied / ಪ್ರವೇಶ ನಿರಾಕರಿಸಲಾಗಿದೆ
             </span>
-            <h1 className="text-2xl sm:text-3xl font-display font-bold text-white pt-2">
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white pt-2">
               Admin Command Center Restricted
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
               This dashboard is strictly reserved for authorized administrators.
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 text-left space-y-2">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs text-slate-700 dark:text-slate-300 text-left space-y-2 shadow-sm">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Current Account:</span>
-              <span className="font-semibold text-white">{user ? user.email : "Not Signed In"}</span>
+              <span className="text-slate-500 dark:text-slate-400">Current Account:</span>
+              <span className="font-semibold text-slate-900 dark:text-white">{user ? user.email : "Not Signed In"}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Clearance Status:</span>
-              <span className="text-rose-400 font-semibold">Unauthorized ✕</span>
+              <span className="text-slate-500 dark:text-slate-400">Clearance Status:</span>
+              <span className="text-rose-600 dark:text-rose-400 font-semibold">Unauthorized ✕</span>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <Link
               href="/"
-              className="w-full sm:flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-all text-center border border-white/10 flex items-center justify-center gap-2"
+              className="w-full sm:flex-1 py-3 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 text-xs font-semibold text-slate-800 dark:text-white transition-all text-center border border-slate-200 dark:border-white/10 flex items-center justify-center gap-2"
             >
               <ArrowLeft size={14} />
               <span>Back to Home</span>
@@ -212,7 +212,7 @@ export default function AdminDashboardPage() {
                 logout();
                 openAuthModal();
               }}
-              className="w-full sm:flex-1 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:flex-1 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer"
             >
               <LogOut size={14} />
               <span>Sign In as Admin</span>
@@ -224,33 +224,32 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#08080d] text-slate-100 py-12">
+    <div className="min-h-screen bg-[#f8f7ff] dark:bg-[#08080d] text-slate-900 dark:text-slate-100 py-12 transition-colors duration-200">
       <div className="container mx-auto px-4 max-w-6xl space-y-10">
         {/* Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#101018] border border-white/10 rounded-3xl p-6 md:p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-3xl p-6 md:p-8 shadow-sm transition-colors">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <h1 className="text-2xl md:text-3xl font-display font-bold text-white">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <h1 className="text-2xl md:text-3xl font-display font-bold text-slate-900 dark:text-white">
                 {t.title}
               </h1>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold sm:ml-2">
-                <ShieldCheck size={13} className="text-emerald-400" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-semibold sm:ml-2">
+                <ShieldCheck size={13} className="text-emerald-600 dark:text-emerald-400" />
                 <span>Authorized Administrator</span>
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               {t.subtitle}
             </p>
           </div>
-
 
           <div className="flex items-center gap-3">
             {/* UI Language Switcher: Kannada (Default) & English (Hindi Removed) */}
             <select
               value={uiLanguage}
               onChange={(e) => setUiLanguage(e.target.value as "kn" | "en")}
-              className="bg-[#181826] border border-purple-500/30 focus:border-purple-500 rounded-xl px-3 py-2 text-xs font-semibold text-white cursor-pointer shadow-md"
+              className="bg-slate-50 dark:bg-[#181826] border border-slate-200 dark:border-purple-500/30 focus:border-purple-500 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 dark:text-white cursor-pointer shadow-sm"
             >
               <option value="kn">ಕನ್ನಡ (Kannada)</option>
               <option value="en">English (US)</option>
@@ -258,7 +257,7 @@ export default function AdminDashboardPage() {
 
             <button
               onClick={loadStats}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-300 border border-white/10 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 transition-colors cursor-pointer shadow-sm"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
               <span>{t.refresh}</span>
@@ -268,66 +267,66 @@ export default function AdminDashboardPage() {
 
         {/* 1. KEY METRICS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-[#101018] border border-white/10 space-y-1">
-            <span className="text-xs text-slate-400 flex items-center gap-1.5">
-              <Film className="w-3.5 h-3.5 text-purple-400" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 space-y-1 shadow-sm">
+            <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Film className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
               {t.moviesCataloged}
             </span>
-            <p className="text-3xl font-display font-bold text-white">
+            <p className="text-3xl font-display font-bold text-slate-900 dark:text-white">
               {data?.stats?.totalMovies || 3}
             </p>
-            <p className="text-[11px] text-purple-400">{t.resolverActive}</p>
+            <p className="text-[11px] text-purple-600 dark:text-purple-400">{t.resolverActive}</p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#101018] border border-white/10 space-y-1">
-            <span className="text-xs text-slate-400 flex items-center gap-1.5">
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 space-y-1 shadow-sm">
+            <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               {t.verifiedReviews}
             </span>
-            <p className="text-3xl font-display font-bold text-white">
+            <p className="text-3xl font-display font-bold text-slate-900 dark:text-white">
               {data?.stats?.totalReviews || 10}
             </p>
-            <p className="text-[11px] text-emerald-400">{t.strictChecks}</p>
+            <p className="text-[11px] text-emerald-600 dark:text-emerald-400">{t.strictChecks}</p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#101018] border border-white/10 space-y-1">
-            <span className="text-xs text-slate-400 flex items-center gap-1.5">
-              <Vote className="w-3.5 h-3.5 text-pink-400" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 space-y-1 shadow-sm">
+            <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Vote className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400" />
               {t.activePolls}
             </span>
-            <p className="text-3xl font-display font-bold text-white">
+            <p className="text-3xl font-display font-bold text-slate-900 dark:text-white">
               {data?.stats?.totalPolls || 1}
             </p>
-            <p className="text-[11px] text-pink-400">{t.audienceLive}</p>
+            <p className="text-[11px] text-pink-600 dark:text-pink-400">{t.audienceLive}</p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#101018] border border-white/10 space-y-1">
-            <span className="text-xs text-slate-400 flex items-center gap-1.5">
-              <Activity className="w-3.5 h-3.5 text-amber-400" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 space-y-1 shadow-sm">
+            <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               {t.platformSentiment}
             </span>
-            <p className="text-3xl font-display font-bold text-white">
+            <p className="text-3xl font-display font-bold text-slate-900 dark:text-white">
               {data?.stats?.positivePct || 70}%
             </p>
-            <p className="text-[11px] text-amber-400">{t.weightedConsensus}</p>
+            <p className="text-[11px] text-amber-600 dark:text-amber-400">{t.weightedConsensus}</p>
           </div>
         </div>
 
         {/* 2. SOURCE ADAPTER HEALTH */}
-        <div className="bg-[#101018] border border-white/10 rounded-2xl p-6 space-y-4">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <h2 className="text-lg font-display font-bold text-white flex items-center gap-2">
-              <Server className="w-5 h-5 text-purple-400" />
+        <div className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-2xl p-6 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b border-purple-100 dark:border-white/10 pb-3">
+            <h2 className="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Server className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               {t.pipelineHealth}
             </h2>
-            <span className="text-xs text-slate-400">{t.parallelExec}</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">{t.parallelExec}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl bg-white/5 border border-emerald-500/30 space-y-2">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-emerald-500/30 space-y-2 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-white">TMDB v3 API</span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">
+                <span className="text-xs font-bold text-slate-900 dark:text-white">TMDB v3 API</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-semibold">
                   {t.operational}
                 </span>
               </div>
@@ -367,18 +366,18 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* 3. MODERATION QUEUE */}
-        <div className="bg-[#101018] border border-white/10 rounded-2xl p-6 space-y-4">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <h2 className="text-lg font-display font-bold text-white flex items-center gap-2">
-              <ShieldAlert className="w-5 h-5 text-pink-400" />
+        <div className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-2xl p-6 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b border-purple-100 dark:border-white/10 pb-3">
+            <h2 className="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-pink-500 dark:text-pink-400" />
               {t.modQueue}
             </h2>
-            <span className="text-xs text-slate-400">{t.zeroFake}</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">{t.zeroFake}</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-[#181826] text-slate-400 uppercase font-mono text-[10px]">
+            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead className="bg-slate-100 dark:bg-[#181826] text-slate-600 dark:text-slate-400 uppercase font-mono text-[10px]">
                 <tr>
                   <th className="p-3">{t.source}</th>
                   <th className="p-3">{t.author}</th>
@@ -388,21 +387,21 @@ export default function AdminDashboardPage() {
                   <th className="p-3">{t.status}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-slate-100 dark:divide-white/5">
                 {data?.recentReviews?.map((r: any) => (
-                  <tr key={r.id} className="hover:bg-white/5 transition-colors">
-                    <td className="p-3 font-semibold text-white">{r.source}</td>
+                  <tr key={r.id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    <td className="p-3 font-semibold text-slate-900 dark:text-white">{r.source}</td>
                     <td className="p-3">{r.author}</td>
                     <td className="p-3">
                       <span className={`px-2 py-0.5 rounded font-bold uppercase text-[10px] ${
-                        r.sentiment === "positive" ? "text-emerald-400 bg-emerald-500/10" : "text-rose-400 bg-rose-500/10"
+                        r.sentiment === "positive" ? "text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/10" : "text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-500/10"
                       }`}>
                         {r.sentiment === "positive" ? t.positive : t.negative}
                       </span>
                     </td>
                     <td className="p-3 max-w-xs truncate">{r.text}</td>
                     <td className="p-3 font-mono" suppressHydrationWarning>{formatDisplayDate(r.posted_at)}</td>
-                    <td className="p-3 text-emerald-400 flex items-center gap-1 font-semibold">
+                    <td className="p-3 text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>{t.verified}</span>
                     </td>
@@ -464,28 +463,28 @@ function FullMovieModerationSection({ onRefresh, t }: { onRefresh: () => void; t
   };
 
   return (
-    <div className="bg-[#101018] border border-white/10 rounded-3xl p-6 md:p-8 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+    <div className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-100 dark:border-white/10 pb-4">
         <div>
-          <h2 className="text-lg font-display font-bold text-white flex items-center gap-2">
-            <Film className="w-5 h-5 text-amber-400" />
+          <h2 className="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Film className="w-5 h-5 text-amber-500 dark:text-amber-400" />
             {t.featureA8Title}
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             {t.featureA8Desc}
           </p>
         </div>
         <button
           onClick={loadFullMovies}
-          className="text-xs text-amber-400 hover:text-amber-300 font-medium px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 cursor-pointer"
+          className="text-xs text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 font-medium px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-500/20 cursor-pointer"
         >
           {t.refreshQueue}
         </button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs text-slate-300">
-          <thead className="bg-[#181826] text-slate-400 uppercase font-mono text-[10px]">
+        <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+          <thead className="bg-slate-100 dark:bg-[#181826] text-slate-600 dark:text-slate-400 uppercase font-mono text-[10px]">
             <tr>
               <th className="p-3">{t.movieCol}</th>
               <th className="p-3">{t.uploaderCol}</th>
@@ -495,7 +494,7 @@ function FullMovieModerationSection({ onRefresh, t }: { onRefresh: () => void; t
               <th className="p-3">{t.actionsCol}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-slate-100 dark:divide-white/5">
             {movies.map((m) => (
               <tr key={m.id} className="hover:bg-white/5 transition-colors">
                 <td className="p-3 font-semibold text-white">
@@ -621,47 +620,47 @@ function OfficialChannelsWhitelistSection({ t }: { t: any }) {
   };
 
   return (
-    <div className="bg-[#101018] border border-white/10 rounded-3xl p-6 md:p-8 space-y-6">
-      <div className="border-b border-white/10 pb-4">
-        <h2 className="text-lg font-display font-bold text-white flex items-center gap-2">
-          <Server className="w-5 h-5 text-indigo-400" />
+    <div className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+      <div className="border-b border-purple-100 dark:border-white/10 pb-4">
+        <h2 className="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <Server className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
           {t.whitelistTitle}
         </h2>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
           {t.whitelistDesc}
         </p>
       </div>
 
       {/* Add New Channel Form - Hindi removed from options */}
-      <form onSubmit={handleAddChannel} className="p-4 rounded-2xl bg-[#161622] border border-white/5 flex flex-wrap gap-3 items-end">
+      <form onSubmit={handleAddChannel} className="p-4 rounded-2xl bg-slate-50 dark:bg-[#161622] border border-slate-200 dark:border-white/5 flex flex-wrap gap-3 items-end shadow-sm">
         <div className="flex-1 min-w-[180px]">
-          <label className="block text-[11px] text-zinc-400 font-medium mb-1">{t.channelName}</label>
+          <label className="block text-[11px] text-slate-600 dark:text-zinc-400 font-medium mb-1">{t.channelName}</label>
           <input
             type="text"
             required
             placeholder="e.g. KVN Productions, Hombale Films"
             value={newChannelName}
             onChange={(e) => setNewChannelName(e.target.value)}
-            className="w-full bg-[#101018] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white"
+            className="w-full bg-white dark:bg-[#101018] border border-slate-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white shadow-sm"
           />
         </div>
         <div className="flex-1 min-w-[200px]">
-          <label className="block text-[11px] text-zinc-400 font-medium mb-1">{t.channelId}</label>
+          <label className="block text-[11px] text-slate-600 dark:text-zinc-400 font-medium mb-1">{t.channelId}</label>
           <input
             type="text"
             required
             placeholder="e.g. UC7m01_w20K5tK5d8C9J1_kw"
             value={newChannelId}
             onChange={(e) => setNewChannelId(e.target.value)}
-            className="w-full bg-[#101018] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white font-mono"
+            className="w-full bg-white dark:bg-[#101018] border border-slate-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white font-mono shadow-sm"
           />
         </div>
         <div className="w-36">
-          <label className="block text-[11px] text-zinc-400 font-medium mb-1">{t.language}</label>
+          <label className="block text-[11px] text-slate-600 dark:text-zinc-400 font-medium mb-1">{t.language}</label>
           <select
             value={newLanguage}
             onChange={(e) => setNewLanguage(e.target.value)}
-            className="w-full bg-[#101018] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white"
+            className="w-full bg-white dark:bg-[#101018] border border-slate-200 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white shadow-sm"
           >
             <option value="kn">Kannada (ಕನ್ನಡ)</option>
             <option value="te">Telugu</option>
@@ -672,7 +671,7 @@ function OfficialChannelsWhitelistSection({ t }: { t: any }) {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs cursor-pointer"
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs cursor-pointer shadow-sm"
         >
           {t.addChannel}
         </button>
@@ -680,8 +679,8 @@ function OfficialChannelsWhitelistSection({ t }: { t: any }) {
 
       {/* Whitelist Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs text-slate-300">
-          <thead className="bg-[#181826] text-slate-400 uppercase font-mono text-[10px]">
+        <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+          <thead className="bg-slate-100 dark:bg-[#181826] text-slate-600 dark:text-slate-400 uppercase font-mono text-[10px]">
             <tr>
               <th className="p-3">{t.channelName}</th>
               <th className="p-3">{t.channelId}</th>

@@ -46,26 +46,26 @@ export default function MoviePollCard({ initialPolls, movieTitle }: MoviePollCar
         return (
           <section
             key={poll.id}
-            className="bg-[#101018] border border-white/10 rounded-2xl p-6 md:p-8 space-y-5"
+            className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-2xl p-6 md:p-8 space-y-5 shadow-sm transition-colors"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-100 dark:border-white/10 pb-4">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-500/20 text-pink-600 dark:text-pink-400 flex items-center justify-center">
                   <Vote className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-display font-bold text-white">Community Prediction Poll</h3>
-                  <p className="text-xs text-slate-400">Cast your vote and view live audience consensus</p>
+                  <h3 className="text-lg font-display font-bold text-slate-900 dark:text-white">Community Prediction Poll</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Cast your vote and view live audience consensus</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                <Users className="w-3.5 h-3.5 text-purple-400" />
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                <Users className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                 <span>{totalVotes} total votes</span>
               </div>
             </div>
 
-            <h4 className="text-base sm:text-lg font-semibold text-white leading-snug">
+            <h4 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white leading-snug">
               {poll.question}
             </h4>
 
@@ -82,8 +82,8 @@ export default function MoviePollCard({ initialPolls, movieTitle }: MoviePollCar
                     disabled={Boolean(poll.user_voted_option)}
                     className={`w-full text-left p-4 rounded-xl border relative overflow-hidden transition-all cursor-pointer ${
                       isSelected
-                        ? "border-purple-500 bg-purple-950/20 shadow-md shadow-purple-600/10"
-                        : "border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10"
+                        ? "border-purple-500 bg-purple-50 dark:bg-purple-950/20 shadow-md shadow-purple-600/10"
+                        : "border-slate-200 dark:border-white/10 hover:border-purple-300 dark:hover:border-white/20 bg-slate-50/60 dark:bg-white/5 hover:bg-purple-50/40 dark:hover:bg-white/10"
                     }`}
                   >
                     {/* Background Progress Fill */}
@@ -91,7 +91,7 @@ export default function MoviePollCard({ initialPolls, movieTitle }: MoviePollCar
                       <div
                         style={{ width: `${pct}%` }}
                         className={`absolute inset-y-0 left-0 transition-all duration-500 pointer-events-none ${
-                          isSelected ? "bg-purple-600/25" : "bg-white/5"
+                          isSelected ? "bg-purple-600/20" : "bg-purple-100/50 dark:bg-white/5"
                         }`}
                       />
                     )}
@@ -99,19 +99,19 @@ export default function MoviePollCard({ initialPolls, movieTitle }: MoviePollCar
                     <div className="relative z-10 flex items-center justify-between gap-4">
                       <div className="flex items-center gap-2.5">
                         <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
-                          isSelected ? "border-purple-400 bg-purple-500" : "border-slate-500"
+                          isSelected ? "border-purple-500 bg-[#6332c9]" : "border-slate-400 dark:border-slate-500"
                         }`}>
                           {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                         </span>
-                        <span className="text-xs sm:text-sm font-medium text-slate-200">
+                        <span className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200">
                           {opt.text}
                         </span>
                       </div>
 
                       {poll.user_voted_option && (
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-xs font-mono font-bold text-white">{pct}%</span>
-                          <span className="text-[11px] text-slate-400">({opt.votes})</span>
+                          <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">{pct}%</span>
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">({opt.votes})</span>
                         </div>
                       )}
                     </div>
@@ -121,7 +121,7 @@ export default function MoviePollCard({ initialPolls, movieTitle }: MoviePollCar
             </div>
 
             {poll.user_voted_option && (
-              <p className="text-[11px] text-emerald-400 flex items-center gap-1.5 pt-1">
+              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 pt-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>You voted in this poll. Results update live with each vote.</span>
               </p>

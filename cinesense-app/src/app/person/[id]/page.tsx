@@ -51,11 +51,11 @@ export default async function PersonPage({ params }: PageProps) {
     .sort((a, b) => (b.release_date || '').localeCompare(a.release_date || ''));
 
   return (
-    <div className="min-h-screen bg-[#08080d] text-slate-100 py-12">
+    <div className="min-h-screen bg-[#f8f7ff] dark:bg-[#08080d] text-slate-900 dark:text-slate-100 py-12 transition-colors duration-200">
       <div className="container mx-auto px-4 max-w-6xl space-y-12">
         {/* Person Header */}
-        <div className="flex flex-col md:flex-row gap-8 items-start bg-[#11111a] border border-white/10 rounded-2xl p-6 md:p-8">
-          <div className="w-44 sm:w-56 shrink-0 aspect-[2/3] rounded-2xl overflow-hidden relative bg-[#181826] border border-white/10 shadow-xl">
+        <div className="flex flex-col md:flex-row gap-8 items-start bg-white dark:bg-[#11111a] border border-purple-100/80 dark:border-white/10 rounded-2xl p-6 md:p-8 shadow-sm transition-colors">
+          <div className="w-44 sm:w-56 shrink-0 aspect-[2/3] rounded-2xl overflow-hidden relative bg-slate-100 dark:bg-[#181826] border border-purple-100/80 dark:border-white/10 shadow-sm">
             {profileUrl ? (
               <Image
                 src={profileUrl}
@@ -65,38 +65,38 @@ export default async function PersonPage({ params }: PageProps) {
                 priority
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-slate-600">
+              <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600">
                 <User className="w-16 h-16" />
               </div>
             )}
           </div>
 
           <div className="flex-1 space-y-4">
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30">
               {person.known_for_department || 'Film Industry'}
             </span>
-            <h1 className="text-3xl sm:text-5xl font-display font-bold text-white tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
               {person.name}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-300">
+            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-600 dark:text-slate-300">
               {person.birthday && (
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-purple-400" />
+                  <Calendar className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Born: {person.birthday}</span>
                 </div>
               )}
               {person.place_of_birth && (
                 <div className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-pink-400" />
+                  <MapPin className="w-4 h-4 text-pink-600 dark:text-pink-400" />
                   <span>{person.place_of_birth}</span>
                 </div>
               )}
             </div>
 
             <div className="space-y-2 pt-2">
-              <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Biography</h2>
-              <p className="text-slate-300 text-sm leading-relaxed max-h-60 overflow-y-auto pr-2">
+              <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Biography</h2>
+              <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed max-h-60 overflow-y-auto pr-2">
                 {person.biography || `${person.name} is an acclaimed talent in cinema.`}
               </p>
             </div>
@@ -106,9 +106,9 @@ export default async function PersonPage({ params }: PageProps) {
         {/* Filmography Section */}
         {castCredits.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
-              <Film className="w-5 h-5 text-purple-400" />
-              Acting Credits ({castCredits.length})
+            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Film className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              <span>Acting Credits ({castCredits.length})</span>
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -116,9 +116,9 @@ export default async function PersonPage({ params }: PageProps) {
                 <Link
                   key={`${credit.id}-${credit.character}`}
                   href={`/movie/${credit.id}`}
-                  className="group block bg-[#11111a] border border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden transition-all hover:-translate-y-1"
+                  className="group block bg-white dark:bg-[#11111a] border border-purple-100/80 dark:border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
                 >
-                  <div className="relative aspect-[2/3] bg-[#181826]">
+                  <div className="relative aspect-[2/3] bg-slate-100 dark:bg-[#181826]">
                     {credit.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w300${credit.poster_path}`}
@@ -127,7 +127,7 @@ export default async function PersonPage({ params }: PageProps) {
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600">
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600">
                         <Film className="w-10 h-10" />
                       </div>
                     )}
@@ -139,13 +139,13 @@ export default async function PersonPage({ params }: PageProps) {
                     )}
                   </div>
                   <div className="p-2.5">
-                    <h3 className="text-xs font-semibold text-white truncate group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-xs font-semibold text-slate-900 dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       {credit.title}
                     </h3>
                     {credit.character && (
-                      <p className="text-[11px] text-slate-400 truncate">as {credit.character}</p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">as {credit.character}</p>
                     )}
-                    <p className="text-[10px] text-slate-400">
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
                       {credit.release_date ? credit.release_date.slice(0, 4) : '—'}
                     </p>
                   </div>
@@ -158,9 +158,9 @@ export default async function PersonPage({ params }: PageProps) {
         {/* Crew / Directorial Credits */}
         {crewCredits.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
-              <Film className="w-5 h-5 text-indigo-400" />
-              Directing & Crew Credits ({crewCredits.length})
+            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Film className="w-5 h-5 text-purple-600 dark:text-indigo-400" />
+              <span>Directing & Crew Credits ({crewCredits.length})</span>
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -168,9 +168,9 @@ export default async function PersonPage({ params }: PageProps) {
                 <Link
                   key={`${credit.id}-${credit.job}-${i}`}
                   href={`/movie/${credit.id}`}
-                  className="group block bg-[#11111a] border border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden transition-all hover:-translate-y-1"
+                  className="group block bg-white dark:bg-[#11111a] border border-purple-100/80 dark:border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
                 >
-                  <div className="relative aspect-[2/3] bg-[#181826]">
+                  <div className="relative aspect-[2/3] bg-slate-100 dark:bg-[#181826]">
                     {credit.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w300${credit.poster_path}`}
@@ -179,17 +179,17 @@ export default async function PersonPage({ params }: PageProps) {
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600">
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600">
                         <Film className="w-10 h-10" />
                       </div>
                     )}
                   </div>
                   <div className="p-2.5">
-                    <h3 className="text-xs font-semibold text-white truncate group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-xs font-semibold text-slate-900 dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       {credit.title}
                     </h3>
-                    <p className="text-[11px] text-purple-400 font-medium truncate">{credit.job}</p>
-                    <p className="text-[10px] text-slate-400">
+                    <p className="text-[11px] text-purple-600 dark:text-purple-400 font-medium truncate">{credit.job}</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">
                       {credit.release_date ? credit.release_date.slice(0, 4) : '—'}
                     </p>
                   </div>

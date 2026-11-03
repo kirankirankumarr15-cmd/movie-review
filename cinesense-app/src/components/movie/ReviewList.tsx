@@ -83,35 +83,35 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
   const getSourceBadgeColor = (source: string) => {
     switch (source.toLowerCase()) {
       case "reddit":
-        return "bg-orange-500/20 text-orange-400 border-orange-500/30";
+        return "bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-400 border-orange-300 dark:border-orange-500/30";
       case "tmdb":
-        return "bg-sky-500/20 text-sky-400 border-sky-500/30";
+        return "bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 border-sky-300 dark:border-sky-500/30";
       case "youtube":
-        return "bg-red-500/20 text-red-400 border-red-500/30";
+        return "bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400 border-red-300 dark:border-red-500/30";
       case "the hindu":
       case "times of india":
       case "deccan herald":
       case "film companion":
       case "indian express":
       case "sacnilk":
-        return "bg-amber-500/20 text-amber-300 border-amber-500/30";
+        return "bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-500/30";
       default:
-        return "bg-purple-500/20 text-purple-300 border-purple-500/30";
+        return "bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-500/30";
     }
   };
 
   return (
     <section className="space-y-6">
       {/* Header and Filter Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#101018] border border-white/10 rounded-2xl p-5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-2xl p-5 shadow-sm transition-colors">
         <div>
-          <h2 className="text-xl font-display font-bold text-white flex items-center gap-2">
+          <h2 className="text-xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <span>Verified Multi-Source Reviews</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300">
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-white/10 text-purple-800 dark:text-slate-300 font-semibold">
               {filtered.length} found
             </span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Aggregated from official critic news, public Reddit communities, and TMDB.
           </p>
         </div>
@@ -122,7 +122,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="bg-[#181826] border border-white/15 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500 cursor-pointer"
+            className="bg-slate-50 dark:bg-[#181826] border border-slate-200 dark:border-white/15 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-purple-500 cursor-pointer shadow-sm"
           >
             <option value="all">All Sources</option>
             <option value="tmdb">TMDB</option>
@@ -138,7 +138,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
           <select
             value={sentimentFilter}
             onChange={(e) => setSentimentFilter(e.target.value)}
-            className="bg-[#181826] border border-white/15 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500 cursor-pointer"
+            className="bg-slate-50 dark:bg-[#181826] border border-slate-200 dark:border-white/15 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-purple-500 cursor-pointer shadow-sm"
           >
             <option value="all">All Sentiments</option>
             <option value="positive">😊 Positive</option>
@@ -150,7 +150,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-[#181826] border border-white/15 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500 cursor-pointer"
+            className="bg-slate-50 dark:bg-[#181826] border border-slate-200 dark:border-white/15 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-purple-500 cursor-pointer shadow-sm"
           >
             <option value="latest">Latest First</option>
             <option value="most_helpful">Most Helpful</option>
@@ -168,7 +168,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
             return (
               <div
                 key={rev.id}
-                className="bg-[#101018] border border-white/10 hover:border-white/20 rounded-2xl p-5 md:p-6 space-y-4 transition-all"
+                className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 hover:border-purple-400 dark:hover:border-white/20 rounded-2xl p-5 md:p-6 space-y-4 shadow-sm transition-all"
               >
                 {/* Review Header */}
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -181,8 +181,8 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                       {rev.source}
                     </span>
 
-                    <span className="text-sm font-medium text-white flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-sm font-medium text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                       {rev.author}
                     </span>
                   </div>
@@ -191,10 +191,10 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                     <span
                       className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
                         rev.sentiment === "positive"
-                          ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                          ? "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30"
                           : rev.sentiment === "negative"
-                          ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                          : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                          ? "bg-rose-100 dark:bg-rose-500/20 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30"
+                          : "bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30"
                       }`}
                     >
                       {rev.sentiment === "positive"
@@ -205,7 +205,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                       ({rev.confidence}%)
                     </span>
 
-                    <span className="text-xs text-slate-400 flex items-center gap-1" suppressHydrationWarning>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1" suppressHydrationWarning>
                       <Calendar className="w-3.5 h-3.5" />
                       {formatDisplayDate(rev.posted_at)}
                     </span>
@@ -215,8 +215,8 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                 {/* Review Text & Spoiler Guard (B6) */}
                 <div className="relative">
                   {rev.is_spoiler && !isSpoilerRevealed ? (
-                    <div className="bg-red-950/20 border border-red-500/30 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                      <div className="flex items-center gap-2 text-red-400 text-xs font-semibold">
+                    <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-500/30 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 text-red-700 dark:text-red-400 text-xs font-semibold">
                         <AlertTriangle className="w-4 h-4 shrink-0" />
                         <span>Warning: This review contains potential plot spoilers.</span>
                       </div>
@@ -230,13 +230,13 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                     </div>
                   ) : (
                     <div>
-                      <p className="text-slate-200 text-sm md:text-base leading-relaxed whitespace-pre-line">
+                      <p className="text-slate-800 dark:text-slate-200 text-sm md:text-base leading-relaxed whitespace-pre-line">
                         "{rev.text}"
                       </p>
                       {rev.is_spoiler && isSpoilerRevealed && (
                         <button
                           onClick={() => toggleSpoiler(rev.id)}
-                          className="mt-2 text-xs text-slate-400 hover:text-slate-300 inline-flex items-center gap-1"
+                          className="mt-2 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 inline-flex items-center gap-1"
                         >
                           <EyeOff className="w-3 h-3" />
                           <span>Hide spoiler again</span>
@@ -256,10 +256,10 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                             key={aspect}
                             className={`px-2 py-0.5 rounded text-[11px] font-medium border ${
                               rating === "positive"
-                                ? "bg-emerald-950/30 text-emerald-400 border-emerald-500/20"
+                                ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20"
                                 : rating === "negative"
-                                ? "bg-rose-950/30 text-rose-400 border-rose-500/20"
-                                : "bg-amber-950/30 text-amber-400 border-amber-500/20"
+                                ? "bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-500/20"
+                                : "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20"
                             }`}
                           >
                             {aspect.toUpperCase()}: {rating}
@@ -270,12 +270,12 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                 )}
 
                 {/* Review Footer: Helpfulness Votes & View Original Link */}
-                <div className="flex items-center justify-between pt-2 border-t border-white/5 text-xs text-slate-400">
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-white/5 text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex items-center gap-3">
                     <span className="text-[11px]">Helpful?</span>
                     <button
                       onClick={() => handleVote(rev.id, "up")}
-                      className="flex items-center gap-1 hover:text-emerald-400 transition-colors p-1 rounded hover:bg-white/5 cursor-pointer"
+                      className="flex items-center gap-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors p-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer"
                       title="Mark as helpful"
                     >
                       <ThumbsUp className="w-3.5 h-3.5" />
@@ -283,7 +283,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                     </button>
                     <button
                       onClick={() => handleVote(rev.id, "down")}
-                      className="flex items-center gap-1 hover:text-rose-400 transition-colors p-1 rounded hover:bg-white/5 cursor-pointer"
+                      className="flex items-center gap-1 hover:text-rose-600 dark:hover:text-rose-400 transition-colors p-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer"
                       title="Mark as not helpful"
                     >
                       <ThumbsDown className="w-3.5 h-3.5" />
@@ -296,7 +296,7 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
                       href={rev.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-purple-400 hover:text-purple-300 font-medium hover:underline"
+                      className="inline-flex items-center gap-1.5 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium hover:underline"
                     >
                       <span>View original source</span>
                       <ExternalLink className="w-3 h-3" />
@@ -308,8 +308,8 @@ export default function ReviewList({ initialReviews, tmdbId }: ReviewListProps) 
           })}
         </div>
       ) : (
-        <div className="bg-[#101018] border border-white/10 rounded-2xl p-12 text-center space-y-3">
-          <p className="text-slate-300 text-base font-medium">No reviews found yet.</p>
+        <div className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-2xl p-12 text-center space-y-3 shadow-sm">
+          <p className="text-slate-800 dark:text-slate-300 text-base font-medium">No reviews found yet.</p>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
             Reviews will be fetched as verified critics and audiences publish discussions.
           </p>

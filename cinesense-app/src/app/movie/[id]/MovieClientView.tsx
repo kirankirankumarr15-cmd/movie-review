@@ -91,7 +91,7 @@ export default function MovieClientView({
   };
 
   return (
-    <div className="min-h-screen bg-[#08080d] text-slate-100 pb-20">
+    <div className="min-h-screen bg-[#f8f7ff] dark:bg-[#08080d] text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-200">
       {/* 1. NETFLIX/MOCTALE-STYLE IN-HERO DIRECT VIDEO PLAYER */}
       <div className="container mx-auto px-4 pt-6">
         <HeroPlayer
@@ -115,14 +115,14 @@ export default function MovieClientView({
         />
 
         {/* Quick User Actions Bar */}
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white dark:bg-white/5 border border-purple-100/80 dark:border-white/10 shadow-sm transition-colors">
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => setIsWatchlisted(!isWatchlisted)}
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer ${
                 isWatchlisted
-                  ? "bg-purple-600 border-purple-500 text-white"
-                  : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-200"
+                  ? "bg-[#6332c9] border-[#6332c9] text-white shadow-sm"
+                  : "bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 shadow-sm"
               }`}
             >
               <Bookmark className="w-4 h-4" />
@@ -133,8 +133,8 @@ export default function MovieClientView({
               onClick={() => setIsFavorite(!isFavorite)}
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors cursor-pointer ${
                 isFavorite
-                  ? "bg-pink-600 border-pink-500 text-white"
-                  : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-200"
+                  ? "bg-pink-600 border-pink-500 text-white shadow-sm"
+                  : "bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 shadow-sm"
               }`}
             >
               <Heart className="w-4 h-4" />
@@ -143,16 +143,16 @@ export default function MovieClientView({
 
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer text-sm font-medium shadow-sm"
             >
               <Share2 className="w-4 h-4" />
               <span>Share</span>
             </button>
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+          <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
+            <span className="flex items-center gap-1.5 font-medium">
+              <Star className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 fill-amber-400" />
               {movie.vote_average ? `${movie.vote_average.toFixed(1)}/10` : 'N/A'} TMDB
             </span>
             <span>•</span>
@@ -171,21 +171,21 @@ export default function MovieClientView({
       <div className="container mx-auto px-4 py-8 space-y-10">
         {/* FEATURE A8: LEGAL FULL-MOVIE PLAYBACK */}
         {legalFullMovie && legalFullMovie.verification_status === 'verified_approved' ? (
-          <section className="bg-gradient-to-r from-emerald-950/70 via-zinc-900 to-emerald-950/50 border border-emerald-500/40 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+          <section className="bg-gradient-to-r from-emerald-50 via-emerald-100/50 to-emerald-50 dark:from-emerald-950/70 dark:via-zinc-900 dark:to-emerald-950/50 border border-emerald-300 dark:border-emerald-500/40 rounded-2xl p-6 shadow-sm dark:shadow-xl relative overflow-hidden">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30">
                     ✓ Official Free Full Movie
                   </span>
-                  <span className="text-xs text-zinc-400">
-                    Rights Holder: <strong className="text-zinc-200">{legalFullMovie.channel_name}</strong>
+                  <span className="text-xs text-emerald-950/80 dark:text-zinc-400">
+                    Rights Holder: <strong className="text-slate-900 dark:text-zinc-200">{legalFullMovie.channel_name}</strong>
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-white">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                   Watch Full Movie (Free, YouTube)
                 </h3>
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-slate-600 dark:text-zinc-400">
                   Verified official stream • {legalFullMovie.video_duration_minutes}m • No subscription required
                 </p>
               </div>
@@ -194,9 +194,9 @@ export default function MovieClientView({
                 ref={fullMovieButtonRef}
                 id="watch-full-movie-btn"
                 onClick={() => setIsFullMovieOpen(true)}
-                className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold rounded-xl text-sm transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2 cursor-pointer shrink-0"
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-xl text-sm transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2 cursor-pointer shrink-0"
               >
-                <Play className="w-4 h-4 fill-black" />
+                <Play className="w-4 h-4 fill-white" />
                 <span>Watch Full Movie (Free, YouTube)</span>
               </button>
             </div>
@@ -204,22 +204,22 @@ export default function MovieClientView({
         ) : null}
 
         {/* WHERE TO WATCH (A3 / A8 Fallback) */}
-        <section className="bg-[#101018] border border-white/10 rounded-2xl p-6">
+        <section className="bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 rounded-2xl p-6 shadow-sm transition-colors">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-display font-bold text-white flex items-center gap-2">
-              <Tv className="w-5 h-5 text-indigo-400" />
-              Where to Watch
+            <h2 className="text-xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Tv className="w-5 h-5 text-purple-600 dark:text-indigo-400" />
+              <span>Where to Watch</span>
             </h2>
-            <span className="text-xs text-slate-400">Official Streaming Platforms & Theatres</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Official Streaming Platforms & Theatres</span>
           </div>
 
           {activeProviders?.flatrate && activeProviders.flatrate.length > 0 ? (
             <div className="flex flex-wrap items-center gap-4">
-              <span className="text-sm text-slate-300 font-medium">Streaming On:</span>
+              <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">Streaming On:</span>
               {activeProviders.flatrate.map((provider) => (
                 <div
                   key={provider.provider_id}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs text-slate-800 dark:text-white shadow-sm"
                 >
                   <Image
                     src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
@@ -233,8 +233,8 @@ export default function MovieClientView({
               ))}
             </div>
           ) : (
-            <div className="flex items-center gap-3 text-slate-300 text-sm py-2">
-              <Film className="w-4 h-4 text-purple-400" />
+            <div className="flex items-center gap-3 text-slate-600 dark:text-slate-300 text-sm py-2">
+              <Film className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               <span>
                 Currently showing exclusively in <strong>Theatres</strong> or awaiting official OTT premiere announcement.
               </span>
@@ -258,8 +258,8 @@ export default function MovieClientView({
         {movie.credits?.cast && movie.credits.cast.length > 0 && (
           <section className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
-                <User className="w-5 h-5 text-purple-400" />
+              <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <User className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 Featured Cast & Crew
               </h2>
             </div>
@@ -269,9 +269,9 @@ export default function MovieClientView({
                 <Link
                   key={member.id}
                   href={`/person/${member.id}`}
-                  className="group block bg-[#101018] border border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden transition-all hover:-translate-y-1"
+                  className="group block bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
                 >
-                  <div className="relative aspect-[3/4] bg-[#161622]">
+                  <div className="relative aspect-[3/4] bg-slate-100 dark:bg-[#161622]">
                     {member.profile_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w300${member.profile_path}`}
@@ -280,16 +280,16 @@ export default function MovieClientView({
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600">
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600">
                         <User className="w-12 h-12" />
                       </div>
                     )}
                   </div>
                   <div className="p-3">
-                    <h3 className="text-sm font-semibold text-white truncate group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       {member.name}
                     </h3>
-                    <p className="text-xs text-slate-400 truncate">{member.character}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{member.character}</p>
                   </div>
                 </Link>
               ))}
@@ -303,15 +303,15 @@ export default function MovieClientView({
         {/* PHOTO GALLERY (A6) */}
         {movie.images?.backdrops && movie.images.backdrops.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
-              <ImageIcon className="w-5 h-5 text-pink-400" />
-              Photo Gallery
+            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-pink-500 dark:text-pink-400" />
+              <span>Photo Gallery</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {movie.images.backdrops.slice(0, 6).map((img, i) => (
                 <div
                   key={i}
-                  className="relative aspect-video rounded-xl overflow-hidden border border-white/10 group"
+                  className="relative aspect-video rounded-xl overflow-hidden border border-purple-100/80 dark:border-white/10 shadow-sm group"
                 >
                   <Image
                     src={`https://image.tmdb.org/t/p/w780${img.file_path}`}
@@ -328,18 +328,18 @@ export default function MovieClientView({
         {/* SIMILAR MOVIES (A5) */}
         {movie.similar?.results && movie.similar.results.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-indigo-400" />
-              More Like This
+            <h2 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-purple-600 dark:text-indigo-400" />
+              <span>More Like This</span>
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
               {movie.similar.results.slice(0, 6).map((sim) => (
                 <Link
                   key={sim.id}
                   href={`/movie/${sim.id}`}
-                  className="group block bg-[#101018] border border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden transition-all hover:-translate-y-1"
+                  className="group block bg-white dark:bg-[#101018] border border-purple-100/80 dark:border-white/10 hover:border-purple-500/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
                 >
-                  <div className="relative aspect-[2/3] bg-[#161622]">
+                  <div className="relative aspect-[2/3] bg-slate-100 dark:bg-[#161622]">
                     {sim.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w300${sim.poster_path}`}
@@ -348,16 +348,16 @@ export default function MovieClientView({
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600">
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600">
                         <Film className="w-10 h-10" />
                       </div>
                     )}
                   </div>
                   <div className="p-2.5">
-                    <h3 className="text-xs font-semibold text-white truncate group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-xs font-semibold text-slate-900 dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       {sim.title}
                     </h3>
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
                       {sim.release_date ? sim.release_date.slice(0, 4) : ""}
                     </p>
                   </div>

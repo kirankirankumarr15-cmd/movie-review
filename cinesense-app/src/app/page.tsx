@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Search, Star, Film, BarChart3, Globe, Users, MessageSquare, Calendar, Award, Rocket } from "lucide-react";
+import { Star, Film, BarChart3, Globe, Users, MessageSquare, Calendar, Award, Rocket } from "lucide-react";
 import { getDiscoveryMovies } from "@/lib/api-clients/tmdb";
+import HeroSearch from "@/components/movie/HeroSearch";
 
 // Feature strip
 const FEATURES = [
@@ -21,12 +22,13 @@ export default async function Home() {
   return (
     <div className="flex-1 flex flex-col bg-[#f8f7ff] dark:bg-[#0a0a0f] text-slate-900 dark:text-slate-100 transition-colors duration-200">
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#faf9ff] via-[#f5f3ff] to-[#f0ebff] dark:from-[#0a0a0f] dark:via-[#11111d] dark:to-[#0a0a0f] py-14 px-4 transition-colors duration-200">
+      <section className="relative z-20 bg-gradient-to-br from-[#faf9ff] via-[#f5f3ff] to-[#f0ebff] dark:from-[#0a0a0f] dark:via-[#11111d] dark:to-[#0a0a0f] py-14 px-4 transition-colors duration-200">
         {/* Background decorative blob */}
-        <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-purple-100/60 via-purple-50/30 to-transparent dark:from-purple-900/20 dark:via-purple-950/10 dark:to-transparent pointer-events-none" />
-        {/* Film strip decoration */}
-        <div className="absolute bottom-0 right-0 w-36 h-48 opacity-25 pointer-events-none">
-          <div className="w-full h-full bg-gradient-to-t from-purple-600 via-pink-500 to-indigo-600 rounded-l-3xl" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+          <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-purple-100/60 via-purple-50/30 to-transparent dark:from-purple-900/20 dark:via-purple-950/10 dark:to-transparent" />
+          <div className="absolute bottom-0 right-0 w-36 h-48 opacity-25">
+            <div className="w-full h-full bg-gradient-to-t from-purple-600 via-pink-500 to-indigo-600 rounded-l-3xl" />
+          </div>
         </div>
 
         <div className="container mx-auto max-w-7xl">
@@ -49,27 +51,10 @@ export default async function Home() {
                 Real multi-source review aggregation across Kannada, Hindi, Telugu, Tamil, Malayalam and Hollywood films. Verified sources, aspect-based sentiment, zero fake data.
               </p>
 
-              {/* Search Bar */}
-              <div className="flex items-center gap-2 mb-5 max-w-lg">
-                <div className="flex-1 flex items-center gap-2 bg-white dark:bg-[#12121e] border border-slate-200/90 dark:border-white/10 rounded-full px-4 py-3 shadow-sm shadow-purple-500/5">
-                  <Search className="w-4 h-4 text-slate-400 shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="Search movies (e.g., KGF, Toxic, Salaar...)"
-                    className="flex-1 bg-transparent text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none"
-                    readOnly
-                  />
-                </div>
-                <Link
-                  href="/explore"
-                  className="px-6 py-3 bg-gradient-to-r from-[#6332c9] via-[#7c3aed] to-[#b5179e] hover:opacity-95 text-white text-sm font-semibold rounded-full shadow-md shadow-purple-500/25 transition-all whitespace-nowrap flex items-center gap-1.5"
-                >
-                  Search →
-                </Link>
-              </div>
+              <HeroSearch />
 
               {/* Language filter pills */}
-              <div className="flex flex-wrap gap-2">
+              <div className="relative z-0 flex flex-wrap gap-2">
                 <button className="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#6332c9] text-white shadow-sm shadow-purple-500/25">All</button>
                 <Link href="/hub/kn" className="px-4 py-1.5 rounded-full text-xs font-medium bg-white/95 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-purple-300 dark:hover:border-purple-500/40 hover:bg-purple-50 dark:hover:bg-white/10 hover:text-purple-700 dark:hover:text-purple-300 transition-colors shadow-sm">ಕನ್ನಡ (Kannada)</Link>
                 <Link href="/hub/en" className="px-4 py-1.5 rounded-full text-xs font-medium bg-white/95 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-purple-300 dark:hover:border-purple-500/40 hover:bg-purple-50 dark:hover:bg-white/10 hover:text-purple-700 dark:hover:text-purple-300 transition-colors shadow-sm">Hollywood</Link>
@@ -149,7 +134,7 @@ export default async function Home() {
       </section>
 
       {/* MAIN CONTENT: Trending + Sentiment Panel */}
-      <section className="container mx-auto max-w-7xl px-4 py-8">
+      <section className="relative z-0 container mx-auto max-w-7xl px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Trending Movies - 2/3 width */}
           <div className="lg:col-span-2">
